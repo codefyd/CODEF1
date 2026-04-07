@@ -19,6 +19,52 @@
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+   <script>
+  (function () {
+    const logo = (window.APP_CONFIG && APP_CONFIG.APP_LOGO) || "https://i.ibb.co/N2NmFLFs/coodg.png";
+    const appName = (window.APP_CONFIG && APP_CONFIG.APP_NAME) || "codef";
+
+    function setLink(rel, href, sizes) {
+      let link = document.querySelector(`link[rel="${rel}"]`);
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = rel;
+        document.head.appendChild(link);
+      }
+      link.href = href;
+      if (sizes) link.sizes = sizes;
+    }
+
+    setLink("icon", logo);
+    setLink("shortcut icon", logo);
+    setLink("apple-touch-icon", logo, "180x180");
+
+    let metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (!metaTheme) {
+      metaTheme = document.createElement("meta");
+      metaTheme.name = "theme-color";
+      document.head.appendChild(metaTheme);
+    }
+    metaTheme.content = "#014979";
+
+    let metaApple = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+    if (!metaApple) {
+      metaApple = document.createElement("meta");
+      metaApple.name = "apple-mobile-web-app-title";
+      document.head.appendChild(metaApple);
+    }
+    metaApple.content = appName;
+  })();
+</script>
+
+  <link rel="icon" type="image/png" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="codef">
+<meta name="theme-color" content="#014979">
+
+
+  
   <style>
     :root {
       --primary:       #1a2744;
