@@ -3,1076 +3,978 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ملف أعمال |  codef </title>
+  <title>ملف أعمال | codef</title>
 
-  <!-- Google Fonts: Tajawal -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-   <script>
-  (function () {
-    const logo = (window.APP_CONFIG && APP_CONFIG.APP_LOGO) || "https://i.ibb.co/VyGwJgs/1561.png";
-    const appName = (window.APP_CONFIG && APP_CONFIG.APP_NAME) || "codef";
-
-    function setLink(rel, href, sizes) {
-      let link = document.querySelector(`link[rel="${rel}"]`);
-      if (!link) {
-        link = document.createElement("link");
-        link.rel = rel;
-        document.head.appendChild(link);
+  <script>
+    (function () {
+      const logo = (window.APP_CONFIG && APP_CONFIG.APP_LOGO) || "https://i.ibb.co/VyGwJgs/1561.png";
+      const appName = (window.APP_CONFIG && APP_CONFIG.APP_NAME) || "codef";
+      function setLink(rel, href, sizes) {
+        let link = document.querySelector('link[rel="' + rel + '"]');
+        if (!link) { link = document.createElement("link"); link.rel = rel; document.head.appendChild(link); }
+        link.href = href;
+        if (sizes) link.sizes = sizes;
       }
-      link.href = href;
-      if (sizes) link.sizes = sizes;
-    }
+      setLink("icon", logo);
+      setLink("shortcut icon", logo);
+      setLink("apple-touch-icon", logo, "180x180");
+      let metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (!metaTheme) { metaTheme = document.createElement("meta"); metaTheme.name = "theme-color"; document.head.appendChild(metaTheme); }
+      metaTheme.content = "#0d1117";
+      let metaApple = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+      if (!metaApple) { metaApple = document.createElement("meta"); metaApple.name = "apple-mobile-web-app-title"; document.head.appendChild(metaApple); }
+      metaApple.content = appName;
+    })();
+  </script>
 
-    setLink("icon", logo);
-    setLink("shortcut icon", logo);
-    setLink("apple-touch-icon", logo, "180x180");
-
-    let metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (!metaTheme) {
-      metaTheme = document.createElement("meta");
-      metaTheme.name = "theme-color";
-      document.head.appendChild(metaTheme);
-    }
-    metaTheme.content = "#014979";
-
-    let metaApple = document.querySelector('meta[name="apple-mobile-web-app-title"]');
-    if (!metaApple) {
-      metaApple = document.createElement("meta");
-      metaApple.name = "apple-mobile-web-app-title";
-      document.head.appendChild(metaApple);
-    }
-    metaApple.content = appName;
-  })();
-</script>
-
-  <link rel="icon" type="image/png" href="apple-touch-icon.png">
-<link rel="shortcut icon" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="apple-mobile-web-app-title" content="codef">
-<meta name="theme-color" content="#014979">
-
-
-  
   <style>
     :root {
-      --primary:       #1a2744;
-      --primary-light: #263660;
+      --primary:       #0d1117;
+      --primary-mid:   #111827;
+      --primary-blue:  #0f1e38;
       --accent:        #c9a96e;
       --accent-light:  #e2c99a;
-      --surface:       #f8f7f4;
-      --surface-alt:   #eeeae3;
-      --text-main:     #1a1a2e;
-      --text-muted:    #6b6b7a;
-      --card-shadow:   0 4px 28px 0 rgba(26,39,68,.10);
-      --card-shadow-h: 0 14px 48px 0 rgba(26,39,68,.18);
-      --radius:        18px;
-      --transition:    .35s cubic-bezier(.25,.8,.25,1);
+      --accent-glow:   rgba(201,169,110,.35);
+      --text:          #e8e3da;
+      --text-muted:    rgba(232,227,218,.55);
+      --border:        rgba(201,169,110,.12);
+      --border-h:      rgba(201,169,110,.28);
+      --card-bg:       rgba(255,255,255,.025);
+      --radius-lg:     24px;
+      --radius-md:     16px;
+      --radius-sm:     10px;
+      --transition:    .38s cubic-bezier(.25,.8,.25,1);
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
       font-family: 'Tajawal', sans-serif;
-      background: var(--surface);
-      color: var(--text-main);
+      background: var(--primary);
+      color: var(--text);
       direction: rtl;
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* ── HERO ────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 55%, #1e3a5f 100%);
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
+    /* ── PARTICLES ───────────────────────────── */
+    .particle-field {
+      position: absolute; inset: 0;
+      pointer-events: none; overflow: hidden;
+      z-index: 0;
     }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 80% 30%, rgba(201,169,110,.12) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(201,169,110,.08) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-grid-pattern {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-    }
-
-    .hero-content { position: relative; z-index: 2; }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(201,169,110,.18);
-      border: 1px solid rgba(201,169,110,.35);
-      color: var(--accent-light);
-      padding: 7px 18px;
-      border-radius: 50px;
-      font-size: .85rem;
-      font-weight: 500;
-      margin-bottom: 2rem;
-    }
-
-    .hero-title {
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      font-weight: 900;
-      color: #fff;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-title .accent { color: var(--accent); }
-
-    .hero-desc {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: rgba(255,255,255,.72);
-      line-height: 1.9;
-      max-width: 560px;
-    }
-
-    .hero-actions {
-      margin-top: 2.8rem;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-hero-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 14px 34px;
-      border-radius: 50px;
-      border: none;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: var(--transition);
-      box-shadow: 0 6px 24px rgba(201,169,110,.35);
-    }
-
-    .btn-hero-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 36px rgba(201,169,110,.5);
-      color: var(--primary);
-    }
-
-    .btn-hero-outline {
-      background: transparent;
-      color: rgba(255,255,255,.85);
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 13px 30px;
-      border-radius: 50px;
-      border: 1.5px solid rgba(255,255,255,.3);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: var(--transition);
-    }
-
-    .btn-hero-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .hero-decoration {
-      position: absolute;
-      left: -60px;
-      bottom: -80px;
-      width: 500px;
-      height: 500px;
+    .particle {
+      position: absolute; bottom: -10px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,169,110,.07) 0%, transparent 70%);
-      pointer-events: none;
+      background: var(--accent);
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1);   opacity: .18; }
+      50%  { opacity: .35; }
+      100% { transform: translateY(-110vh) scale(.4); opacity: 0; }
     }
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,.4);
-      font-size: .8rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      animation: scrollHint 2.2s ease-in-out infinite;
+    /* ── GOLD DIVIDER ────────────────────────── */
+    .gold-line {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(201,169,110,.4) 30%,
+        rgba(201,169,110,.7) 50%,
+        rgba(201,169,110,.4) 70%,
+        transparent 100%);
     }
-
-    @keyframes scrollHint {
-      0%, 100% { opacity: .4; transform: translateX(-50%) translateY(0); }
-      50%       { opacity: .9; transform: translateX(-50%) translateY(6px); }
-    }
-
-    /* ── SECTION COMMONS ─────────────────────── */
-    .section { padding: 100px 0; }
-    .section-alt { background: #fff; }
-
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, rgba(201,169,110,.12), rgba(201,169,110,.06));
-      border: 1px solid rgba(201,169,110,.3);
-      color: var(--accent);
-      padding: 5px 16px;
-      border-radius: 50px;
-      font-size: .82rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      margin-bottom: 1.2rem;
-    }
-
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900;
-      color: var(--primary);
-      line-height: 1.25;
-      margin-bottom: 1rem;
-    }
-
-    .section-line {
-      width: 56px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
-      border-radius: 4px;
-      margin-bottom: 1.6rem;
-    }
-
-    /* ── ABOUT ───────────────────────────────── */
-    .about-card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 3rem;
-      box-shadow: var(--card-shadow);
-      border: 1px solid rgba(26,39,68,.07);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .about-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 6px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--accent), var(--accent-light));
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
-
-    .about-text {
-      font-size: 1.12rem;
-      line-height: 2.1;
-      color: var(--text-main);
-    }
-
-    .about-icon-wrap {
-      width: 70px;
-      height: 70px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.6rem;
-    }
-
-    .about-icon-wrap i {
-      font-size: 1.8rem;
-      color: var(--accent);
-    }
-
-    /* ── KPI CARDS ───────────────────────────── */
-    .kpi-card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 2.2rem 1.8rem;
-      box-shadow: var(--card-shadow);
-      border: 1px solid rgba(26,39,68,.07);
-      position: relative;
-      overflow: hidden;
-      transition: transform var(--transition), box-shadow var(--transition);
-      cursor: default;
-    }
-
-    .kpi-card:hover {
-      transform: translateY(-7px);
-      box-shadow: var(--card-shadow-h);
-    }
-
-    .kpi-card:hover .bg-icon-float {
-      font-size: 9rem;
-      opacity: .07;
-      transform: rotate(-10deg) scale(1.1);
-    }
-
-    .bg-icon-float {
-      position: absolute;
-      left: -16px;
-      bottom: -20px;
-      font-size: 7rem;
-      color: var(--primary);
-      opacity: .04;
-      transition: var(--transition);
-      pointer-events: none;
-    }
-
-    .kpi-number {
-      font-size: 2.6rem;
-      font-weight: 900;
-      color: var(--primary);
-      line-height: 1;
-    }
-
-    .kpi-number span { color: var(--accent); }
-
-    .kpi-label {
-      font-size: .95rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-      font-weight: 500;
-    }
-
-    /* ── PROJECT CARDS ───────────────────────── */
-    .projects-grid { display: flex; flex-direction: column; gap: 3.5rem; }
-
-    .project-card {
-      background: #fff;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      border: 1px solid rgba(26,39,68,.07);
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
-
-    .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--card-shadow-h);
-    }
-
-    .project-card:nth-child(even) .project-inner { flex-direction: row-reverse; }
-
-    @media (max-width: 767px) {
-      .project-card:nth-child(even) .project-inner { flex-direction: column; }
-    }
-
-    .project-inner {
-      display: flex;
-      min-height: 380px;
-    }
-
-    @media (max-width: 767px) {
-      .project-inner { flex-direction: column; min-height: auto; }
-    }
-
-    .project-image-wrap {
-      flex: 0 0 52%;
-      position: relative;
-      overflow: hidden;
-      background: var(--surface-alt);
-    }
-
-    @media (max-width: 767px) {
-      .project-image-wrap { flex: 0 0 auto; height: 240px; }
-    }
-
-    .project-image-wrap picture,
-    .project-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .6s cubic-bezier(.25,.8,.25,1);
-    }
-
-    .project-card:hover .project-image-wrap img {
-      transform: scale(1.05);
-    }
-
-    .project-num-badge {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: var(--accent);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.05rem;
-      font-weight: 900;
-      box-shadow: 0 4px 14px rgba(26,39,68,.3);
-      z-index: 2;
-    }
-
-    .project-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 2.6rem 2.4rem;
-    }
-
-    @media (max-width: 767px) {
-      .project-body { padding: 2rem 1.6rem; }
-    }
-
-    .project-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-
-    .project-desc {
-      font-size: 1rem;
-      line-height: 2;
-      color: var(--text-muted);
-      flex: 1;
-    }
-
-    .project-footer {
-      margin-top: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .btn-project-contact {
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color: var(--primary);
-      font-weight: 700;
-      font-size: .9rem;
-      padding: 11px 24px;
-      border-radius: 50px;
-      border: none;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-      box-shadow: 0 4px 16px rgba(201,169,110,.28);
-      cursor: pointer;
-    }
-
-    .btn-project-contact:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(201,169,110,.45);
-      color: var(--primary);
-    }
-
-    /* ── CTA SECTION ─────────────────────────── */
-    .cta-section {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      padding: 90px 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 70% at 75% 40%, rgba(201,169,110,.1) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .cta-section .section-title { color: #fff; }
-
-    .cta-desc {
-      color: rgba(255,255,255,.7);
-      font-size: 1.1rem;
-      line-height: 1.9;
-      margin-bottom: 2.4rem;
-    }
-
-    /* ── WHATSAPP FLOAT ──────────────────────── */
-    .whatsapp-float {
-      position: fixed;
-      bottom: 2rem;
-      left: 2rem;
-      z-index: 9999;
-    }
-
-    .whatsapp-btn {
-      width: 62px;
-      height: 62px;
-      background: #25d366;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.7rem;
-      color: #fff;
-      text-decoration: none;
-      box-shadow: 0 6px 28px rgba(37,211,102,.45);
-      transition: transform .3s ease, box-shadow .3s ease;
-      position: relative;
-    }
-
-    .whatsapp-btn:hover {
-      transform: scale(1.12) translateY(-3px);
-      box-shadow: 0 12px 40px rgba(37,211,102,.6);
-      color: #fff;
-    }
-
-    .whatsapp-btn::before {
-      content: '';
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-      border: 2px solid rgba(37,211,102,.3);
-      animation: waPulse 2.2s ease-in-out infinite;
-    }
-
-    @keyframes waPulse {
-      0%, 100% { transform: scale(1); opacity: .6; }
-      50%       { transform: scale(1.2); opacity: 0; }
-    }
-
-    .whatsapp-label {
-      position: absolute;
-      right: calc(100% + 14px);
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--primary);
-      color: #fff;
-      font-size: .82rem;
-      font-weight: 600;
-      white-space: nowrap;
-      padding: 6px 14px;
-      border-radius: 8px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .3s ease;
-    }
-
-    .whatsapp-float:hover .whatsapp-label { opacity: 1; }
-
-    /* ── FOOTER ──────────────────────────────── */
-    .site-footer {
-      background: var(--primary);
-      padding: 40px 0;
-      text-align: center;
-      color: rgba(255,255,255,.45);
-      font-size: .88rem;
-    }
-
-    .site-footer .footer-accent { color: var(--accent); }
 
     /* ── SCROLL REVEAL ───────────────────────── */
     .reveal {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity .7s ease, transform .7s ease;
+      transform: translateY(28px);
+      transition: opacity .75s cubic-bezier(.22,.8,.22,1),
+                  transform .75s cubic-bezier(.22,.8,.22,1);
     }
+    .reveal.visible { opacity: 1; transform: none; }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── DIVIDER ─────────────────────────────── */
-    .gold-divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: .35;
-      margin: 0;
-    }
-
-    /* ── NAV ─────────────────────────────────── */
+    /* ── NAVBAR ──────────────────────────────── */
     .site-nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      padding: 18px 0;
-      transition: background .35s ease, box-shadow .35s ease, padding .35s ease;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 20px 0;
+      transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
     }
-
     .site-nav.scrolled {
-      background: rgba(26,39,68,.96);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 2px 20px rgba(0,0,0,.18);
-      padding: 12px 0;
+      background: rgba(13,17,23,.95);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 1px 0 rgba(201,169,110,.12), 0 8px 40px rgba(0,0,0,.45);
+      padding: 13px 0;
     }
-
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
     .nav-brand {
-      font-weight: 900;
-      font-size: 1.25rem;
-      color: #fff;
-      text-decoration: none;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
     }
-
-    .nav-brand span { color: var(--accent); }
-
+    .nav-logo {
+      width: 38px; height: 38px; border-radius: 11px;
+      object-fit: contain; border: 1px solid var(--border);
+    }
+    .nav-name {
+      font-size: 1.15rem; font-weight: 900; color: #fff;
+      letter-spacing: .02em;
+    }
     .nav-cta {
       background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      color: var(--primary) !important;
-      font-weight: 700;
-      font-size: .87rem;
-      padding: 9px 22px;
-      border-radius: 50px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      transition: var(--transition);
+      color: #1a2744; font-weight: 700; font-size: .88rem;
+      padding: 10px 22px; border-radius: 50px; border: none;
+      display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 20px var(--accent-glow);
+      text-decoration: none; font-family: inherit;
     }
-
     .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(201,169,110,.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(201,169,110,.55);
     }
+    .nav-cta:visited { color: #1a2744; }
 
-    /* ── IMAGE PLACEHOLDER ───────────────────── */
-    .img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(145deg, #0d1117 0%, #111827 45%, #0f1e38 70%, #0d1117 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--surface-alt), #e0dbd2);
-      color: var(--text-muted);
-      gap: 10px;
+      position: relative; overflow: hidden;
+      padding: 130px 0 80px;
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
     }
 
-    .img-placeholder i { font-size: 2.5rem; opacity: .4; }
-    .img-placeholder span { font-size: .82rem; opacity: .5; }
+    .hero-glow-1 {
+      position: absolute; top: -200px; right: -80px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute; bottom: -150px; left: 8%;
+      width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,55,100,.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(201,169,110,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,169,110,.022) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 3rem 0 6rem;
+      max-width: 680px;
+    }
+    @media (max-width: 900px) {
+      .hero-content { padding: 0 2rem; max-width: 100%; }
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,169,110,.1);
+      border: 1px solid rgba(201,169,110,.25);
+      color: var(--accent-light); padding: 7px 18px; border-radius: 50px;
+      font-size: .82rem; font-weight: 600; margin-bottom: 2rem;
+      animation: fadeDown .7s ease both;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: blink 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:none} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)}  to{opacity:1;transform:none} }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.22; color: #fff;
+      margin-bottom: 1.4rem;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light), var(--accent));
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3.5s linear infinite;
+    }
+    @keyframes shimmer { to{ background-position: -200% center; } }
+
+    .hero-desc {
+      font-size: 1.1rem; color: var(--text-muted); line-height: 2.1;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+      background-size: 200% auto;
+      color: #1a2744; font-weight: 800; font-size: .95rem;
+      padding: 14px 32px; border-radius: 50px; border: none;
+      display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+      text-decoration: none; font-family: inherit;
+      transition: transform var(--transition), box-shadow var(--transition), background-position .5s;
+      box-shadow: 0 6px 26px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 42px rgba(201,169,110,.6);
+      background-position: right center;
+      color: #1a2744;
+    }
+    .btn-outline {
+      background: transparent; color: rgba(232,227,218,.8);
+      font-weight: 600; font-size: .95rem; font-family: inherit;
+      padding: 13px 28px; border-radius: 50px;
+      border: 1.5px solid rgba(232,227,218,.2);
+      display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+      text-decoration: none;
+      transition: border-color var(--transition), color var(--transition),
+                  transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent); color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(201,169,110,.2);
+    }
+
+    .hero-scroll {
+      margin-top: 4rem;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+      color: rgba(232,227,218,.28); font-size: .75rem;
+      animation: scrollBounce 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%,100% { transform: translateY(0); opacity: .28; }
+      50%      { transform: translateY(5px); opacity: .65; }
+    }
+
+    /* ── HERO VISUAL ─────────────────────────── */
+    .hero-visual {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; min-height: 420px;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+    }
+    .orb-1 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle at 40% 40%, rgba(201,169,110,.1) 0%, transparent 65%);
+      border: 1px solid rgba(201,169,110,.1);
+      animation: orbSpin 20s linear infinite;
+    }
+    .orb-2 {
+      width: 270px; height: 270px;
+      background: radial-gradient(circle at 60% 35%, rgba(26,55,100,.18) 0%, transparent 65%);
+      border: 1px solid rgba(255,255,255,.05);
+      animation: orbSpin 14s linear infinite reverse;
+    }
+    .orb-3 {
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(201,169,110,.07) 0%, transparent 65%);
+      border: 1px solid rgba(201,169,110,.15);
+    }
+    @keyframes orbSpin { to{ transform: rotate(360deg); } }
+
+    .float-card {
+      position: absolute;
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(201,169,110,.18);
+      backdrop-filter: blur(8px);
+      padding: 10px 18px; border-radius: 13px;
+      font-size: .84rem; color: var(--accent-light); font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 4px 24px rgba(0,0,0,.35);
+    }
+    .fc-icon { font-size: 1.1rem; color: var(--accent); }
+    .fc-1 { top: 18%; left: 2%; animation: floatCard 4s ease-in-out infinite; }
+    .fc-2 { top: 50%; right: -2%; animation: floatCard 5s 1s ease-in-out infinite; }
+    .fc-3 { bottom: 18%; left: 8%; animation: floatCard 4.5s .5s ease-in-out infinite; }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    /* ── SECTION COMMONS ─────────────────────── */
+    .section-wrap { padding: 100px 0; }
+    .section-wrap.alt { background: #0f141c; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
+
+    .section-head { text-align: center; margin-bottom: 4rem; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(201,169,110,.12), rgba(201,169,110,.06));
+      border: 1px solid rgba(201,169,110,.25);
+      color: var(--accent); padding: 5px 16px; border-radius: 50px;
+      font-size: .78rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900; color: #fff; line-height: 1.25;
+      margin-bottom: .8rem;
+    }
+    .section-line {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      border-radius: 3px; margin: .8rem auto 0;
+    }
+    .section-sub {
+      color: var(--text-muted); font-size: 1rem; margin-top: 1rem;
+    }
+
+    /* ── ABOUT ───────────────────────────────── */
+    .about-card {
+      background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(201,169,110,.04));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 2.8rem 3rem;
+      position: relative; overflow: hidden;
+      margin-bottom: 3rem;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .about-card:hover {
+      border-color: var(--border-h);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    .about-icon {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, rgba(201,169,110,.14), rgba(201,169,110,.05));
+      border: 1px solid rgba(201,169,110,.2);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.6rem; color: var(--accent);
+    }
+    .about-text {
+      font-size: 1.08rem; line-height: 2.2; color: rgba(232,227,218,.8);
+      position: relative; z-index: 1;
+    }
+    .about-deco {
+      position: absolute; top: 1.5rem; left: 2rem;
+      display: flex; gap: 1.2rem; pointer-events: none;
+    }
+    .deco-char {
+      font-size: 2rem; color: rgba(201,169,110,.05);
+      animation: decoFloat 5s ease-in-out infinite;
+    }
+    .deco-char:nth-child(2) { animation-delay: .5s; }
+    .deco-char:nth-child(3) { animation-delay: 1s; }
+    .deco-char:nth-child(4) { animation-delay: 1.5s; }
+    @keyframes decoFloat {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-7px) rotate(10deg); }
+    }
+
+    /* ── KPI ─────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) { .kpi-grid { grid-template-columns: 1fr 1fr; } }
+
+    .kpi-card {
+      background: linear-gradient(145deg, rgba(255,255,255,.03), rgba(201,169,110,.04));
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 2rem 1.5rem; text-align: center;
+      position: relative; overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      cursor: default;
+    }
+    .kpi-card:hover {
+      transform: translateY(-9px);
+      box-shadow: 0 22px 65px rgba(201,169,110,.14);
+      border-color: rgba(201,169,110,.32);
+    }
+    .kpi-icon { font-size: 2rem; color: rgba(201,169,110,.3); margin-bottom: .8rem; }
+    .kpi-num {
+      font-size: 2.5rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, #fff, var(--accent-light));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: .5rem;
+    }
+    .kpi-label { font-size: .88rem; color: var(--text-muted); font-weight: 500; }
+    .kpi-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 30%, rgba(201,169,110,.05) 50%, transparent 70%);
+      background-size: 200% 200%;
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .kpi-card:hover .kpi-shimmer { opacity: 1; animation: shimmerMove 1.5s infinite; }
+    @keyframes shimmerMove { to{ background-position: -200% -200%; } }
+
+    /* ── PROJECTS ────────────────────────────── */
+    .projects-list { display: flex; flex-direction: column; gap: 4rem; }
+
+    .project-card {
+      display: grid;
+      grid-template-columns: 52% 1fr;
+      background: var(--card-bg);
+      border: 1px solid rgba(201,169,110,.08);
+      border-radius: 28px; overflow: hidden; min-height: 360px;
+      transition: transform .45s cubic-bezier(.25,.8,.25,1),
+                  box-shadow .45s, border-color .45s;
+    }
+    .project-card:hover {
+      transform: translateY(-9px);
+      box-shadow: 0 35px 90px rgba(0,0,0,.55);
+      border-color: rgba(201,169,110,.22);
+    }
+    .project-card.reverse { grid-template-columns: 1fr 52%; }
+    .project-card.reverse .project-img-side  { order: 2; }
+    .project-card.reverse .project-body-side { order: 1; }
+
+    @media (max-width: 768px) {
+      .project-card,
+      .project-card.reverse { grid-template-columns: 1fr; }
+      .project-card.reverse .project-img-side  { order: 0; }
+      .project-card.reverse .project-body-side { order: 0; }
+    }
+
+    .project-img-side {
+      position: relative; overflow: hidden;
+      background: rgba(255,255,255,.02); min-height: 280px;
+    }
+    .project-img-side img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .65s cubic-bezier(.25,.8,.25,1);
+    }
+    .project-card:hover .project-img-side img { transform: scale(1.06); }
+
+    .project-img-ph {
+      width: 100%; height: 100%; min-height: 280px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      background: rgba(255,255,255,.02);
+      color: rgba(201,169,110,.35);
+    }
+    .project-img-ph .ph-icon { font-size: 3.5rem; }
+    .project-img-ph .ph-text { font-size: .8rem; }
+
+    .project-num-badge {
+      position: absolute; top: 20px; right: 20px; z-index: 2;
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, #1a2744, #263660);
+      border: 1px solid rgba(201,169,110,.3);
+      color: var(--accent); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 900;
+      box-shadow: 0 4px 20px rgba(0,0,0,.55);
+    }
+    .img-overlay {
+      position: absolute; inset: 0; pointer-events: none; opacity: .55;
+      transition: opacity var(--transition);
+    }
+    .project-card:hover .img-overlay { opacity: .8; }
+
+    .project-body-side {
+      display: flex; flex-direction: column; padding: 2.8rem;
+    }
+    @media (max-width: 768px) { .project-body-side { padding: 2rem 1.6rem; } }
+
+    .project-tags {
+      display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.2rem;
+    }
+    .project-tag {
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      padding: 4px 12px; border-radius: 50px;
+      border: 1px solid; background: rgba(255,255,255,.03);
+      text-transform: uppercase;
+    }
+    .project-title {
+      font-size: 1.45rem; font-weight: 900; color: #fff;
+      margin-bottom: 1rem; line-height: 1.3;
+    }
+    .project-desc {
+      font-size: .97rem; line-height: 2.1;
+      color: var(--text-muted); flex: 1;
+    }
+    .project-footer {
+      margin-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .btn-contact {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 700; font-size: .88rem; font-family: inherit;
+      padding: 11px 22px; border-radius: 50px; border: none; cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-contact:hover { transform: translateY(-3px); }
+    .project-num-bg {
+      font-size: 4.2rem; font-weight: 900;
+      color: rgba(201,169,110,.06); line-height: 1;
+      letter-spacing: -.05em; user-select: none;
+      transition: color var(--transition);
+    }
+    .project-card:hover .project-num-bg { color: rgba(201,169,110,.13); }
+
+    /* ── CTA ─────────────────────────────────── */
+    .cta-section {
+      background: linear-gradient(145deg, #111827 0%, #0f1e38 50%, #111827 100%);
+      position: relative; overflow: hidden;
+    }
+    .cta-glow-1 {
+      position: absolute; top: -200px; right: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-glow-2 {
+      position: absolute; bottom: -150px; left: -50px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,55,100,.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      position: relative; z-index: 2; text-align: center;
+      max-width: 680px; margin: 0 auto; padding: 100px 2rem;
+    }
+    .cta-title {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; color: #fff;
+      margin-bottom: 1.2rem;
+    }
+    .cta-desc {
+      font-size: 1.08rem; color: var(--text-muted); line-height: 2; margin-bottom: 2.4rem;
+    }
+    .section-label.mx-auto { margin: 0 auto 1.6rem; display: table; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    .site-footer {
+      background: #080c12;
+      border-top: 1px solid rgba(201,169,110,.08);
+      padding: 38px 2rem; text-align: center;
+    }
+    .footer-brand {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .footer-logo { width: 30px; height: 30px; border-radius: 8px; object-fit: contain; opacity: .8; }
+    .footer-name { font-weight: 800; color: rgba(255,255,255,.55); font-size: 1rem; }
+    .footer-copy { font-size: .82rem; color: rgba(232,227,218,.25); }
+    .footer-gold { color: var(--accent); }
+
+    /* ── WHATSAPP FLOAT ──────────────────────── */
+    .wa-float {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 999;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .5s, transform .5s;
+    }
+    .wa-float.show { opacity: 1; transform: none; }
+    .wa-label {
+      background: rgba(13,17,23,.92); backdrop-filter: blur(8px);
+      border: 1px solid rgba(201,169,110,.15);
+      color: #fff; font-size: .8rem; font-weight: 600;
+      padding: 6px 14px; border-radius: 8px; white-space: nowrap;
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity .3s, transform .3s; pointer-events: none;
+    }
+    .wa-float:hover .wa-label { opacity: 1; transform: none; }
+    .wa-btn {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: linear-gradient(135deg, #25d366, #128C7E);
+      border: none; cursor: pointer; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 28px rgba(37,211,102,.4);
+      position: relative;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .wa-btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 12px 40px rgba(37,211,102,.58);
+    }
+    .wa-pulse {
+      position: absolute; inset: -6px; border-radius: 50%;
+      border: 2px solid rgba(37,211,102,.38);
+      animation: waPulse 2.3s ease-in-out infinite;
+    }
+    @keyframes waPulse {
+      0%,100% { transform: scale(1); opacity: .55; }
+      50%      { transform: scale(1.25); opacity: 0; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ── NAVBAR ── -->
+  <!-- ══ NAVBAR ══════════════════════════════ -->
   <nav class="site-nav" id="siteNav">
-    <div class="container d-flex align-items-center justify-content-between">
-      <a href="#" class="nav-brand">ملف <span>أعمالي</span></a>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <img src="" alt="codef" class="nav-logo" id="navLogo">
+        <span class="nav-name" id="navName">codef</span>
+      </a>
       <a href="#" class="nav-cta" onclick="openWhatsapp(); return false;">
-        <i class="fab fa-whatsapp"></i> تواصل معي
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.305-1.505A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.021-1.38l-.36-.214-3.742.894.909-3.638-.235-.374A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818S17.426 21.818 12 21.818z"/></svg>
+        تواصل معي
       </a>
     </div>
   </nav>
 
-  <!-- ── HERO ── -->
+  <!-- ══ HERO ════════════════════════════════ -->
   <section class="hero" id="hero">
-    <div class="hero-grid-pattern"></div>
-    <div class="hero-decoration"></div>
+    <div class="particle-field" id="particles"></div>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-grid"></div>
 
-    <div class="container hero-content">
-      <div class="row justify-content-start">
-        <div class="col-lg-8 col-xl-7">
-          <div class="hero-badge">
-            <i class="fas fa-circle-dot" style="font-size:.55rem;"></i>
-            مرحبا بك في codef
-          </div>
-          <h1 class="hero-title">
-            أصنع تجارب<br>
-            <span class="accent">رقميّة تخدم أهدافك</span><br>
-          </h1>
-          <p class="hero-desc">
-            جهز مشروع وانطلق نحو التجربة الرقمية المميزة
-          </p>
-          <div class="hero-actions">
-            <a href="#projects" class="btn-hero-primary">
-              <i class="fas fa-layer-group"></i>
-              استعرض الأعمال
-            </a>
-            <a href="#" class="btn-hero-outline" onclick="openWhatsapp(); return false;">
-              <i class="fab fa-whatsapp"></i>
-              ابدأ مشروعك
-            </a>
-          </div>
-        </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        مرحبا بك في <span id="heroAppName">codef</span>
+      </div>
+
+      <h1 class="hero-title">
+        أصنع تجارب<br>
+        <span class="hero-accent">رقميّة تخدم أهدافك</span>
+      </h1>
+
+      <p class="hero-desc">جهّز مشروعك وانطلق نحو تجربة رقمية مميزة</p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          استعرض الأعمال
+        </a>
+        <a href="#" class="btn-outline" onclick="openWhatsapp(); return false;">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.305-1.505A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.021-1.38l-.36-.214-3.742.894.909-3.638-.235-.374A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818S17.426 21.818 12 21.818z"/></svg>
+          ابدأ مشروعك
+        </a>
+      </div>
+
+      <div class="hero-scroll">
+        <span>مرر للأسفل</span>
+        <span>↓</span>
       </div>
     </div>
 
-    <div class="scroll-hint">
-      <i class="fas fa-chevron-down"></i>
-      مرر للأسفل
+    <!-- Visual side -->
+    <div class="hero-visual">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="float-card fc-1"><span class="fc-icon">◈</span> منتجات رقمية</div>
+      <div class="float-card fc-2"><span class="fc-icon">◉</span> 7+ مشاريع منجزة</div>
+      <div class="float-card fc-3"><span class="fc-icon">◎</span> واجهات احترافية</div>
     </div>
   </section>
 
-  <div class="gold-divider"></div>
+  <div class="gold-line"></div>
 
-  <!-- ── ABOUT ── -->
-  <section class="section section-alt" id="about">
+  <!-- ══ ABOUT ═══════════════════════════════ -->
+  <section class="section-wrap alt" id="about">
     <div class="container">
 
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-7 text-center">
-          <div class="section-label">
-            <i class="fas fa-user-tie"></i> نبذة
-          </div>
-          <h2 class="section-title">من أنا؟</h2>
-          <div class="section-line mx-auto"></div>
-        </div>
+      <div class="section-head reveal">
+        <div class="section-label">◉ نبذة</div>
+        <h2 class="section-title">من أنا؟</h2>
+        <div class="section-line"></div>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-lg-10 reveal">
-          <div class="about-card">
-            <div class="about-icon-wrap">
-              <i class="fas fa-code"></i>
-            </div>
-            <p class="about-text">
-              أطوّر منتجات رقمية تركّز على وضوح التجربة، كفاءة التشغيل، وحضور الهوية البصرية. تشمل أعمالي البوابات المؤسسية، الأنظمة الإدارية، لوحات المتابعة، والمنصات التفاعلية، مع عناية خاصة ببناء واجهات عملية وسهلة الإدارة تدعم الاستخدام اليومي وتخدم أهداف الجهة بوضوح.
-            </p>
-          </div>
+      <div class="about-card reveal">
+        <div class="about-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <p class="about-text">
+          أطوّر منتجات رقمية تركّز على وضوح التجربة، كفاءة التشغيل، وحضور الهوية البصرية. تشمل أعمالي البوابات المؤسسية، الأنظمة الإدارية، لوحات المتابعة، والمنصات التفاعلية، مع عناية خاصة ببناء واجهات عملية وسهلة الإدارة تدعم الاستخدام اليومي وتخدم أهداف الجهة بوضوح.
+        </p>
+        <div class="about-deco" aria-hidden="true">
+          <span class="deco-char">◈</span>
+          <span class="deco-char">◉</span>
+          <span class="deco-char">◎</span>
+          <span class="deco-char">◇</span>
         </div>
       </div>
 
       <!-- KPIs -->
-      <div class="row g-4 mt-4">
-        <div class="col-6 col-md-3 reveal">
-          <div class="kpi-card text-center">
-            <i class="fas fa-layer-group bg-icon-float"></i>
-            <div class="kpi-number">7<span>+</span></div>
-            <div class="kpi-label">مشروع منجز</div>
-          </div>
+      <div class="kpi-grid">
+        <div class="kpi-card reveal">
+          <div class="kpi-shimmer"></div>
+          <div class="kpi-icon">◈</div>
+          <div class="kpi-num">7+</div>
+          <div class="kpi-label">مشروع منجز</div>
         </div>
-        <div class="col-6 col-md-3 reveal">
-          <div class="kpi-card text-center">
-            <i class="fas fa-globe-asia bg-icon-float"></i>
-            <div class="kpi-number">100<span>%</span></div>
-            <div class="kpi-label">دعم RTL عربي</div>
-          </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-shimmer"></div>
+          <div class="kpi-icon">◉</div>
+          <div class="kpi-num">100%</div>
+          <div class="kpi-label">دعم RTL عربي</div>
         </div>
-        <div class="col-6 col-md-3 reveal">
-          <div class="kpi-card text-center">
-            <i class="fas fa-mobile-screen bg-icon-float"></i>
-            <div class="kpi-number">100<span>%</span></div>
-            <div class="kpi-label">تجاوب على الجوال</div>
-          </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-shimmer"></div>
+          <div class="kpi-icon">◎</div>
+          <div class="kpi-num">100%</div>
+          <div class="kpi-label">تجاوب على الجوال</div>
         </div>
-        <div class="col-6 col-md-3 reveal">
-          <div class="kpi-card text-center">
-            <i class="fas fa-bolt bg-icon-float"></i>
-            <div class="kpi-number">∞</div>
-            <div class="kpi-label">شغف بالتفاصيل</div>
-          </div>
+        <div class="kpi-card reveal">
+          <div class="kpi-shimmer"></div>
+          <div class="kpi-icon">◇</div>
+          <div class="kpi-num">∞</div>
+          <div class="kpi-label">شغف بالتفاصيل</div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <div class="gold-divider"></div>
+  <div class="gold-line"></div>
 
-  <!-- ── PROJECTS ── -->
-  <section class="section" id="projects">
+  <!-- ══ PROJECTS ════════════════════════════ -->
+  <section class="section-wrap" id="projects">
     <div class="container">
 
-      <div class="row justify-content-center mb-5">
-        <div class="col-lg-7 text-center">
-          <div class="section-label">
-            <i class="fas fa-briefcase"></i> الأعمال
-          </div>
-          <h2 class="section-title"></h2>
-          <div class="section-line mx-auto"></div>
-          <p class="text-muted" style="font-size:1.05rem;line-height:1.9;">
-            نماذج من المنتجات الرقمية المنجزة
-          </p>
-        </div>
+      <div class="section-head reveal">
+        <div class="section-label">◈ الأعمال</div>
+        <h2 class="section-title">نماذج من أعمالي</h2>
+        <div class="section-line"></div>
+        <p class="section-sub">منتجات رقمية مبنية بعناية واهتمام بالتفاصيل</p>
       </div>
 
-      <div class="projects-grid">
+      <div class="projects-list" id="projectsList"></div>
 
-        <!-- PROJECT 1 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">1</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="1p.png">
-                <img src="1.png" alt="وثيق" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">وثيق</h3>
-              <p class="project-desc">
-                نظام إداري موحّد لإدارة أعمال الوكالات والعقارات وغيرها من خلال واجهة تجمع الحجوزات، المشاريع، المالية، ولوحة التحكم في مسار واحد. يسهّل متابعة الطلب من الحجز حتى الإقفال المالي، مع عرض المؤشرات، حالات السداد، وتنظيم العمليات اليومية ضمن تجربة واضحة وسريعة للإدارة والتشغيل.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROJECT 2 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">2</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="2p.png">
-                <img src="2.png" alt="بوابة مجمع النصار" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">بوابة مجمع النصار</h3>
-              <p class="project-desc">
-                بوابة مؤسسية تخدم البيئة التعليمية والتحفيظية عبر مسارات تشمل التسجيل، القبول، بيانات الطلاب، بوابة العاملين، والإنجازات. تجمع بين الجانب الخدمي والإداري في منصة واحدة، مع تنظيم واضح للمحتوى، ولوحات متابعة، وقوالب تشغيل وتواصل تساعد على ضبط العمل وتسهيل المتابعة.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROJECT 3 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">3</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="3p.png">
-                <img src="3.png" alt="بوابة الموارد البشرية" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">بوابة الموارد البشرية</h3>
-              <p class="project-desc">
-                لوحة تشغيل داخلية لتنظيم أعمال الموارد البشرية، تبدأ من إدارة بيانات المتقدمين وتمتد إلى المتابعة والفرز والتقييم والتواصل. تتضمن مسارات عملية مثل نتائج المرشحين، إضافة المتقدمين، منظور HR، وحاسبة الرواتب، بما يجعل الإجراءات أكثر وضوحًا وأسهل في الإدارة والمتابعة.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROJECT 4 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">4</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="4p.png">
-                <img src="4.png" alt="متابعة الخطط التسويقية" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">متابعة الخطط التسويقية</h3>
-              <p class="project-desc">
-                لوحة متابعة تحليلية لقياس الأداء التسويقي وتحويل المستهدفات إلى مؤشرات واضحة وسريعة القراءة. تعرض ملخصات يومية وشهرية وسنوية، ونسب الإنجاز، والفجوات، والمقارنات، بما يساعد على متابعة التنفيذ بصورة مستمرة وتحويل البيانات إلى أداة عملية تدعم القرار وتحسن وضوح الأداء.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROJECT 5 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">5</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="5p.png">
-                <img src="5.png" alt="برنامج السرد" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">برنامج السرد</h3>
-              <p class="project-desc">
-                نظام رقمي مخصص لإدارة السرد القرآني ومتابعة الجلسات والتقارير داخل بيئة تعليمية منظمة. يوفّر واجهة عربية واضحة تدعم الاستخدام السريع، والتنقل بين المسارات الأساسية، وعرض المؤشرات والتقارير الفورية، بما يجعل العمل أكثر دقة وسلاسة في التشغيل والمتابعة.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROJECT 6 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">6</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="6p.png">
-                <img src="6.png" alt="مجلة أسرة عائلية" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">مجلة أسرة عائلية</h3>
-              <p class="project-desc">
-                مجلة رقمية عائلية تُعنى بتوثيق الأخبار والإنجازات والمناسبات والذكريات داخل واجهة أنيقة ومنظمة. تركّز على تقديم المحتوى الأسري بأسلوب بصري واضح يسهّل التصفح ويمنح المواد طابعًا حيًا، لتكون مساحة رقمية تجمع التوثيق والعرض في صيغة أكثر ترتيبًا وجاذبية.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROJECT 7 -->
-        <div class="project-card reveal">
-          <div class="project-inner">
-            <div class="project-image-wrap">
-              <div class="project-num-badge">7</div>
-              <picture>
-                <source media="(max-width: 767px)" srcset="7p.png">
-                <img src="7.png" alt="بطولة الأبطال" loading="lazy"
-                  onerror="this.parentElement.outerHTML='<div class=\'img-placeholder\'><i class=\'fas fa-image\'></i><span>صورة المشروع</span></div>'">
-              </picture>
-            </div>
-            <div class="project-body">
-              <h3 class="project-title">بطولة الأبطال</h3>
-              <p class="project-desc">
-                منصة رياضية لإدارة وعرض البطولات عبر واجهة تجمع الترتيب، المباريات، الهدافين، والإحصائيات مع لوحة إدارة مستقلة. تقدّم تجربة تفاعلية تسهّل متابعة البطولة وتشغيلها، وتمنح الحدث حضورًا رقميًا منظمًا يجمع بين العرض الجماهيري والإدارة التشغيلية في بيئة واحدة.
-              </p>
-              <div class="project-footer">
-                <button class="btn-project-contact" onclick="openWhatsapp()">
-                  <i class="fab fa-whatsapp"></i>
-                  تواصل بشأن هذا المشروع
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
 
-  <div class="gold-divider"></div>
+  <div class="gold-line"></div>
 
-  <!-- ── CTA SECTION ── -->
+  <!-- ══ CTA ═════════════════════════════════ -->
   <section class="cta-section">
-    <div class="container text-center position-relative" style="z-index:2;">
-      <div class="section-label mx-auto mb-4" style="justify-content:center;">
-        <i class="fas fa-rocket"></i> هل أنت جاهز لصناعة مشروعك الخاص؟
-      </div>
-      <h2 class="section-title mb-3">ابدأ مشروعك اليوم</h2>
-      <p class="cta-desc mx-auto" style="max-width:520px;">
-       تواصل معي مباشرة عبر واتساب وسأكون معك لمناقشة فكرتك وتحويلها إلى منتج رقمي احترافي.
-      </p>
-      <a href="#" class="btn-hero-primary" onclick="openWhatsapp(); return false;" style="display:inline-flex;">
-        <i class="fab fa-whatsapp"></i>
-        ابدأ مشروعك الآن
+    <div class="particle-field" id="ctaParticles"></div>
+    <div class="cta-glow-1"></div>
+    <div class="cta-glow-2"></div>
+    <div class="cta-inner reveal">
+      <div class="section-label mx-auto">◇ هل أنت جاهز؟</div>
+      <h2 class="cta-title">لنبني مشروعك معاً</h2>
+      <p class="cta-desc">أتواصل معك لفهم احتياجاتك وتقديم حلول رقمية دقيقة وعملية</p>
+      <a href="#" class="btn-primary" style="font-size:1rem;padding:16px 40px;" onclick="openWhatsapp(); return false;">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.305-1.505A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.021-1.38l-.36-.214-3.742.894.909-3.638-.235-.374A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818S17.426 21.818 12 21.818z"/></svg>
+        تواصل الآن عبر واتساب
       </a>
     </div>
   </section>
 
-  <!-- ── FOOTER ── -->
+  <!-- ══ FOOTER ══════════════════════════════ -->
   <footer class="site-footer">
-    <div class="container">
-      <p class="mb-1">جميع الحقوق محفوظة &copy; 2026 — <span class="footer-accent">ملف codef</span></p>
-      <p class="mb-0" style="font-size:.8rem;"></p>
+    <div class="footer-brand">
+      <img src="" alt="codef" class="footer-logo" id="footerLogo">
+      <span class="footer-name" id="footerName">codef</span>
     </div>
+    <p class="footer-copy">
+      جميع الحقوق محفوظة &copy; <span id="year"></span> —
+      <span class="footer-gold" id="footerAppName">codef</span>
+    </p>
   </footer>
 
-  <!-- ── WHATSAPP FLOAT BUTTON ── -->
-  <div class="whatsapp-float">
-    <a href="#" class="whatsapp-btn" onclick="openWhatsapp(); return false;" title="تواصل عبر واتساب">
-      <i class="fab fa-whatsapp"></i>
-    </a>
-    <div class="whatsapp-label">تواصل معي</div>
+  <!-- ══ WHATSAPP FLOAT ══════════════════════ -->
+  <div class="wa-float" id="waFloat">
+    <span class="wa-label">تواصل معي</span>
+    <button class="wa-btn" onclick="openWhatsapp()" aria-label="واتساب">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.305-1.505A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.021-1.38l-.36-.214-3.742.894.909-3.638-.235-.374A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818S17.426 21.818 12 21.818z"/></svg>
+      <span class="wa-pulse"></span>
+    </button>
   </div>
 
-  <!-- Bootstrap 5 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <script>
-    /* ── WHATSAPP LINK ── */
-    function openWhatsapp() {
-      var phone = '966562848586';
-      var message = encodeURIComponent('السلام عليكم \nمرحبا أريد أن نصنع عمل');
-      var url = 'https://wa.me/' + phone + '?text=' + message;
-      window.open(url, '_blank');
+  // ── CONFIG ────────────────────────────────────────────────────────────────
+  const CFG = window.APP_CONFIG || {};
+  const APP_NAME  = CFG.APP_NAME  || "codef";
+  const APP_LOGO  = CFG.APP_LOGO  || "https://i.ibb.co/VyGwJgs/1561.png";
+  const WHATSAPP  = CFG.WHATSAPP  || "966500000000";
+
+  // ── PROJECTS DATA ─────────────────────────────────────────────────────────
+  const PROJECTS = [
+    {
+      id: 1, title: "وثيق",
+      desc: "نظام إداري موحّد لإدارة أعمال الوكالات والعقارات وغيرها من خلال واجهة تجمع الحجوزات، المشاريع، المالية، ولوحة التحكم في مسار واحد. يسهّل متابعة الطلب من الحجز حتى الإقفال المالي، مع عرض المؤشرات، حالات السداد، وتنظيم العمليات اليومية ضمن تجربة واضحة وسريعة للإدارة والتشغيل.",
+      img: "1.png", tags: ["لوحة تحكم","إدارة","مالية"], color: "#c9a96e"
+    },
+    {
+      id: 2, title: "بوابة مجمع النصار",
+      desc: "بوابة مؤسسية تخدم البيئة التعليمية والتحفيظية عبر مسارات تشمل التسجيل، القبول، بيانات الطلاب، بوابة العاملين، والإنجازات. تجمع بين الجانب الخدمي والإداري في منصة واحدة، مع تنظيم واضح للمحتوى، ولوحات متابعة، وقوالب تشغيل وتواصل تساعد على ضبط العمل وتسهيل المتابعة.",
+      img: "2.png", tags: ["بوابة تعليمية","مؤسسات","إدارة"], color: "#7e9fc9"
+    },
+    {
+      id: 3, title: "بوابة الموارد البشرية",
+      desc: "لوحة تشغيل داخلية لتنظيم أعمال الموارد البشرية، تبدأ من إدارة بيانات المتقدمين وتمتد إلى المتابعة والفرز والتقييم والتواصل. تتضمن مسارات عملية مثل نتائج المرشحين، إضافة المتقدمين، منظور HR، وحاسبة الرواتب.",
+      img: "3.png", tags: ["موارد بشرية","HR","متقدمين"], color: "#a9c96e"
+    },
+    {
+      id: 4, title: "متابعة الخطط التسويقية",
+      desc: "لوحة متابعة تحليلية لقياس الأداء التسويقي وتحويل المستهدفات إلى مؤشرات واضحة وسريعة القراءة. تعرض ملخصات يومية وشهرية وسنوية، ونسب الإنجاز، والفجوات، والمقارنات، بما يساعد على متابعة التنفيذ وتحسين وضوح الأداء.",
+      img: "4.png", tags: ["تسويق","تحليلات","KPI"], color: "#c96eb5"
+    },
+    {
+      id: 5, title: "برنامج السرد",
+      desc: "نظام رقمي مخصص لإدارة السرد القرآني ومتابعة الجلسات والتقارير داخل بيئة تعليمية منظمة. يوفّر واجهة عربية واضحة تدعم الاستخدام السريع، والتنقل بين المسارات الأساسية، وعرض المؤشرات والتقارير الفورية.",
+      img: "5.png", tags: ["تعليم","قرآن","سرد"], color: "#c9a96e"
+    },
+    {
+      id: 6, title: "مجلة أسرة عائلية",
+      desc: "مجلة رقمية عائلية تُعنى بتوثيق الأخبار والإنجازات والمناسبات والذكريات داخل واجهة أنيقة ومنظمة. تركّز على تقديم المحتوى الأسري بأسلوب بصري واضح يسهّل التصفح ويمنح المواد طابعًا حيًا.",
+      img: "6.png", tags: ["مجلة","عائلة","توثيق"], color: "#c96e6e"
+    },
+    {
+      id: 7, title: "بطولة الأبطال",
+      desc: "منصة رياضية لإدارة وعرض البطولات عبر واجهة تجمع الترتيب، المباريات، الهدافين، والإحصائيات مع لوحة إدارة مستقلة. تقدّم تجربة تفاعلية تسهّل متابعة البطولة وتشغيلها.",
+      img: "7.png", tags: ["رياضة","بطولة","إحصائيات"], color: "#6ec9b5"
     }
+  ];
 
-    /* ── NAVBAR SCROLL STATE ── */
-    var nav = document.getElementById('siteNav');
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 60) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
+  // ── HELPERS ───────────────────────────────────────────────────────────────
+  function openWhatsapp(msg) {
+    var url = "https://wa.me/" + WHATSAPP;
+    if (msg) url += "?text=" + encodeURIComponent(msg);
+    window.open(url, "_blank");
+  }
+
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+  // ── INIT BRANDING ─────────────────────────────────────────────────────────
+  function initBranding() {
+    document.getElementById("navLogo").src    = APP_LOGO;
+    document.getElementById("navName").textContent = APP_NAME;
+    document.getElementById("heroAppName").textContent = APP_NAME;
+    document.getElementById("footerLogo").src = APP_LOGO;
+    document.getElementById("footerName").textContent = APP_NAME;
+    document.getElementById("footerAppName").textContent = APP_NAME;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  }
+
+  // ── BUILD PARTICLES ───────────────────────────────────────────────────────
+  function buildParticles(containerId, count) {
+    var el = document.getElementById(containerId);
+    if (!el) return;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement("span");
+      p.className = "particle";
+      var size = 2 + (i % 3);
+      p.style.cssText = [
+        "left:" + ((i * 37 + 11) % 100) + "%",
+        "width:" + size + "px",
+        "height:" + size + "px",
+        "animation-delay:" + ((i * 0.4) % 5) + "s",
+        "animation-duration:" + (6 + (i % 4)) + "s",
+        "opacity:" + (0.15 + (i % 3) * 0.07)
+      ].join(";");
+      el.appendChild(p);
+    }
+  }
+
+  // ── BUILD PROJECT CARDS ───────────────────────────────────────────────────
+  function buildProjects() {
+    var list = document.getElementById("projectsList");
+    PROJECTS.forEach(function(p, idx) {
+      var isReverse = idx % 2 !== 0;
+      var numStr = pad(p.id);
+
+      var tagsHtml = p.tags.map(function(t) {
+        return '<span class="project-tag" style="border-color:' + p.color + '55;color:' + p.color + '">' + t + '</span>';
+      }).join("");
+
+      var card = document.createElement("div");
+      card.className = "project-card reveal" + (isReverse ? " reverse" : "");
+      card.innerHTML =
+        '<div class="project-img-side">' +
+          '<div class="project-num-badge">' + numStr + '</div>' +
+          '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy"' +
+            ' onerror="this.parentElement.innerHTML=\'<div class=\\\"project-img-ph\\\"><span class=\\\"ph-icon\\\">◈</span><span class=\\\"ph-text\\\">صورة المشروع</span></div>\'">' +
+          '<div class="img-overlay" style="background:linear-gradient(135deg,' + p.color + '22,transparent)"></div>' +
+        '</div>' +
+        '<div class="project-body-side">' +
+          '<div class="project-tags">' + tagsHtml + '</div>' +
+          '<h3 class="project-title">' + p.title + '</h3>' +
+          '<p class="project-desc">' + p.desc + '</p>' +
+          '<div class="project-footer">' +
+            '<button class="btn-contact" ' +
+              'style="background:linear-gradient(135deg,' + p.color + ',#e2c99a);color:#1a2744;box-shadow:0 4px 18px ' + p.color + '44;" ' +
+              'onclick="openWhatsapp(\'أود الاستفسار عن مشروع: ' + p.title + '\')">' +
+              '<svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.857L0 24l6.305-1.505A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.021-1.38l-.36-.214-3.742.894.909-3.638-.235-.374A9.818 9.818 0 0112 2.182c5.426 0 9.818 4.392 9.818 9.818S17.426 21.818 12 21.818z"/></svg>' +
+              'تواصل بشأن هذا المشروع' +
+            '</button>' +
+            '<div class="project-num-bg">' + numStr + '</div>' +
+          '</div>' +
+        '</div>';
+
+      list.appendChild(card);
     });
+  }
 
-    /* ── SCROLL REVEAL ── */
-    var revealEls = document.querySelectorAll('.reveal');
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
+  // ── SCROLL REVEAL ─────────────────────────────────────────────────────────
+  function initScrollReveal() {
+    var els = document.querySelectorAll(".reveal");
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1 });
+    els.forEach(function(el) { obs.observe(el); });
+  }
 
-    revealEls.forEach(function (el) {
-      revealObserver.observe(el);
-    });
+  // ── NAVBAR SCROLL ─────────────────────────────────────────────────────────
+  function initNav() {
+    var nav = document.getElementById("siteNav");
+    window.addEventListener("scroll", function() {
+      nav.classList.toggle("scrolled", window.scrollY > 40);
+    }, { passive: true });
+  }
+
+  // ── WHATSAPP FLOAT ────────────────────────────────────────────────────────
+  function initWaFloat() {
+    setTimeout(function() {
+      document.getElementById("waFloat").classList.add("show");
+    }, 1500);
+  }
+
+  // ── BOOT ──────────────────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", function() {
+    initBranding();
+    buildParticles("particles", 28);
+    buildParticles("ctaParticles", 18);
+    buildProjects();
+    initScrollReveal();
+    initNav();
+    initWaFloat();
+  });
+
+      window.APP_CONFIG = {
+    APP_NAME:   "CODEF",
+    APP_LOGO:   "https://i.ibb.co/20J7vkNM/image.png",
+    WHATSAPP:   "966562848586"
+  };
   </script>
 </body>
 </html>
