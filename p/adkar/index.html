@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+  <meta name="theme-color" content="#f4ecd8" />
+  <meta name="description" content="أذكار الصباح والمساء بعدّاد وتصميم ورقي كلاسيكي — CODEF." />
+  <title>الأذكار · CODEF</title>
+
+  <!-- أيقونات التطبيق / إضافة للشاشة الرئيسية -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="أذكار" />
+  <link rel="apple-touch-icon" href="https://i.ibb.co/20J7vkNM/image.png" />
+  <link rel="icon" href="https://i.ibb.co/20J7vkNM/image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-paper"></div>
+  <div class="bg-ornament"></div>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-mark">
+        <img src="https://i.ibb.co/20J7vkNM/image.png" alt="شعار" style="width:46px;height:46px;border-radius:50%;object-fit:cover" />
+      </div>
+      <h1>حصن المسلم</h1>
+      <p>أذكارك اليومية في مكان واحد — بخط أصيل وعدّاد يصاحبك</p>
+
+      <div class="divider">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="cards" id="cards"></div>
+
+    <p class="foot">
+      من إعداد <a href="https://codef8.com/">CODEF</a> · يُحفظ تقدّمك على جهازك تلقائياً
+    </p>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    window.ADK_LOGO = "https://i.ibb.co/20J7vkNM/image.png";
+
+    // ترويسة بدون زر رجوع (صفحة رئيسية) + زر إعدادات
+    ADK.injectHeader({ title: "الأذكار", back: null });
+
+    const items = [
+      { href:"morning.html", icon:"sun",  title:"أذكار الصباح", sub:"تُقال بعد الفجر إلى الشروق", soon:false },
+      { href:"evening.html", icon:"moon", title:"أذكار المساء", sub:"تُقال بعد العصر إلى الغروب", soon:false },
+      { href:"#", icon:"moon", title:"أذكار النوم", sub:"قريباً بإذن الله", soon:true },
+      { href:"#", icon:"star", title:"أدعية مختارة", sub:"قريباً بإذن الله", soon:true }
+    ];
+
+    const box = document.getElementById("cards");
+    items.forEach(it=>{
+      const a = document.createElement("a");
+      a.className = "card-link" + (it.soon ? " card-soon" : "");
+      a.href = it.soon ? "javascript:void(0)" : it.href;
+      a.innerHTML = `
+        <span class="card-ic">${ADK.svg(it.icon)}</span>
+        <span class="card-body">
+          <h3>${it.title}</h3>
+          <span>${it.sub}</span>
+        </span>
+        ${ it.soon ? `<span class="badge-soon">قريباً</span>` : `<span class="card-go">${ADK.svg("go")}</span>` }
+      `;
+      box.appendChild(a);
+    });
+
+    // PWA + تذكير التثبيت
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(()=>{});
+    }
+    ADK.checkDueNotifications();
+    ADK.maybeShowInstallTip();
+  </script>
+</body>
+</html>

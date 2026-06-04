@@ -1,0 +1,27 @@
+{
+  "name": "أذكار · CODEF",
+  "short_name": "أذكار",
+  "description": "أذكار الصباح والمساء بعدّاد وتصميم ورقي كلاسيكي",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4ecd8",
+  "theme_color": "#f4ecd8",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/20J7vkNM/image.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.ibb.co/20J7vkNM/image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

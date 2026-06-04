@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+  <meta name="theme-color" content="#f4ecd8" />
+  <meta name="description" content="أذكار الصباح كاملة بالأعداد مع عدّاد — CODEF." />
+  <title>أذكار الصباح · CODEF</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="أذكار" />
+  <link rel="apple-touch-icon" href="https://i.ibb.co/20J7vkNM/image.png" />
+  <link rel="icon" href="https://i.ibb.co/20J7vkNM/image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-paper"></div>
+  <div class="bg-ornament"></div>
+
+  <div class="hero" style="padding-bottom:8px">
+    <div class="hero-mark" id="heroIc"></div>
+    <h1>أذكار الصباح</h1>
+    <p>تُقال بعد صلاة الفجر إلى طلوع الشمس</p>
+    <div class="divider">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M5 5l1.4 1.4M17.6 17.6L19 19M3 12h2M19 12h2M5 19l1.4-1.4M17.6 6.4L19 5"/></svg>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="dhikr" id="adkWrap"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    window.ADK_LOGO = "https://i.ibb.co/20J7vkNM/image.png";
+    ADK.injectHeader({ title: "أذكار الصباح", back: "index.html" });
+    document.getElementById("heroIc").innerHTML = ADK.svg("sun");
+    ADK.renderAdhkarPage(window.ADHKAR_DATA.morning);
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+  </script>
+</body>
+</html>
