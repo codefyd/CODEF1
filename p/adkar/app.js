@@ -98,7 +98,7 @@
             <div class="desc">تنبيه يومي في الوقت المحدد</div>
           </div>
           <input class="time-input" type="time" id="timeMorning" value="${notif.morning.time}">
-          <div class="switch"><input type="checkbox" id="onMorning" ${notif.morning.on?"checked":""}><span class="track"></span></div>
+          <label class="switch"><input type="checkbox" id="onMorning" ${notif.morning.on?"checked":""}><span class="track"></span></label>
         </div>
         <div class="notif-row">
           <div>
@@ -106,7 +106,7 @@
             <div class="desc">تنبيه يومي في الوقت المحدد</div>
           </div>
           <input class="time-input" type="time" id="timeEvening" value="${notif.evening.time}">
-          <div class="switch"><input type="checkbox" id="onEvening" ${notif.evening.on?"checked":""}><span class="track"></span></div>
+          <label class="switch"><input type="checkbox" id="onEvening" ${notif.evening.on?"checked":""}><span class="track"></span></label>
         </div>
         <p class="notif-hint" id="notifHint">للتنبيهات الثابتة كل يوم: أضف الصفحة إلى الشاشة الرئيسية، وافتحها مرة بعد ضبط الوقت لتفعيل التذكير. سيظهر التنبيه عند فتح التطبيق إن حان وقته.</p>
       </div>
@@ -125,12 +125,18 @@
     sheet.querySelectorAll("#sizeSeg button").forEach(b=>{
       b.addEventListener("click", ()=>{ applySize(b.dataset.size); markActiveSize(); });
     });
-    function saveNotif(){
-      setNotif({
+    async function saveNotif(){
+      const settings = {
         morning:{ on:document.getElementById("onMorning").checked, time:document.getElementById("timeMorning").value || "06:00" },
         evening:{ on:document.getElementById("onEvening").checked, time:document.getElementById("timeEvening").value || "17:30" }
-      });
-      requestNotifPermission();
+      };
+
+      setNotif(settings);
+
+      if (settings.morning.on || settings.evening.on){
+        const granted = await requestNotifPermission();
+        if (granted) checkDueNotifications();
+      }
     }
     ["onMorning","onEvening","timeMorning","timeEvening"].forEach(id=>{
       document.getElementById(id).addEventListener("change", saveNotif);
@@ -166,32 +172,64 @@
   function defNotif(){ return { morning:{on:false,time:"06:00"}, evening:{on:false,time:"17:30"} }; }
   function setNotif(n){ localStorage.setItem(LS.notif, JSON.stringify(n)); }
 
-  function requestNotifPermission(){
-    if (!("Notification" in window)) return;
-    if (Notification.permission === "default") Notification.requestPermission();
+  async function requestNotifPermission(){
+    if (!("Notification" in window)) return false;
+    if (Notification.permission === "granted") return true;
+    if (Notification.permission === "denied") return false;
+
+    try {
+      const permission = await Notification.requestPermission();
+      return permission === "granted";
+    } catch(e){
+      return false;
+    }
+  }
+
+  async function showAppNotification(title, body, tag){
+    const options = {
+      body,
+      tag,
+      icon: window.ADK_LOGO || undefined
+    };
+
+    try {
+      if ("serviceWorker" in navigator){
+        const registration = await navigator.serviceWorker.ready;
+        await registration.showNotification(title, options);
+        return true;
+      }
+
+      new Notification(title, options);
+      return true;
+    } catch(e){
+      return false;
+    }
   }
 
   // فحص عند فتح التطبيق: إن حان وقت التذكير ولم يُرسل اليوم، أرسل تنبيهاً
-  function checkDueNotifications(){
+  async function checkDueNotifications(){
     if (!("Notification" in window) || Notification.permission !== "granted") return;
     const n = getNotif();
     const now = new Date();
     const cur = now.getHours()*60 + now.getMinutes();
     const day = todayKey();
-    [["morning","أذكار الصباح","حان وقت أذكار الصباح 🌅"],
-     ["evening","أذكار المساء","حان وقت أذكار المساء 🌙"]].forEach(([k,title,body])=>{
+
+    for (const [k,title,body] of [
+      ["morning","أذكار الصباح","حان وقت أذكار الصباح 🌅"],
+      ["evening","أذكار المساء","حان وقت أذكار المساء 🌙"]
+    ]){
       const c = n[k];
-      if (!c.on) return;
+      if (!c.on) continue;
+
       const [h,m] = c.time.split(":").map(Number);
       const target = h*60 + m;
       const sentKey = "adk_notif_sent_"+k+"_"+day;
+
       if (cur >= target && cur < target+120 && !localStorage.getItem(sentKey)){
-        try {
-          new Notification(title, { body, tag:"adk-"+k, icon: window.ADK_LOGO || undefined });
-          localStorage.setItem(sentKey, "1");
-        } catch(e){}
+        const sent = await showAppNotification(title, body, "adk-"+k);
+        if (sent) localStorage.setItem(sentKey, "1");
       }
-    });
+    }
   }
 
   function showInstallGuide(){
@@ -377,6 +415,12 @@
       localStorage.setItem("adk_install_dismissed","1");
     });
   }
+
+  // إعادة الفحص عند عودة المستخدم للتطبيق أو النافذة
+  document.addEventListener("visibilitychange", ()=>{
+    if (document.visibilityState === "visible") checkDueNotifications();
+  });
+  window.addEventListener("focus", checkDueNotifications);
 
   /* ---------- التصدير ---------- */
   window.ADK = {
