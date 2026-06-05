@@ -22,7 +22,7 @@
 
     // مهم: استبدل القيمة التالية بمفتاح VAPID العام Public Key الذي ولدته.
     // لا تضع المفتاح الخاص هنا أبدًا.
-    vapidPublicKey: "PUT_VAPID_PUBLIC_KEY_HERE"
+    vapidPublicKey: "BD6Y3Ct60okcHxn2NvR2Dqw51UMYB0l2XlFS4v_oj3byC_Xckf5CqYli6k-BU-u7dTvIgsNf6OWnyK-xxp-xqnY"
   };
 
   const PUSH_LS = {
