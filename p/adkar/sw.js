@@ -60,8 +60,8 @@ self.addEventListener("push", (event) => {
   const title = data.title || "أذكار";
   const options = {
     body: data.body || "حان وقت الذكر",
-    icon: data.icon || "https://i.ibb.co/20J7vkNM/image.png",
-    badge: data.badge || "https://i.ibb.co/20J7vkNM/image.png",
+    icon: data.icon || "https://l.top4top.io/p_3808ehvca1.png",
+    badge: data.badge || "https://l.top4top.io/p_3808ehvca1.png",
     tag: data.tag || "adkar-reminder",
     renotify: true,
     data: {
