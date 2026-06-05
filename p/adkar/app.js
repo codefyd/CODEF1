@@ -340,7 +340,7 @@
             registration.showNotification(title, {
               body,
               tag:"adk-"+k,
-              icon: window.ADK_LOGO || "https://i.ibb.co/20J7vkNM/image.png",
+              icon: window.ADK_LOGO || "https://l.top4top.io/p_3808ehvca1.png",
               data: { url: k === "morning" ? "morning.html" : "evening.html" }
             });
           });
