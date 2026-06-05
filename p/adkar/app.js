@@ -14,6 +14,22 @@
 
   const THEMES = ["sand", "olive", "sky", "rose"];
 
+  /* ---------- إعدادات مركز الإشعارات Push ---------- */
+  const PUSH = {
+    supabaseUrl: "https://yqkkjjfeupfmywadqlwd.supabase.co",
+    publishableKey: "sb_publishable_EtaamtevjICX2rqCN_JoPw__fgGG3w4",
+    appKey: "adkar",
+
+    // مهم: استبدل القيمة التالية بمفتاح VAPID العام Public Key الذي ولدته.
+    // لا تضع المفتاح الخاص هنا أبدًا.
+    vapidPublicKey: "PUT_VAPID_PUBLIC_KEY_HERE"
+  };
+
+  const PUSH_LS = {
+    subscriptionId: "adk_push_subscription_id",
+    lastError: "adk_push_last_error"
+  };
+
   /* ---------- الثيم والحجم ---------- */
   function applyTheme(t) {
     if (!THEMES.includes(t)) t = "sand";
@@ -108,7 +124,7 @@
           <input class="time-input" type="time" id="timeEvening" value="${notif.evening.time}">
           <label class="switch"><input type="checkbox" id="onEvening" ${notif.evening.on?"checked":""}><span class="track"></span></label>
         </div>
-        <p class="notif-hint" id="notifHint">للتنبيهات الثابتة كل يوم: أضف الصفحة إلى الشاشة الرئيسية، وافتحها مرة بعد ضبط الوقت لتفعيل التذكير. سيظهر التنبيه عند فتح التطبيق إن حان وقته.</p>
+        <p class="notif-hint" id="notifHint">للتنبيهات المباشرة: فعّل الإشعارات واسمح بها من المتصفح. على الآيفون يجب إضافة التطبيق للشاشة الرئيسية ثم فتحه من الأيقونة.</p>
       </div>
 
       <button class="btn-wide" id="addHomeBtn">${"كيف أضيف الصفحة للشاشة الرئيسية؟"}</button>
@@ -126,17 +142,12 @@
       b.addEventListener("click", ()=>{ applySize(b.dataset.size); markActiveSize(); });
     });
     async function saveNotif(){
-      const settings = {
+      const n = {
         morning:{ on:document.getElementById("onMorning").checked, time:document.getElementById("timeMorning").value || "06:00" },
         evening:{ on:document.getElementById("onEvening").checked, time:document.getElementById("timeEvening").value || "17:30" }
       };
-
-      setNotif(settings);
-
-      if (settings.morning.on || settings.evening.on){
-        const granted = await requestNotifPermission();
-        if (granted) checkDueNotifications();
-      }
+      setNotif(n);
+      await syncPushSchedules(n);
     }
     ["onMorning","onEvening","timeMorning","timeEvening"].forEach(id=>{
       document.getElementById(id).addEventListener("change", saveNotif);
@@ -172,64 +183,171 @@
   function defNotif(){ return { morning:{on:false,time:"06:00"}, evening:{on:false,time:"17:30"} }; }
   function setNotif(n){ localStorage.setItem(LS.notif, JSON.stringify(n)); }
 
-  async function requestNotifPermission(){
-    if (!("Notification" in window)) return false;
-    if (Notification.permission === "granted") return true;
-    if (Notification.permission === "denied") return false;
-
-    try {
-      const permission = await Notification.requestPermission();
-      return permission === "granted";
-    } catch(e){
-      return false;
-    }
+  function setPushHint(message, isError){
+    const el = document.getElementById("notifHint");
+    if (!el) return;
+    el.textContent = message;
+    el.style.color = isError ? "#b42318" : "";
   }
 
-  async function showAppNotification(title, body, tag){
-    const options = {
-      body,
-      tag,
-      icon: window.ADK_LOGO || undefined
+  function pushHeaders(){
+    return {
+      "Content-Type": "application/json",
+      "apikey": PUSH.publishableKey,
+      "Authorization": "Bearer " + PUSH.publishableKey
+    };
+  }
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = "=".repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const rawData = atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
+    return outputArray;
+  }
+
+  function getTimezone(){
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Riyadh"; }
+    catch(e){ return "Asia/Riyadh"; }
+  }
+
+  async function requestNotifPermission(){
+    if (!("Notification" in window)) throw new Error("المتصفح لا يدعم الإشعارات");
+    if (Notification.permission === "granted") return true;
+    if (Notification.permission === "denied") throw new Error("الإشعارات محظورة من إعدادات المتصفح");
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") throw new Error("لم يتم منح إذن الإشعارات");
+    return true;
+  }
+
+  async function getServiceWorkerRegistration(){
+    if (!("serviceWorker" in navigator)) throw new Error("المتصفح لا يدعم Service Worker");
+    await navigator.serviceWorker.register("sw.js");
+    return await navigator.serviceWorker.ready;
+  }
+
+  async function ensurePushSubscription(){
+    if (!("PushManager" in window)) throw new Error("المتصفح لا يدعم Push Notifications");
+    if (!PUSH.vapidPublicKey || PUSH.vapidPublicKey === "PUT_VAPID_PUBLIC_KEY_HERE") {
+      throw new Error("ضع VAPID_PUBLIC_KEY العام داخل app.js أولًا");
+    }
+
+    await requestNotifPermission();
+
+    const registration = await getServiceWorkerRegistration();
+    let subscription = await registration.pushManager.getSubscription();
+
+    if (!subscription) {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(PUSH.vapidPublicKey)
+      });
+    }
+
+    const payload = {
+      app_key: PUSH.appKey,
+      subscription: subscription.toJSON(),
+      timezone: getTimezone(),
+      user_key: getDeviceKey()
     };
 
+    const res = await fetch(PUSH.supabaseUrl + "/functions/v1/register-push-subscription", {
+      method: "POST",
+      headers: pushHeaders(),
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      throw new Error(data.error || "تعذر تسجيل الاشتراك في مركز الإشعارات");
+    }
+
+    localStorage.setItem(PUSH_LS.subscriptionId, data.subscription_id);
+    localStorage.removeItem(PUSH_LS.lastError);
+    return data.subscription_id;
+  }
+
+  function getDeviceKey(){
+    let key = localStorage.getItem("adk_device_key");
+    if (!key) {
+      key = "adk_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem("adk_device_key", key);
+    }
+    return key;
+  }
+
+  async function savePushSchedule(subscriptionId, scheduleKey, cfg){
+    const isMorning = scheduleKey === "morning";
+    const res = await fetch(PUSH.supabaseUrl + "/functions/v1/save-push-schedule", {
+      method: "POST",
+      headers: pushHeaders(),
+      body: JSON.stringify({
+        app_key: PUSH.appKey,
+        subscription_id: subscriptionId,
+        schedule_key: scheduleKey,
+        title: isMorning ? "أذكار الصباح" : "أذكار المساء",
+        body: isMorning ? "حان وقت أذكار الصباح 🌅" : "حان وقت أذكار المساء 🌙",
+        notification_time: cfg.time || (isMorning ? "06:00" : "17:30"),
+        timezone: getTimezone(),
+        url: location.origin + location.pathname.replace(/[^/]*$/, "") + (isMorning ? "morning.html" : "evening.html"),
+        is_active: !!cfg.on
+      })
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) throw new Error(data.error || "تعذر حفظ جدول التنبيه");
+    return data;
+  }
+
+  async function syncPushSchedules(n){
     try {
-      if ("serviceWorker" in navigator){
-        const registration = await navigator.serviceWorker.ready;
-        await registration.showNotification(title, options);
-        return true;
+      if (!n.morning.on && !n.evening.on) {
+        setPushHint("تم إيقاف التنبيهات اليومية.", false);
+        return;
       }
 
-      new Notification(title, options);
-      return true;
-    } catch(e){
-      return false;
+      setPushHint("جاري تفعيل التنبيهات...", false);
+      const subscriptionId = await ensurePushSubscription();
+      await savePushSchedule(subscriptionId, "morning", n.morning);
+      await savePushSchedule(subscriptionId, "evening", n.evening);
+      setPushHint("تم تفعيل التنبيهات. ستصلك حتى لو كان التطبيق مغلقًا بإذن الله.", false);
+    } catch (err) {
+      const msg = String(err && err.message ? err.message : err);
+      localStorage.setItem(PUSH_LS.lastError, msg);
+      setPushHint("تعذر تفعيل التنبيهات: " + msg, true);
+      console.error("ADK Push Error:", err);
     }
   }
 
-  // فحص عند فتح التطبيق: إن حان وقت التذكير ولم يُرسل اليوم، أرسل تنبيهاً
-  async function checkDueNotifications(){
+  // احتياطي: فحص عند فتح التطبيق. الإرسال الحقيقي يتم عبر Supabase Web Push.
+  function checkDueNotifications(){
     if (!("Notification" in window) || Notification.permission !== "granted") return;
     const n = getNotif();
     const now = new Date();
     const cur = now.getHours()*60 + now.getMinutes();
     const day = todayKey();
-
-    for (const [k,title,body] of [
-      ["morning","أذكار الصباح","حان وقت أذكار الصباح 🌅"],
-      ["evening","أذكار المساء","حان وقت أذكار المساء 🌙"]
-    ]){
+    [["morning","أذكار الصباح","حان وقت أذكار الصباح 🌅"],
+     ["evening","أذكار المساء","حان وقت أذكار المساء 🌙"]].forEach(([k,title,body])=>{
       const c = n[k];
-      if (!c.on) continue;
-
+      if (!c.on) return;
       const [h,m] = c.time.split(":").map(Number);
       const target = h*60 + m;
       const sentKey = "adk_notif_sent_"+k+"_"+day;
-
       if (cur >= target && cur < target+120 && !localStorage.getItem(sentKey)){
-        const sent = await showAppNotification(title, body, "adk-"+k);
-        if (sent) localStorage.setItem(sentKey, "1");
+        try {
+          navigator.serviceWorker.ready.then((registration) => {
+            registration.showNotification(title, {
+              body,
+              tag:"adk-"+k,
+              icon: window.ADK_LOGO || "https://i.ibb.co/20J7vkNM/image.png",
+              data: { url: k === "morning" ? "morning.html" : "evening.html" }
+            });
+          });
+          localStorage.setItem(sentKey, "1");
+        } catch(e){}
       }
-    }
+    });
   }
 
   function showInstallGuide(){
@@ -237,9 +355,9 @@
     const isIOS = /iPad|iPhone|iPod/.test(ua);
     let msg;
     if (isIOS){
-      msg = "على الآيفون:\n\n1) افتح الصفحة في متصفح Safari\n2) اضغط زر المشاركة (مربع وسهم لأعلى)\n3) اختر «إضافة إلى الشاشة الرئيسية»\n\nبعدها افتح التطبيق من الأيقونة، وستصلك التنبيهات عند حلول وقتها.";
+      msg = "على الآيفون:\n\n1) افتح الصفحة في Safari\n2) اضغط زر المشاركة\n3) اختر «إضافة إلى الشاشة الرئيسية»\n4) افتح التطبيق من الأيقونة\n5) فعّل التنبيهات من الإعدادات\n\nمهم: إشعارات الويب على الآيفون تعمل بعد إضافة التطبيق للشاشة الرئيسية.";
     } else {
-      msg = "على الأندرويد:\n\n1) افتح الصفحة في متصفح Chrome\n2) اضغط القائمة (⋮) أعلى اليمين\n3) اختر «إضافة إلى الشاشة الرئيسية» أو «تثبيت التطبيق»\n\nبعدها افتح التطبيق من الأيقونة، وستصلك التنبيهات عند حلول وقتها.";
+      msg = "على الأندرويد:\n\n1) افتح الصفحة في Chrome\n2) اضغط القائمة (⋮)\n3) اختر «إضافة إلى الشاشة الرئيسية» أو «تثبيت التطبيق»\n4) افتح التطبيق وفعّل التنبيهات.";
     }
     alert(msg);
   }
@@ -415,12 +533,6 @@
       localStorage.setItem("adk_install_dismissed","1");
     });
   }
-
-  // إعادة الفحص عند عودة المستخدم للتطبيق أو النافذة
-  document.addEventListener("visibilitychange", ()=>{
-    if (document.visibilityState === "visible") checkDueNotifications();
-  });
-  window.addEventListener("focus", checkDueNotifications);
 
   /* ---------- التصدير ---------- */
   window.ADK = {
