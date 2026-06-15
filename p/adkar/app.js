@@ -488,8 +488,32 @@
       document.getElementById("pbFill").style.width = pct+"%";
       document.getElementById("pbText").textContent = toAr(doneCount)+" من "+toAr(total);
       document.getElementById("pbPct").textContent = toAr(pct)+"٪";
-      document.getElementById("finishBox").classList.toggle("show", doneCount===total);
-      if (doneCount===total && navigator.vibrate) navigator.vibrate([20,40,20]);
+      const allDone = doneCount===total;
+      document.getElementById("finishBox").classList.toggle("show", allDone);
+      if (allDone && navigator.vibrate) navigator.vibrate([20,40,20]);
+      if (allDone) slideBackAndReturn();
+    }
+
+    // عند إتمام كل الأذكار: تحرّك الصفحة يمينًا ثم ترجع يسارًا للعودة للقائمة
+    let _returning = false;
+    let _returnTimer = null;
+    function slideBackAndReturn(){
+      if (_returning) return;
+      _returning = true;
+      const backLink = document.querySelector(".back-btn");
+      const backHref = backLink ? backLink.getAttribute("href") : "index.html";
+      // امنح المستخدم لحظة ليرى رسالة "تقبّل الله منك"
+      _returnTimer = setTimeout(()=>{
+        if (!_returning) return;
+        const page = document.body;
+        page.classList.add("slide-out-right");
+        setTimeout(()=>{
+          if (!_returning) return;
+          // الانتقال للقائمة مع تمرير علامة لتشغيل دخول من اليسار
+          sessionStorage.setItem("adk_return", "1");
+          window.location.href = backHref;
+        }, 360);
+      }, 1100);
     }
 
     wrap.addEventListener("click", (e)=>{
@@ -499,6 +523,9 @@
       if (rst){ const i=parseInt(rst.dataset.reset,10); prog[i]=0; save(); refreshCard(i); updateProgress(); }
     });
     document.getElementById("resetAll").addEventListener("click", ()=>{
+      _returning = false;
+      if (_returnTimer) clearTimeout(_returnTimer);
+      document.body.classList.remove("slide-out-right");
       prog = {}; save();
       group.items.forEach((_,i)=>refreshCard(i));
       updateProgress();
@@ -534,10 +561,26 @@
     });
   }
 
+  /* ---------- حركة الدخول عند العودة من صفحة الأذكار ---------- */
+  function playReturnEntrance(){
+    try {
+      if (sessionStorage.getItem("adk_return") === "1"){
+        sessionStorage.removeItem("adk_return");
+        document.body.classList.add("slide-in-left");
+        setTimeout(()=>document.body.classList.remove("slide-in-left"), 420);
+      }
+    } catch(e){}
+  }
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", playReturnEntrance);
+  } else {
+    playReturnEntrance();
+  }
+
   /* ---------- التصدير ---------- */
   window.ADK = {
     svg, injectHeader, openSettings, renderAdhkarPage,
-    maybeShowInstallTip, checkDueNotifications, toAr
+    maybeShowInstallTip, checkDueNotifications, toAr, playReturnEntrance
   };
 
 })();
