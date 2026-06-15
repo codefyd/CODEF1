@@ -269,21 +269,34 @@ body {
 @keyframes pop{ from{transform:scale(.92); opacity:0;} to{transform:scale(1); opacity:1;} }
 
 /* ---------- حركة الانتقال بين الصفحات (يمين عند الإتمام، يسار عند العودة) ---------- */
-.slide-out-right{
-  animation:slideOutRight .36s cubic-bezier(.45,0,.55,1) forwards;
-  overflow:hidden;
+html.slide-out-right{
+  animation:slideOutRight .38s cubic-bezier(.45,0,.55,1) forwards;
 }
+html.slide-out-right body{ overflow:hidden; }
 @keyframes slideOutRight{
   from{ transform:translateX(0); opacity:1; }
   to{ transform:translateX(100%); opacity:0; }
 }
-.slide-in-left{
-  animation:slideInLeft .4s cubic-bezier(.25,.9,.3,1);
-  overflow:hidden;
+html.slide-in-left body{
+  animation:slideInLeft .42s cubic-bezier(.25,.9,.3,1);
 }
 @keyframes slideInLeft{
   from{ transform:translateX(-100%); opacity:.2; }
   to{ transform:translateX(0); opacity:1; }
+}
+
+/* رسالة الإتمام كطبقة عائمة في منتصف الشاشة بدل دفع المحتوى للأسفل */
+.finish.finish-overlay{
+  position:fixed; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  z-index:70; width:min(86%,360px); margin:0;
+  box-shadow:0 30px 80px -20px rgba(40,30,20,.45);
+  background:var(--paper);
+}
+.finish.finish-overlay.show{ animation:popOverlay .45s ease; }
+@keyframes popOverlay{
+  from{ transform:translate(-50%,-50%) scale(.9); opacity:0; }
+  to{ transform:translate(-50%,-50%) scale(1); opacity:1; }
 }
 
 /* ---------- لوحة الإعدادات ---------- */
@@ -393,7 +406,8 @@ body {
   .dhikr-text{ font-size:1.4rem; }
 }
 
-/* احترام تقليل الحركة */
+/* احترام تقليل الحركة (مع إبقاء انتقال الصفحة الوظيفي) */
 @media (prefers-reduced-motion:reduce){
-  *{ animation:none !important; transition:none !important; }
+  *:not(.slide-out-right):not(.slide-in-left){ animation:none !important; transition:none !important; }
+  html.slide-out-right, html.slide-in-left body{ animation-duration:.38s !important; }
 }

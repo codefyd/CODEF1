@@ -1,5 +1,5 @@
 /* Service Worker — أذكار CODEF */
-const CACHE = "adkar-v2";
+const CACHE = "adkar-v3";
 const ASSETS = [
   "./",
   "./index.html",

@@ -480,7 +480,8 @@
       }
       if (done && navigator.vibrate) navigator.vibrate(18);
     }
-    function updateProgress(){
+    function updateProgress(opts){
+      const interactive = !(opts && opts.silent);
       let doneCount = 0;
       group.items.forEach((item,i)=>{ if((prog[i]||0) >= item.count) doneCount++; });
       const total = group.items.length;
@@ -489,12 +490,14 @@
       document.getElementById("pbText").textContent = toAr(doneCount)+" من "+toAr(total);
       document.getElementById("pbPct").textContent = toAr(pct)+"٪";
       const allDone = doneCount===total;
-      document.getElementById("finishBox").classList.toggle("show", allDone);
-      if (allDone && navigator.vibrate) navigator.vibrate([20,40,20]);
-      if (allDone) slideBackAndReturn();
+      // لا نُظهر صندوق الإنهاء بالأسفل (لا هبوط) — نكتفي بالانتقال يمينًا
+      if (allDone && interactive){
+        if (navigator.vibrate) navigator.vibrate([20,40,20]);
+        slideBackAndReturn();
+      }
     }
 
-    // عند إتمام كل الأذكار: تحرّك الصفحة يمينًا ثم ترجع يسارًا للعودة للقائمة
+    // عند إتمام كل الأذكار: تنزلق الصفحة يمينًا ثم نعود للقائمة (تدخل من اليسار)
     let _returning = false;
     let _returnTimer = null;
     function slideBackAndReturn(){
@@ -502,17 +505,17 @@
       _returning = true;
       const backLink = document.querySelector(".back-btn");
       const backHref = backLink ? backLink.getAttribute("href") : "index.html";
-      // امنح المستخدم لحظة ليرى رسالة "تقبّل الله منك"
+      // أظهر رسالة الإتمام كطبقة عائمة فوق الصفحة (لا تدفع المحتوى للأسفل)
+      const fb = document.getElementById("finishBox");
+      if (fb) fb.classList.add("show","finish-overlay");
       _returnTimer = setTimeout(()=>{
         if (!_returning) return;
-        const page = document.body;
-        page.classList.add("slide-out-right");
+        document.documentElement.classList.add("slide-out-right");
         setTimeout(()=>{
           if (!_returning) return;
-          // الانتقال للقائمة مع تمرير علامة لتشغيل دخول من اليسار
           sessionStorage.setItem("adk_return", "1");
           window.location.href = backHref;
-        }, 360);
+        }, 380);
       }, 1100);
     }
 
@@ -525,14 +528,16 @@
     document.getElementById("resetAll").addEventListener("click", ()=>{
       _returning = false;
       if (_returnTimer) clearTimeout(_returnTimer);
-      document.body.classList.remove("slide-out-right");
+      document.documentElement.classList.remove("slide-out-right");
+      const fb = document.getElementById("finishBox");
+      if (fb) fb.classList.remove("show","finish-overlay");
       prog = {}; save();
       group.items.forEach((_,i)=>refreshCard(i));
-      updateProgress();
+      updateProgress({silent:true});
       window.scrollTo({top:0, behavior:"smooth"});
     });
 
-    updateProgress();
+    updateProgress({silent:true});
     checkDueNotifications();
   }
 
@@ -566,8 +571,8 @@
     try {
       if (sessionStorage.getItem("adk_return") === "1"){
         sessionStorage.removeItem("adk_return");
-        document.body.classList.add("slide-in-left");
-        setTimeout(()=>document.body.classList.remove("slide-in-left"), 420);
+        document.documentElement.classList.add("slide-in-left");
+        setTimeout(()=>document.documentElement.classList.remove("slide-in-left"), 460);
       }
     } catch(e){}
   }
