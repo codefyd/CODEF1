@@ -377,7 +377,7 @@
     document.getElementById("openSettingsBtn").addEventListener("click", openSettings);
   }
 
-  /* ---------- محرّك صفحة الأذكار ---------- */
+  /* ---------- محرّك صفحة الأذكار بنظام الشرايح ---------- */
   function renderAdhkarPage(group){
     const wrap = document.getElementById("adkWrap");
     if (!wrap || !group) return;
@@ -386,58 +386,87 @@
     // إعادة تعيين التقدم لو تغيّر اليوم
     if (localStorage.getItem(LS.progDay(group.id)) !== day){
       localStorage.removeItem(LS.prog(group.id));
+      localStorage.removeItem("adk_current_" + group.id);
       localStorage.setItem(LS.progDay(group.id), day);
     }
+
     let prog = {};
     try { prog = JSON.parse(localStorage.getItem(LS.prog(group.id))) || {}; } catch(e){ prog = {}; }
-
     function save(){ localStorage.setItem(LS.prog(group.id), JSON.stringify(prog)); }
+
+    const total = group.items.length;
+    const currentKey = "adk_current_" + group.id;
+    const firstIncomplete = Math.max(0, group.items.findIndex((item, i) => (prog[i] || 0) < item.count));
+    let active = Number(localStorage.getItem(currentKey));
+    if (!Number.isFinite(active) || active < 0 || active >= total) active = firstIncomplete === -1 ? 0 : firstIncomplete;
 
     // شريط التقدم
     const pb = document.createElement("div");
     pb.className = "progress-bar";
     pb.innerHTML = `<div class="pb-inner">
-      <div class="pb-meta"><span id="pbText">٠ من ${toAr(group.items.length)}</span><span id="pbPct">٠٪</span></div>
+      <div class="pb-meta"><span id="pbText">٠ من ${toAr(total)}</span><span id="pbPct">٠٪</span></div>
       <div class="pb-track"><div class="pb-fill" id="pbFill"></div></div>
     </div>`;
     wrap.parentNode.insertBefore(pb, wrap);
 
-    // البطاقات
+    wrap.classList.add("adk-slider-wrap");
+    wrap.innerHTML = "";
+
+    const slider = document.createElement("section");
+    slider.className = "adhkar-slider";
+    slider.innerHTML = `
+      <div class="slide-meta">
+        <button class="nav-mini" id="prevDhikr" type="button" aria-label="الذكر السابق">السابق</button>
+        <div class="slide-count" id="slideText"></div>
+        <button class="nav-mini skip" id="skipDhikr" type="button" aria-label="تجاوز الذكر الحالي">تجاوز</button>
+      </div>
+      <div class="slides-viewport" id="slidesViewport" aria-live="polite">
+        <div class="slides-track" id="slidesTrack"></div>
+      </div>
+      <div class="slider-actions">
+        <button class="nav-wide secondary" id="prevDhikrBottom" type="button">رجوع</button>
+        <button class="nav-wide" id="skipDhikrBottom" type="button">تجاوز الذكر</button>
+      </div>`;
+    wrap.appendChild(slider);
+
+    const track = slider.querySelector("#slidesTrack");
+
     group.items.forEach((item, i) => {
-      const card = document.createElement("div");
-      card.className = "dhikr";
+      const slide = document.createElement("article");
+      slide.className = "dhikr-slide";
+      slide.dataset.slide = String(i);
+
       const cur = prog[i] || 0;
       const isDone = cur >= item.count;
-
       const lines = item.text.split("\n\n").map(l=>`<span class="ayah">${l.replace(/\n/g,"<br>")}</span>`).join("");
 
       let actionHTML;
       if (item.count > 1){
         actionHTML = `<div class="counter-row">
-          <button class="count-btn ${isDone?"done":""}" data-i="${i}">
-            ${isDone ? svg("check")+" تم بحمد الله" : "سبّح · اضغط للعد"}
+          <button class="count-btn ${isDone?"done":""}" data-i="${i}" type="button">
+            ${isDone ? svg("check")+" تم · التالي" : "سبّح · اضغط للعد"}
           </button>
           <div class="count-pill"><span data-pill="${i}">${toAr(Math.min(cur,item.count))}</span><small>من ${toAr(item.count)}</small></div>
-          <button class="reset-one" data-reset="${i}" aria-label="إعادة">${svg("rotate")}</button>
+          <button class="reset-one" data-reset="${i}" type="button" aria-label="إعادة عدّ هذا الذكر">${svg("rotate")}</button>
         </div>`;
       } else {
         actionHTML = `<div class="simple-done">
-          <button class="count-btn ${isDone?"done":""}" data-i="${i}" style="flex:none;min-width:160px">
-            ${isDone ? svg("check")+" تم بحمد الله" : "اضغط عند الانتهاء"}
+          <button class="count-btn ${isDone?"done":""}" data-i="${i}" type="button">
+            ${isDone ? svg("check")+" تم · التالي" : "انتهيت"}
           </button>
         </div>`;
       }
 
-      card.innerHTML = `<div class="dhikr-card ${isDone?"done":""}" id="card-${i}">
+      slide.innerHTML = `<div class="dhikr-card ${isDone?"done":""}" id="card-${i}">
         <div class="dhikr-head">
           <span class="dhikr-num">${toAr(i+1)}</span>
           ${item.note ? `<span class="dhikr-note">${item.note}</span>` : ""}
-          ${item.count>1 ? `<span class="dhikr-note" style="margin-inline-start:auto;color:var(--ink-soft)">×${toAr(item.count)}</span>`:""}
+          ${item.count>1 ? `<span class="dhikr-note count-note">×${toAr(item.count)}</span>`:""}
         </div>
         <div class="dhikr-text">${lines}</div>
         ${actionHTML}
       </div>`;
-      wrap.appendChild(card);
+      track.appendChild(slide);
     });
 
     // شاشة الإكمال
@@ -445,55 +474,103 @@
     finish.className = "finish";
     finish.id = "finishBox";
     finish.innerHTML = `${svg("star")}<h3>تقبّل الله منك</h3><p>أتممت ${group.title} لهذا اليوم 🤲</p>
-      <button class="btn-wide" id="resetAll" style="max-width:240px;margin:16px auto 0">إعادة من جديد</button>`;
+      <button class="btn-wide" id="resetAll" type="button" style="max-width:240px;margin:16px auto 0">إعادة من جديد</button>`;
     wrap.appendChild(finish);
 
-    // الأحداث
-    function tap(i){
-      const item = group.items[i];
-      let cur = prog[i] || 0;
-      if (cur >= item.count){ // إعادة عند الضغط بعد الإتمام (للعدّاد المفرد فقط)
-        if (item.count === 1){ cur = 0; }
-        else return;
-      } else {
-        cur++;
-      }
-      prog[i] = cur;
-      save();
-      refreshCard(i);
-      updateProgress();
+    const prevBtn = slider.querySelector("#prevDhikr");
+    const prevBtnBottom = slider.querySelector("#prevDhikrBottom");
+    const skipBtn = slider.querySelector("#skipDhikr");
+    const skipBtnBottom = slider.querySelector("#skipDhikrBottom");
+    const slideText = slider.querySelector("#slideText");
+    const viewport = slider.querySelector("#slidesViewport");
+
+    function goTo(i){
+      const nextIndex = Math.max(0, Math.min(total - 1, i));
+      active = nextIndex;
+      localStorage.setItem(currentKey, String(active));
+      track.style.transform = `translateX(-${active * 100}%)`;
+      updateSlideUi();
+      const card = document.getElementById("card-" + active);
+      if (card) card.scrollTop = 0;
+      window.scrollTo({ top: Math.max(0, pb.offsetTop - 68), behavior: "smooth" });
     }
+
+    function moveNextOrFinish(){
+      if (active < total - 1) goTo(active + 1);
+      else slideBackAndReturn();
+    }
+
+    function movePrev(){
+      if (active > 0) goTo(active - 1);
+    }
+
+    function updateSlideUi(){
+      const item = group.items[active];
+      const cur = Math.min(prog[active] || 0, item.count);
+      const done = cur >= item.count;
+      slideText.textContent = `الذكر ${toAr(active + 1)} من ${toAr(total)}${item.count > 1 ? ` · ${toAr(cur)} من ${toAr(item.count)}` : ""}`;
+      prevBtn.disabled = active === 0;
+      prevBtnBottom.disabled = active === 0;
+      const isLast = active === total - 1;
+      skipBtn.textContent = isLast ? "إنهاء" : "تجاوز";
+      skipBtnBottom.textContent = isLast ? "إنهاء" : "تجاوز الذكر";
+      slider.classList.toggle("current-done", done);
+    }
+
     function refreshCard(i){
       const item = group.items[i];
       const cur = prog[i] || 0;
       const done = cur >= item.count;
       const card = document.getElementById("card-"+i);
+      if (!card) return;
       const btn = card.querySelector(".count-btn");
       const pill = card.querySelector('[data-pill="'+i+'"]');
       card.classList.toggle("done", done);
-      btn.classList.toggle("done", done);
+      if (btn) btn.classList.toggle("done", done);
       if (item.count > 1){
-        btn.innerHTML = done ? svg("check")+" تم بحمد الله" : "سبّح · اضغط للعد";
+        if (btn) btn.innerHTML = done ? svg("check")+" تم · التالي" : "سبّح · اضغط للعد";
         if (pill) pill.textContent = toAr(Math.min(cur,item.count));
       } else {
-        btn.innerHTML = done ? svg("check")+" تم بحمد الله" : "اضغط عند الانتهاء";
+        if (btn) btn.innerHTML = done ? svg("check")+" تم · التالي" : "انتهيت";
       }
       if (done && navigator.vibrate) navigator.vibrate(18);
+      updateSlideUi();
     }
+
     function updateProgress(opts){
       const interactive = !(opts && opts.silent);
       let doneCount = 0;
       group.items.forEach((item,i)=>{ if((prog[i]||0) >= item.count) doneCount++; });
-      const total = group.items.length;
-      const pct = Math.round(doneCount/total*100);
+      const pct = total ? Math.round(doneCount/total*100) : 0;
       document.getElementById("pbFill").style.width = pct+"%";
       document.getElementById("pbText").textContent = toAr(doneCount)+" من "+toAr(total);
       document.getElementById("pbPct").textContent = toAr(pct)+"٪";
-      const allDone = doneCount===total;
-      // لا نُظهر صندوق الإنهاء بالأسفل (لا هبوط) — نكتفي بالانتقال يمينًا
-      if (allDone && interactive){
+      if (doneCount === total && interactive){
         if (navigator.vibrate) navigator.vibrate([20,40,20]);
         slideBackAndReturn();
+      }
+    }
+
+    function tap(i){
+      const item = group.items[i];
+      let cur = prog[i] || 0;
+
+      // إذا كان الذكر مكتملًا والضغط عليه مرة أخرى، ينتقل للذكر التالي مباشرة.
+      if (cur >= item.count){
+        if (i === active) moveNextOrFinish();
+        return;
+      }
+
+      cur++;
+      prog[i] = cur;
+      save();
+      refreshCard(i);
+      updateProgress();
+
+      if (cur >= item.count && i === active){
+        setTimeout(()=>{
+          if ((prog[i] || 0) >= item.count && active === i) moveNextOrFinish();
+        }, 340);
       }
     }
 
@@ -505,7 +582,6 @@
       _returning = true;
       const backLink = document.querySelector(".back-btn");
       const backHref = backLink ? backLink.getAttribute("href") : "index.html";
-      // أظهر رسالة الإتمام كطبقة عائمة فوق الصفحة (لا تدفع المحتوى للأسفل)
       const fb = document.getElementById("finishBox");
       if (fb) fb.classList.add("show","finish-overlay");
       _returnTimer = setTimeout(()=>{
@@ -516,28 +592,67 @@
           sessionStorage.setItem("adk_return", "1");
           window.location.href = backHref;
         }, 380);
-      }, 1100);
+      }, 900);
     }
 
     wrap.addEventListener("click", (e)=>{
       const btn = e.target.closest("[data-i]");
       if (btn){ tap(parseInt(btn.dataset.i,10)); return; }
       const rst = e.target.closest("[data-reset]");
-      if (rst){ const i=parseInt(rst.dataset.reset,10); prog[i]=0; save(); refreshCard(i); updateProgress(); }
+      if (rst){
+        const i=parseInt(rst.dataset.reset,10);
+        prog[i]=0;
+        save();
+        refreshCard(i);
+        updateProgress({silent:true});
+      }
     });
+
+    prevBtn.addEventListener("click", movePrev);
+    prevBtnBottom.addEventListener("click", movePrev);
+    skipBtn.addEventListener("click", moveNextOrFinish);
+    skipBtnBottom.addEventListener("click", moveNextOrFinish);
+
+    document.addEventListener("keydown", (e)=>{
+      if (e.key === "ArrowLeft") moveNextOrFinish();
+      if (e.key === "ArrowRight") movePrev();
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    viewport.addEventListener("touchstart", (e)=>{
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+    }, {passive:true});
+    viewport.addEventListener("touchend", (e)=>{
+      const t = e.changedTouches && e.changedTouches[0];
+      if (!t) return;
+      const dx = t.clientX - touchStartX;
+      const dy = t.clientY - touchStartY;
+      if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy)) return;
+      // سحب لليسار = التالي، سحب لليمين = السابق
+      if (dx < 0) moveNextOrFinish();
+      else movePrev();
+    }, {passive:true});
+
     document.getElementById("resetAll").addEventListener("click", ()=>{
       _returning = false;
       if (_returnTimer) clearTimeout(_returnTimer);
       document.documentElement.classList.remove("slide-out-right");
       const fb = document.getElementById("finishBox");
       if (fb) fb.classList.remove("show","finish-overlay");
-      prog = {}; save();
+      prog = {};
+      save();
+      localStorage.setItem(currentKey, "0");
       group.items.forEach((_,i)=>refreshCard(i));
       updateProgress({silent:true});
-      window.scrollTo({top:0, behavior:"smooth"});
+      goTo(0);
     });
 
     updateProgress({silent:true});
+    goTo(active);
     checkDueNotifications();
   }
 
