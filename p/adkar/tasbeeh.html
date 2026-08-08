@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+  <meta name="theme-color" content="#f4ecd8" />
+  <meta name="description" content="مسبحة رقمية هادئة بعدّاد وأهداف وتسبيح متتابع — CODEF." />
+  <title>المسبحة · CODEF</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="أذكار" />
+  <link rel="apple-touch-icon" href="https://l.top4top.io/p_3808ehvca1.png" />
+  <link rel="icon" href="https://l.top4top.io/p_3808ehvca1.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .tas-wrap{max-width:760px;margin:0 auto;padding:22px 18px calc(44px + env(safe-area-inset-bottom));}
+    .tas-intro{text-align:center;margin:6px auto 18px;}
+    .tas-mark{width:58px;height:58px;margin:0 auto 10px;display:grid;place-items:center;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);background:var(--card);box-shadow:var(--shadow-soft);}
+    .tas-mark svg{width:30px;height:30px;}
+    .tas-intro h1{font-size:1.75rem;line-height:1.45;}
+    .tas-intro p{color:var(--ink-soft);font-size:.98rem;margin-top:3px;}
+
+    .tas-panel{background:color-mix(in srgb,var(--card) 90%,transparent);border:1px solid var(--card-edge);border-radius:22px;padding:14px;box-shadow:var(--shadow-soft);}
+    .mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:5px;background:var(--line-soft);border-radius:16px;margin-bottom:13px;}
+    .mode-tab{border:0;border-radius:12px;padding:10px 8px;background:transparent;color:var(--ink-soft);font-family:'Tajawal',sans-serif;font-weight:700;font-size:.93rem;cursor:pointer;transition:.2s;}
+    .mode-tab.active{background:var(--card);color:var(--accent-deep);box-shadow:0 5px 16px -12px rgba(58,47,35,.65);}
+
+    .field-label{display:block;font-family:'Tajawal',sans-serif;font-size:.79rem;font-weight:700;color:var(--ink-soft);margin:0 3px 6px;}
+    .tas-select,.custom-input{width:100%;border:1px solid var(--card-edge);border-radius:14px;background:var(--card);color:var(--ink);font-family:'Amiri',serif;font-size:1.1rem;padding:10px 13px;outline:none;}
+    .tas-select:focus,.custom-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 12%,transparent);}
+    .custom-input{margin-top:8px;display:none;}
+    .custom-input.show{display:block;}
+
+    .goal-row{display:flex;align-items:center;gap:8px;margin-top:12px;}
+    .goal-row .field-label{margin:0 0 0 4px;white-space:nowrap;}
+    .goal-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;flex:1;}
+    .goal-chip{border:1px solid var(--card-edge);border-radius:12px;background:var(--card);color:var(--ink-soft);font-family:'Tajawal',sans-serif;font-weight:700;padding:8px 5px;cursor:pointer;transition:.2s;}
+    .goal-chip.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--card));color:var(--accent-deep);}
+
+    .sequence-box{display:none;}
+    .sequence-box.show{display:block;}
+    .single-box.hidden{display:none;}
+    .seq-list{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+    .seq-item{position:relative;text-align:center;padding:10px 5px 9px;border:1px solid var(--card-edge);border-radius:13px;background:var(--card);color:var(--ink-soft);line-height:1.45;transition:.25s;}
+    .seq-item b{display:block;font-size:.93rem;color:var(--ink);font-weight:700;}
+    .seq-item span{font-family:'Tajawal',sans-serif;font-size:.72rem;}
+    .seq-item.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--card));transform:translateY(-1px);}
+    .seq-item.done{border-color:var(--done);background:color-mix(in srgb,var(--done-soft) 60%,var(--card));}
+    .seq-hint{text-align:center;color:var(--ink-soft);font-size:.85rem;margin-top:9px;line-height:1.65;}
+
+    .counter-shell{display:flex;flex-direction:column;align-items:center;margin-top:20px;}
+    .current-dhikr{font-size:1.72rem;font-weight:700;text-align:center;line-height:1.55;min-height:48px;margin-bottom:8px;max-width:92%;word-break:break-word;}
+    .seq-status{display:none;font-family:'Tajawal',sans-serif;font-size:.78rem;color:var(--accent);font-weight:700;margin:-3px 0 8px;}
+    .seq-status.show{display:block;}
+
+    .tap-area{position:relative;width:min(78vw,330px);aspect-ratio:1;border:0;background:transparent;padding:0;display:grid;place-items:center;cursor:pointer;touch-action:manipulation;color:var(--ink);border-radius:50%;user-select:none;-webkit-user-select:none;outline:none;}
+    .tap-area::before{content:"";position:absolute;inset:24px;border-radius:50%;background:linear-gradient(145deg,color-mix(in srgb,var(--card) 98%,#fff),color-mix(in srgb,var(--paper-2) 75%,var(--card)));border:1px solid var(--card-edge);box-shadow:0 22px 50px -28px rgba(58,47,35,.62), inset 0 1px 0 rgba(255,255,255,.6);transition:transform .12s ease,box-shadow .2s;}
+    .tap-area:active::before,.tap-area.tap-pop::before{transform:scale(.975);box-shadow:0 14px 36px -26px rgba(58,47,35,.6),inset 0 1px 0 rgba(255,255,255,.55);}
+    .ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);filter:drop-shadow(0 4px 8px color-mix(in srgb,var(--accent) 18%,transparent));}
+    .ring-track,.ring-value{fill:none;stroke-width:9;}
+    .ring-track{stroke:var(--line-soft);}
+    .ring-value{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .26s ease;transform-origin:50% 50%;}
+    .tap-area.infinite .ring-value{stroke-dasharray:10 16 !important;stroke-dashoffset:0 !important;animation:ringSpin 15s linear infinite;opacity:.76;}
+    @keyframes ringSpin{to{transform:rotate(360deg)}}
+
+    .count-stack{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;line-height:1;pointer-events:none;}
+    .count-number{font-family:'Tajawal',sans-serif;font-size:4.4rem;font-weight:800;letter-spacing:-2px;color:var(--accent-deep);transition:transform .12s ease;}
+    .tap-area.tap-pop .count-number{transform:scale(1.055);}
+    .goal-text{font-family:'Tajawal',sans-serif;color:var(--ink-soft);font-size:.85rem;font-weight:700;margin-top:11px;}
+    .tap-hint{font-family:'Tajawal',sans-serif;color:var(--ink-soft);opacity:.72;font-size:.69rem;margin-top:10px;}
+
+    .counter-actions{width:min(100%,420px);display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px;margin-top:12px;}
+    .mini-action{border:1px solid var(--card-edge);border-radius:13px;background:var(--card);color:var(--ink-soft);font-family:'Tajawal',sans-serif;font-weight:700;font-size:.82rem;min-height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s;}
+    .mini-action:hover{border-color:var(--accent);color:var(--accent);}
+    .mini-action.primary-soft{background:color-mix(in srgb,var(--accent) 9%,var(--card));color:var(--accent-deep);border-color:color-mix(in srgb,var(--accent) 32%,var(--card-edge));}
+    .mini-action:disabled{opacity:.42;cursor:default;}
+    .mini-action svg{width:17px;height:17px;}
+
+    .prefs{width:min(100%,420px);margin-top:10px;display:flex;justify-content:center;}
+    .haptic-toggle{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--ink-soft);font-family:'Tajawal',sans-serif;font-size:.78rem;cursor:pointer;padding:7px 10px;}
+    .switch-dot{width:32px;height:19px;border-radius:99px;background:var(--line);padding:3px;transition:.2s;display:flex;justify-content:flex-start;}
+    .switch-dot::after{content:"";width:13px;height:13px;border-radius:50%;background:var(--card);box-shadow:0 1px 4px rgba(0,0,0,.18);transition:.2s;}
+    .haptic-toggle.on .switch-dot{background:var(--accent);justify-content:flex-end;}
+
+    .quiet-exit{position:fixed;top:calc(14px + env(safe-area-inset-top));left:14px;z-index:60;display:none;border:1px solid var(--card-edge);background:color-mix(in srgb,var(--card) 86%,transparent);backdrop-filter:blur(10px);color:var(--ink-soft);font-family:'Tajawal',sans-serif;font-weight:700;font-size:.75rem;border-radius:12px;padding:8px 11px;box-shadow:var(--shadow-soft);cursor:pointer;}
+    body.quiet .quiet-exit{display:block;}
+    body.quiet .top,body.quiet .quiet-hide{display:none !important;}
+    body.quiet .tas-wrap{min-height:100svh;display:flex;align-items:center;justify-content:center;padding-top:max(30px,env(safe-area-inset-top));padding-bottom:max(30px,env(safe-area-inset-bottom));}
+    body.quiet .counter-shell{margin:0;width:100%;}
+    body.quiet .current-dhikr{font-size:2rem;margin-bottom:20px;}
+    body.quiet .tap-area{width:min(84vw,390px);}
+    body.quiet .tap-hint{opacity:.5;}
+
+    .modal-backdrop{position:fixed;inset:0;z-index:90;background:rgba(35,27,20,.34);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:22px;}
+    .modal-backdrop.show{display:flex;animation:fadeIn .18s ease;}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .tas-modal{width:min(100%,390px);background:var(--card);border:1px solid var(--card-edge);border-radius:24px;padding:24px 20px 18px;text-align:center;box-shadow:var(--shadow);}
+    .modal-icon{width:58px;height:58px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:var(--done-soft);color:var(--done);}
+    .modal-icon svg{width:28px;height:28px;}
+    .tas-modal h2{font-size:1.55rem;line-height:1.5;}
+    .tas-modal p{color:var(--ink-soft);font-size:.95rem;line-height:1.7;margin:5px auto 15px;}
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .modal-btn{border:1px solid var(--card-edge);border-radius:13px;padding:11px 8px;background:var(--paper);color:var(--ink);font-family:'Tajawal',sans-serif;font-weight:700;cursor:pointer;}
+    .modal-btn.main{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent;}
+
+    @media (max-width:430px){
+      .tas-wrap{padding-inline:14px;}
+      .tas-panel{padding:12px;}
+      .current-dhikr{font-size:1.55rem;}
+      .count-number{font-size:4rem;}
+      .goal-row{align-items:flex-start;flex-direction:column;}
+      .goal-chips{width:100%;}
+      .counter-actions{grid-template-columns:1fr 1fr 1fr;}
+      .mini-action{font-size:.76rem;}
+    }
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.ring-value,.tap-area::before,.count-number{transition:none!important}.tap-area.infinite .ring-value{animation:none!important}}
+  </style>
+</head>
+<body>
+  <div class="bg-paper"></div>
+  <div class="bg-ornament"></div>
+
+  <button class="quiet-exit" id="quietExit" type="button">إظهار الأدوات</button>
+
+  <main class="tas-wrap">
+    <div class="tas-intro quiet-hide">
+      <div class="tas-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <circle cx="32" cy="13" r="5"/><circle cx="44" cy="18" r="5"/><circle cx="51" cy="29" r="5"/><circle cx="50" cy="42" r="5"/><circle cx="40" cy="50" r="5"/><circle cx="27" cy="51" r="5"/><circle cx="16" cy="44" r="5"/><circle cx="12" cy="31" r="5"/><circle cx="18" cy="20" r="5"/>
+          <path d="M32 8V3M29 3h6M32 56v5M27 61h10"/>
+        </svg>
+      </div>
+      <h1>المسبحة</h1>
+      <p>عداد بسيط وهادئ يصاحبك في الذكر</p>
+    </div>
+
+    <section class="tas-panel quiet-hide" aria-label="إعدادات المسبحة">
+      <div class="mode-tabs" role="tablist" aria-label="وضع التسبيح">
+        <button class="mode-tab active" id="singleTab" type="button" role="tab" aria-selected="true">تسبيح فردي</button>
+        <button class="mode-tab" id="sequenceTab" type="button" role="tab" aria-selected="false">تسبيح متتابع</button>
+      </div>
+
+      <div class="single-box" id="singleBox">
+        <label class="field-label" for="dhikrSelect">الذكر</label>
+        <select class="tas-select" id="dhikrSelect">
+          <option value="subhan">سبحان الله</option>
+          <option value="hamd">الحمد لله</option>
+          <option value="takbir">الله أكبر</option>
+          <option value="tahlil">لا إله إلا الله</option>
+          <option value="istighfar">أستغفر الله</option>
+          <option value="custom">ذكر مخصص</option>
+        </select>
+        <input class="custom-input" id="customInput" type="text" maxlength="90" placeholder="اكتب الذكر الذي تريد عدّه" autocomplete="off" />
+
+        <div class="goal-row">
+          <span class="field-label">الهدف</span>
+          <div class="goal-chips" id="goalChips">
+            <button class="goal-chip active" type="button" data-goal="33">٣٣</button>
+            <button class="goal-chip" type="button" data-goal="100">١٠٠</button>
+            <button class="goal-chip" type="button" data-goal="0">مفتوح ∞</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sequence-box" id="sequenceBox">
+        <div class="seq-list" id="seqList">
+          <div class="seq-item active" data-seq="0"><b>سبحان الله</b><span>٣٣ مرة</span></div>
+          <div class="seq-item" data-seq="1"><b>الحمد لله</b><span>٣٣ مرة</span></div>
+          <div class="seq-item" data-seq="2"><b>الله أكبر</b><span>٣٣ مرة</span></div>
+        </div>
+        <div class="seq-hint">عند إكمال كل ذكر ينتقل العداد تلقائيًا إلى الذكر التالي.</div>
+      </div>
+    </section>
+
+    <section class="counter-shell" aria-label="عداد التسبيح">
+      <div class="current-dhikr" id="currentDhikr">سبحان الله</div>
+      <div class="seq-status" id="seqStatus">الأول من ٣</div>
+
+      <button class="tap-area" id="tapArea" type="button" aria-label="اضغط لزيادة عداد التسبيح">
+        <svg class="ring" viewBox="0 0 300 300" aria-hidden="true">
+          <circle class="ring-track" cx="150" cy="150" r="132"></circle>
+          <circle class="ring-value" id="ringValue" cx="150" cy="150" r="132"></circle>
+        </svg>
+        <span class="count-stack">
+          <span class="count-number" id="countNumber">٠</span>
+          <span class="goal-text" id="goalText">من ٣٣</span>
+          <span class="tap-hint" id="tapHint">اضغط داخل الدائرة للعد</span>
+        </span>
+      </button>
+
+      <div class="counter-actions quiet-hide">
+        <button class="mini-action" id="undoBtn" type="button" aria-label="تراجع عن آخر ضغطة">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 7l-5 5 5 5"/><path d="M4 12h9a6 6 0 110 12" transform="translate(0 -6)"/></svg>
+          تراجع
+        </button>
+        <button class="mini-action primary-soft" id="quietBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3l18 18"/><path d="M10.6 10.6A2 2 0 0012 14a2 2 0 001.4-.6M9.9 4.2A10.7 10.7 0 0112 4c7 0 10 8 10 8a17.2 17.2 0 01-2.1 3.2M6.6 6.6C3.9 8.3 2 12 2 12s3 8 10 8a10.5 10.5 0 005.4-1.5"/></svg>
+          وضع هادئ
+        </button>
+        <button class="mini-action" id="resetBtn" type="button" aria-label="إعادة العداد">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.3 2.6L3 8"/><path d="M3 3v5h5"/></svg>
+          إعادة
+        </button>
+      </div>
+
+      <div class="prefs quiet-hide">
+        <button class="haptic-toggle on" id="hapticToggle" type="button" aria-pressed="true">
+          <span class="switch-dot" aria-hidden="true"></span>
+          اهتزاز خفيف عند العد
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="completeModal" role="dialog" aria-modal="true" aria-labelledby="completeTitle">
+    <div class="tas-modal">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2 id="completeTitle">تم بحمد الله</h2>
+      <p id="completeText">اكتمل الهدف.</p>
+      <div class="modal-actions" id="completeActions"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="resetModal" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+    <div class="tas-modal">
+      <h2 id="resetTitle">إعادة العداد؟</h2>
+      <p>سيبدأ العد الحالي من الصفر.</p>
+      <div class="modal-actions">
+        <button class="modal-btn" id="cancelReset" type="button">إلغاء</button>
+        <button class="modal-btn main" id="confirmReset" type="button">إعادة من الصفر</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    window.ADK_LOGO = "https://l.top4top.io/p_3808ehvca1.png";
+    ADK.injectHeader({ title: "المسبحة", back: "index.html" });
+
+    (() => {
+      "use strict";
+
+      const KEY = "adk_tasbeeh_v1";
+      const CIRC = 2 * Math.PI * 132;
+      const DHIKR = {
+        subhan: "سبحان الله",
+        hamd: "الحمد لله",
+        takbir: "الله أكبر",
+        tahlil: "لا إله إلا الله",
+        istighfar: "أستغفر الله"
+      };
+      const SEQUENCE = [
+        { key:"subhan", text:"سبحان الله", target:33 },
+        { key:"hamd", text:"الحمد لله", target:33 },
+        { key:"takbir", text:"الله أكبر", target:33 }
+      ];
+
+      const defaults = {
+        mode: "single",
+        dhikr: "subhan",
+        custom: "",
+        target: 33,
+        count: 0,
+        haptic: true,
+        quiet: false,
+        sequenceIndex: 0,
+        sequenceCounts: [0,0,0]
+      };
+
+      let state = load();
+      let popTimer = null;
+      let seqTimer = null;
+      let modalOpen = false;
+
+      const $ = (id) => document.getElementById(id);
+      const singleTab = $("singleTab");
+      const sequenceTab = $("sequenceTab");
+      const singleBox = $("singleBox");
+      const sequenceBox = $("sequenceBox");
+      const dhikrSelect = $("dhikrSelect");
+      const customInput = $("customInput");
+      const currentDhikr = $("currentDhikr");
+      const countNumber = $("countNumber");
+      const goalText = $("goalText");
+      const tapArea = $("tapArea");
+      const ringValue = $("ringValue");
+      const seqStatus = $("seqStatus");
+      const undoBtn = $("undoBtn");
+      const hapticToggle = $("hapticToggle");
+      const completeModal = $("completeModal");
+      const completeText = $("completeText");
+      const completeActions = $("completeActions");
+
+      ringValue.style.strokeDasharray = String(CIRC);
+      ringValue.style.strokeDashoffset = String(CIRC);
+
+      function load(){
+        try {
+          const saved = JSON.parse(localStorage.getItem(KEY));
+          if (!saved || typeof saved !== "object") return { ...defaults };
+          const next = { ...defaults, ...saved };
+          if (!["single","sequence"].includes(next.mode)) next.mode = "single";
+          if (![33,100,0].includes(Number(next.target))) next.target = 33;
+          if (!Array.isArray(next.sequenceCounts) || next.sequenceCounts.length !== 3) next.sequenceCounts = [0,0,0];
+          next.sequenceCounts = next.sequenceCounts.map((v,i)=>Math.max(0,Math.min(Number(v)||0,SEQUENCE[i].target)));
+          next.sequenceIndex = Math.max(0,Math.min(Number(next.sequenceIndex)||0,2));
+          next.count = Math.max(0,Number(next.count)||0);
+          return next;
+        } catch(e){ return { ...defaults }; }
+      }
+
+      function save(){
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+      }
+
+      function ar(n){ return ADK.toAr(Math.max(0,Number(n)||0)); }
+
+      function activeSingleText(){
+        if (state.dhikr === "custom") return state.custom.trim() || "ذكر مخصص";
+        return DHIKR[state.dhikr] || DHIKR.subhan;
+      }
+
+      function activeCount(){
+        return state.mode === "sequence" ? state.sequenceCounts[state.sequenceIndex] : state.count;
+      }
+
+      function activeTarget(){
+        return state.mode === "sequence" ? SEQUENCE[state.sequenceIndex].target : state.target;
+      }
+
+      function vibrate(pattern){
+        if (!state.haptic || !navigator.vibrate) return;
+        try { navigator.vibrate(pattern); } catch(e){}
+      }
+
+      function render(){
+        const isSeq = state.mode === "sequence";
+        singleTab.classList.toggle("active", !isSeq);
+        sequenceTab.classList.toggle("active", isSeq);
+        singleTab.setAttribute("aria-selected", String(!isSeq));
+        sequenceTab.setAttribute("aria-selected", String(isSeq));
+        singleBox.classList.toggle("hidden", isSeq);
+        sequenceBox.classList.toggle("show", isSeq);
+
+        dhikrSelect.value = state.dhikr;
+        customInput.value = state.custom;
+        customInput.classList.toggle("show", state.dhikr === "custom");
+        document.querySelectorAll(".goal-chip").forEach(btn=>{
+          btn.classList.toggle("active", Number(btn.dataset.goal) === Number(state.target));
+        });
+
+        const count = activeCount();
+        const target = activeTarget();
+        const text = isSeq ? SEQUENCE[state.sequenceIndex].text : activeSingleText();
+        currentDhikr.textContent = text;
+        countNumber.textContent = ar(count);
+        goalText.textContent = target === 0 ? "ذكر مفتوح ∞" : "من " + ar(target);
+        tapArea.classList.toggle("infinite", target === 0);
+        undoBtn.disabled = count <= 0;
+
+        if (target > 0){
+          const pct = Math.min(1, count / target);
+          ringValue.style.strokeDasharray = String(CIRC);
+          ringValue.style.strokeDashoffset = String(CIRC * (1 - pct));
+        } else {
+          ringValue.style.strokeDasharray = "10 16";
+          ringValue.style.strokeDashoffset = "0";
+        }
+
+        seqStatus.classList.toggle("show", isSeq);
+        if (isSeq){
+          seqStatus.textContent = "الذكر " + ar(state.sequenceIndex + 1) + " من " + ar(SEQUENCE.length);
+          document.querySelectorAll(".seq-item").forEach((item,i)=>{
+            item.classList.toggle("active", i === state.sequenceIndex);
+            item.classList.toggle("done", state.sequenceCounts[i] >= SEQUENCE[i].target);
+          });
+        }
+
+        hapticToggle.classList.toggle("on", !!state.haptic);
+        hapticToggle.setAttribute("aria-pressed", String(!!state.haptic));
+        document.body.classList.toggle("quiet", !!state.quiet);
+      }
+
+      function pulse(){
+        tapArea.classList.remove("tap-pop");
+        void tapArea.offsetWidth;
+        tapArea.classList.add("tap-pop");
+        clearTimeout(popTimer);
+        popTimer = setTimeout(()=>tapArea.classList.remove("tap-pop"),120);
+      }
+
+      function increment(){
+        if (modalOpen) return;
+        pulse();
+
+        if (state.mode === "sequence"){
+          const i = state.sequenceIndex;
+          const target = SEQUENCE[i].target;
+          if (state.sequenceCounts[i] >= target) return;
+          state.sequenceCounts[i]++;
+          vibrate(10);
+          save();
+          render();
+          if (state.sequenceCounts[i] >= target){
+            vibrate([18,38,18]);
+            clearTimeout(seqTimer);
+            if (i < SEQUENCE.length - 1){
+              seqTimer = setTimeout(()=>{
+                state.sequenceIndex++;
+                save();
+                render();
+              }, 520);
+            } else {
+              seqTimer = setTimeout(showSequenceComplete, 420);
+            }
+          }
+          return;
+        }
+
+        if (state.target > 0 && state.count >= state.target) return;
+        state.count++;
+        vibrate(10);
+        save();
+        render();
+        if (state.target > 0 && state.count >= state.target){
+          vibrate([18,38,18]);
+          setTimeout(showSingleComplete, 300);
+        }
+      }
+
+      function undo(){
+        if (modalOpen) return;
+        clearTimeout(seqTimer);
+        if (state.mode === "sequence"){
+          const i = state.sequenceIndex;
+          if (state.sequenceCounts[i] > 0){
+            state.sequenceCounts[i]--;
+          } else if (i > 0){
+            state.sequenceIndex--;
+            state.sequenceCounts[state.sequenceIndex] = Math.max(0, state.sequenceCounts[state.sequenceIndex] - 1);
+          }
+        } else {
+          state.count = Math.max(0, state.count - 1);
+        }
+        save();
+        render();
+      }
+
+      function setMode(mode){
+        clearTimeout(seqTimer);
+        state.mode = mode;
+        save();
+        render();
+      }
+
+      function resetCurrent(){
+        clearTimeout(seqTimer);
+        if (state.mode === "sequence"){
+          state.sequenceCounts = [0,0,0];
+          state.sequenceIndex = 0;
+        } else {
+          state.count = 0;
+        }
+        save();
+        render();
+      }
+
+      function showModal(){
+        modalOpen = true;
+        completeModal.classList.add("show");
+      }
+
+      function hideComplete(){
+        modalOpen = false;
+        completeModal.classList.remove("show");
+      }
+
+      function showSingleComplete(){
+        if (state.mode !== "single" || state.target === 0 || state.count < state.target) return;
+        completeText.textContent = "اكتمل هدف " + ar(state.target) + " مرة.";
+        completeActions.innerHTML = "";
+
+        const restart = document.createElement("button");
+        restart.className = "modal-btn";
+        restart.type = "button";
+        restart.textContent = "البدء من جديد";
+        restart.addEventListener("click", ()=>{
+          state.count = 0;
+          save();
+          hideComplete();
+          render();
+        });
+
+        const keep = document.createElement("button");
+        keep.className = "modal-btn main";
+        keep.type = "button";
+        keep.textContent = "الاستمرار";
+        keep.addEventListener("click", ()=>{
+          state.target = 0;
+          save();
+          hideComplete();
+          render();
+        });
+
+        completeActions.append(restart, keep);
+        showModal();
+      }
+
+      function showSequenceComplete(){
+        if (state.mode !== "sequence" || !state.sequenceCounts.every((v,i)=>v >= SEQUENCE[i].target)) return;
+        completeText.textContent = "اكتمل التسبيح المتتابع.";
+        completeActions.innerHTML = "";
+
+        const single = document.createElement("button");
+        single.className = "modal-btn";
+        single.type = "button";
+        single.textContent = "تسبيح فردي";
+        single.addEventListener("click", ()=>{
+          state.mode = "single";
+          save();
+          hideComplete();
+          render();
+        });
+
+        const repeat = document.createElement("button");
+        repeat.className = "modal-btn main";
+        repeat.type = "button";
+        repeat.textContent = "إعادة التسلسل";
+        repeat.addEventListener("click", ()=>{
+          state.sequenceCounts = [0,0,0];
+          state.sequenceIndex = 0;
+          save();
+          hideComplete();
+          render();
+        });
+
+        completeActions.append(single, repeat);
+        showModal();
+      }
+
+      singleTab.addEventListener("click", ()=>setMode("single"));
+      sequenceTab.addEventListener("click", ()=>setMode("sequence"));
+      tapArea.addEventListener("click", increment);
+      undoBtn.addEventListener("click", undo);
+
+      dhikrSelect.addEventListener("change", ()=>{
+        state.dhikr = dhikrSelect.value;
+        state.count = 0;
+        save();
+        render();
+        if (state.dhikr === "custom") setTimeout(()=>customInput.focus(),50);
+      });
+
+      customInput.addEventListener("input", ()=>{
+        state.custom = customInput.value;
+        save();
+        currentDhikr.textContent = activeSingleText();
+      });
+
+      document.getElementById("goalChips").addEventListener("click", (e)=>{
+        const btn = e.target.closest("[data-goal]");
+        if (!btn) return;
+        state.target = Number(btn.dataset.goal);
+        if (state.target > 0 && state.count > state.target) state.count = state.target;
+        save();
+        render();
+      });
+
+      $("hapticToggle").addEventListener("click", ()=>{
+        state.haptic = !state.haptic;
+        save();
+        render();
+        if (state.haptic) vibrate(12);
+      });
+
+      $("quietBtn").addEventListener("click", ()=>{
+        state.quiet = true;
+        save();
+        render();
+      });
+      $("quietExit").addEventListener("click", ()=>{
+        state.quiet = false;
+        save();
+        render();
+      });
+
+      $("resetBtn").addEventListener("click", ()=>{
+        modalOpen = true;
+        $("resetModal").classList.add("show");
+      });
+      $("cancelReset").addEventListener("click", ()=>{
+        modalOpen = false;
+        $("resetModal").classList.remove("show");
+      });
+      $("confirmReset").addEventListener("click", ()=>{
+        resetCurrent();
+        modalOpen = false;
+        $("resetModal").classList.remove("show");
+      });
+
+      document.addEventListener("keydown", (e)=>{
+        if (e.code === "Space" && !/INPUT|SELECT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)){
+          e.preventDefault();
+          increment();
+        }
+      });
+
+      render();
+      if (state.mode === "single" && state.target > 0 && state.count >= state.target) showSingleComplete();
+      if (state.mode === "sequence" && state.sequenceCounts.every((v,i)=>v >= SEQUENCE[i].target)) showSequenceComplete();
+
+      if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+      ADK.checkDueNotifications();
+    })();
+  </script>
+</body>
+</html>
