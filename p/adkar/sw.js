@@ -1,10 +1,11 @@
 /* Service Worker — أذكار CODEF */
-const CACHE = "adkar-v3";
+const CACHE = "adkar-v4";
 const ASSETS = [
   "./",
   "./index.html",
   "./morning.html",
   "./evening.html",
+  "./tasbeeh.html",
   "./style.css",
   "./app.js",
   "./data.js",
