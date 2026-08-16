@@ -704,3 +704,14 @@
   };
 
 })();
+
+
+/* تحميل قياس الزيارات الخفيف للمشروع دون تخزين بيانات في المتصفح. */
+(() => {
+  if (document.querySelector('script[data-codef-analytics]')) return;
+  const script = document.createElement("script");
+  script.src = "/analytics.js";
+  script.async = true;
+  script.dataset.codefAnalytics = "true";
+  document.head.appendChild(script);
+})();
