@@ -9,58 +9,28 @@
   <meta name="theme-color" content="#07100d">
   <title>لوحة خاصة</title>
   <style>
-    :root{
-      color-scheme:dark;
-      --bg:#07100d;--panel:#0c1915;--panel-2:#10211b;--line:rgba(211,174,101,.18);
-      --gold:#d3ae65;--gold-2:#f0d9a1;--ink:#f7f2e8;--muted:#9eaaa3;--green:#52b788;
-      --danger:#ff8f8f;--shadow:0 30px 80px rgba(0,0,0,.38)
-    }
-    *{box-sizing:border-box}
-    html{min-height:100%;background:var(--bg)}
-    body{margin:0;min-height:100vh;font-family:Tahoma,Arial,sans-serif;color:var(--ink);
-      background:
-        radial-gradient(circle at 80% 0,rgba(211,174,101,.12),transparent 34rem),
-        radial-gradient(circle at 5% 80%,rgba(82,183,136,.08),transparent 28rem),var(--bg)}
-    button,input,select{font:inherit}
-    .shell{width:min(1120px,calc(100% - 28px));margin:auto;padding:clamp(28px,6vw,72px) 0}
-    .gate{min-height:calc(100vh - 80px);display:grid;place-items:center}
-    .gate-card{width:min(420px,100%);padding:34px 26px;border:1px solid var(--line);border-radius:28px;
-      background:linear-gradient(145deg,rgba(255,255,255,.035),transparent),var(--panel);
-      box-shadow:var(--shadow);text-align:center}
-    .seal{width:62px;height:62px;margin:0 auto 18px;border-radius:20px;display:grid;place-items:center;
-      color:#171008;font-weight:900;font-size:1.3rem;background:linear-gradient(135deg,var(--gold-2),var(--gold));
-      box-shadow:0 16px 38px rgba(211,174,101,.22)}
-    h1,h2,p{margin:0}.gate h1{font-size:1.55rem}.gate p{color:var(--muted);margin:9px 0 24px;line-height:1.8}
-    .pin{width:100%;height:54px;text-align:center;direction:ltr;letter-spacing:.55em;padding-left:.55em;
-      border:1px solid var(--line);border-radius:15px;background:#08130f;color:var(--ink);outline:none;font-size:1.3rem}
-    .pin:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(211,174,101,.09)}
-    .enter{width:100%;height:52px;margin-top:12px;border:0;border-radius:15px;cursor:pointer;font-weight:800;
-      color:#171008;background:linear-gradient(135deg,var(--gold-2),var(--gold))}
-    .enter:disabled{opacity:.55;cursor:wait}.message{min-height:24px;margin-top:12px!important;color:var(--danger)!important;font-size:.88rem}
-    .dashboard[hidden],.gate[hidden]{display:none}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
-    .eyebrow{color:var(--gold);font-weight:800;font-size:.78rem;letter-spacing:.05em}.top h1{font-size:clamp(1.7rem,4vw,2.6rem);margin-top:5px}
-    .range{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);padding:10px 14px;outline:none}
-    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-    .card,.chart-card,.device-card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.025),transparent),var(--panel);box-shadow:var(--shadow)}
-    .card{padding:22px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
-    .card h2{font-size:1.12rem}.badge{font-size:.72rem;color:var(--gold-2);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
-    .main-number{font-size:clamp(2.25rem,6vw,3.8rem);font-weight:900;letter-spacing:-.03em}
-    .main-label{color:var(--muted);font-size:.82rem;margin-top:2px}
-    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
-    .metric{padding:12px 8px;text-align:center;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.045)}
-    .metric b{display:block;font-size:1.12rem;color:var(--gold-2)}.metric span{font-size:.72rem;color:var(--muted)}
-    .lower{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(240px,.7fr);gap:15px;margin-top:15px}
-    .chart-card,.device-card{padding:22px}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:22px}
-    .section-head h2{font-size:1.05rem}.section-head span{font-size:.75rem;color:var(--muted)}
-    .legend{display:flex;gap:14px;color:var(--muted);font-size:.76rem}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:5px}
-    .chart{height:230px;display:flex;align-items:stretch;gap:5px;direction:ltr;border-bottom:1px solid var(--line);padding-top:12px}
-    .day{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;min-width:3px;height:100%}
-    .bar{width:42%;min-height:2px;border-radius:6px 6px 1px 1px;background:var(--gold);opacity:.88}
-    .bar.adkar{background:var(--green)}.devices{display:grid;gap:13px}.device-row{display:grid;grid-template-columns:75px 1fr auto;gap:10px;align-items:center;font-size:.84rem}
-    .track{height:8px;border-radius:99px;background:rgba(255,255,255,.05);overflow:hidden}.fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--gold),var(--gold-2))}
-    .empty{color:var(--muted);text-align:center;padding:32px 10px}.stamp{color:var(--muted);font-size:.72rem;text-align:center;margin-top:18px}
-    @media(max-width:760px){.cards,.lower{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.range{width:100%}.chart{height:190px}.metrics{gap:5px}.metric{padding-inline:4px}}
+    :root{color-scheme:dark;--bg:#07100d;--panel:#0c1915;--panel2:#10211b;--line:rgba(211,174,101,.18);--gold:#d3ae65;--gold2:#f0d9a1;--ink:#f7f2e8;--muted:#9eaaa3;--green:#52b788;--blue:#75aadb;--danger:#ff8f8f;--shadow:0 26px 74px rgba(0,0,0,.34)}
+    *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}
+    body{margin:0;min-height:100vh;font-family:Tahoma,Arial,sans-serif;color:var(--ink);background:radial-gradient(circle at 80% 0,rgba(211,174,101,.12),transparent 34rem),radial-gradient(circle at 5% 80%,rgba(82,183,136,.08),transparent 28rem),var(--bg)}
+    button,input,select{font:inherit}.shell{width:min(1180px,calc(100% - 28px));margin:auto;padding:clamp(28px,6vw,72px) 0}
+    .gate{min-height:calc(100vh - 80px);display:grid;place-items:center}.gate-card{width:min(420px,100%);padding:34px 26px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent),var(--panel);box-shadow:var(--shadow);text-align:center}
+    .seal{width:62px;height:62px;margin:0 auto 18px;border-radius:20px;display:grid;place-items:center;color:#171008;font-weight:900;font-size:1.3rem;background:linear-gradient(135deg,var(--gold2),var(--gold));box-shadow:0 16px 38px rgba(211,174,101,.22)}
+    h1,h2,h3,p{margin:0}.gate h1{font-size:1.55rem}.gate p{color:var(--muted);margin:9px 0 24px;line-height:1.8}
+    .pin{width:100%;height:54px;text-align:center;direction:ltr;letter-spacing:.55em;padding-left:.55em;border:1px solid var(--line);border-radius:15px;background:#08130f;color:var(--ink);outline:none;font-size:1.3rem}.pin:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(211,174,101,.09)}
+    .enter{width:100%;height:52px;margin-top:12px;border:0;border-radius:15px;cursor:pointer;font-weight:800;color:#171008;background:linear-gradient(135deg,var(--gold2),var(--gold))}.enter:disabled{opacity:.55;cursor:wait}.message{min-height:24px;margin-top:12px!important;color:var(--danger)!important;font-size:.88rem}
+    .dashboard[hidden],.gate[hidden]{display:none}.top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}.eyebrow{color:var(--gold);font-weight:800;font-size:.78rem;letter-spacing:.05em}.top h1{font-size:clamp(1.7rem,4vw,2.6rem);margin-top:5px}
+    .range{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);padding:10px 14px;outline:none}.section-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 12px}.section-title h2{font-size:1.08rem}.section-title span{font-size:.75rem;color:var(--muted)}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.summary-card,.project-card,.chart-card,.panel-card,.pages-card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.027),transparent),var(--panel);box-shadow:var(--shadow)}
+    .summary-card{padding:18px;min-height:128px;display:flex;flex-direction:column;justify-content:space-between}.summary-label{color:var(--muted);font-size:.78rem}.summary-number{font-size:clamp(1.85rem,4vw,2.8rem);font-weight:900;letter-spacing:-.03em}.summary-note{font-size:.72rem;color:var(--gold2)}.summary-card.green .summary-number{color:#80d7aa}.summary-card.blue .summary-number{color:#9ac8ee}
+    .projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.project-card{padding:21px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}.card-head h3{font-size:1.05rem}.badge{font-size:.7rem;color:var(--gold2);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
+    .project-main{font-size:clamp(2.1rem,5vw,3.45rem);font-weight:900}.project-label{color:var(--muted);font-size:.77rem}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:17px}.metric{padding:11px 5px;text-align:center;border-radius:13px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.045)}.metric b{display:block;font-size:1.04rem;color:var(--gold2)}.metric span{display:block;margin-top:3px;font-size:.67rem;color:var(--muted)}
+    .charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.chart-card,.panel-card,.pages-card{padding:20px}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}.section-head h3{font-size:1rem}.section-head p{color:var(--muted);font-size:.72rem;margin-top:4px}.legend{display:flex;gap:12px;color:var(--muted);font-size:.7rem;white-space:nowrap}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:4px}
+    .chart{height:210px;display:flex;align-items:stretch;gap:4px;direction:ltr;border-bottom:1px solid var(--line);padding-top:8px}.day{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;min-width:3px;height:100%}.bar{width:42%;min-height:2px;border-radius:6px 6px 1px 1px;background:var(--gold);opacity:.9}.bar.adkar{background:var(--green)}.unique-chart .bar{background:var(--blue)}.unique-chart .bar.adkar{background:#65d3a0}
+    .insights{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.rows{display:grid;gap:12px}.data-row{display:grid;grid-template-columns:105px 1fr auto;gap:10px;align-items:center;font-size:.8rem}.track{height:8px;border-radius:99px;background:rgba(255,255,255,.05);overflow:hidden}.fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--gold),var(--gold2))}.notif-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.notif-item{padding:13px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.022);border-radius:14px}.notif-item b{display:block;font-size:1.35rem}.notif-item span{font-size:.72rem;color:var(--muted)}.notif-item.active b{color:#80d7aa}
+    .pages-list{display:grid;gap:8px}.page-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:11px 8px;border-bottom:1px solid rgba(255,255,255,.05);font-size:.78rem}.page-row:last-child{border-bottom:0}.rank{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:rgba(211,174,101,.1);color:var(--gold2);font-weight:800}.page-path{direction:ltr;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#dce5df}.page-stat{text-align:center}.page-stat b{display:block}.page-stat span{font-size:.65rem;color:var(--muted)}
+    .empty{color:var(--muted);text-align:center;padding:28px 10px}.stamp{color:var(--muted);font-size:.7rem;text-align:center;margin-top:18px}
+    @media(max-width:850px){.summary-grid{grid-template-columns:repeat(2,1fr)}.projects,.charts,.insights{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.top{align-items:flex-start;flex-direction:column}.range{width:100%}.summary-grid{grid-template-columns:1fr 1fr}.summary-card{min-height:115px;padding:15px}.chart{height:175px}.page-row{grid-template-columns:32px minmax(0,1fr) auto}.page-row .unique-stat{display:none}.section-head{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -68,37 +38,45 @@
     <section class="gate" id="gate">
       <form class="gate-card" id="loginForm" autocomplete="off">
         <div class="seal" aria-hidden="true">C</div>
-        <h1>لوحة خاصة</h1>
-        <p>أدخل رمز الدخول لعرض إحصاءات المشاريع.</p>
+        <h1>لوحة خاصة</h1><p>أدخل رمز الدخول لعرض إحصاءات المشاريع.</p>
         <label for="pin" style="position:absolute;clip:rect(0 0 0 0)">رمز الدخول</label>
         <input class="pin" id="pin" name="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" required autofocus>
-        <button class="enter" id="enterBtn" type="submit">دخول</button>
-        <p class="message" id="message" aria-live="polite"></p>
+        <button class="enter" id="enterBtn" type="submit">دخول</button><p class="message" id="message" aria-live="polite"></p>
       </form>
     </section>
 
     <section class="dashboard" id="dashboard" hidden>
       <header class="top">
         <div><div class="eyebrow">CODEF · خاص</div><h1>إحصاءات المشاريع</h1></div>
-        <select class="range" id="range" aria-label="الفترة">
-          <option value="7">آخر 7 أيام</option>
-          <option value="30" selected>آخر 30 يومًا</option>
-          <option value="90">آخر 90 يومًا</option>
-        </select>
+        <select class="range" id="range" aria-label="الفترة"><option value="7">آخر 7 أيام</option><option value="30" selected>آخر 30 يومًا</option><option value="90">آخر 90 يومًا</option></select>
       </header>
-      <div class="cards" id="cards"></div>
-      <div class="lower">
+
+      <div class="section-title"><h2>نظرة شاملة</h2><span>تتحدث حسب الفترة المختارة</span></div>
+      <div class="summary-grid" id="summaryCards"></div>
+
+      <div class="section-title"><h2>المشاريع</h2><span>إجمالي وتفاصيل الزيارات</span></div>
+      <div class="projects" id="projects"></div>
+
+      <div class="section-title"><h2>الحركة اليومية</h2><span>المشاهدات والزوار الفريدون يوميًا</span></div>
+      <div class="charts">
         <section class="chart-card">
-          <div class="section-head"><div><h2>الزيارات اليومية</h2><span id="chartCaption"></span></div>
-            <div class="legend"><span><i style="background:var(--gold)"></i>كوديف</span><span><i style="background:var(--green)"></i>الأذكار</span></div>
-          </div>
-          <div class="chart" id="chart" aria-label="رسم الزيارات اليومية"></div>
+          <div class="section-head"><div><h3>مشاهدات الصفحات</h3><p id="viewsCaption"></p></div><div class="legend"><span><i style="background:var(--gold)"></i>كوديف</span><span><i style="background:var(--green)"></i>الأذكار</span></div></div>
+          <div class="chart" id="viewsChart" aria-label="رسم مشاهدات الصفحات اليومية"></div>
         </section>
-        <section class="device-card">
-          <div class="section-head"><div><h2>الأجهزة</h2><span>حسب مشاهدة الصفحات</span></div></div>
-          <div class="devices" id="devices"></div>
+        <section class="chart-card">
+          <div class="section-head"><div><h3>الزوار الفريدون يوميًا</h3><p>تقدير يحترم الخصوصية ولا يخزن عنوان IP</p></div><div class="legend"><span><i style="background:var(--blue)"></i>كوديف</span><span><i style="background:#65d3a0"></i>الأذكار</span></div></div>
+          <div class="chart unique-chart" id="uniqueChart" aria-label="رسم الزوار الفريدين يوميًا"></div>
         </section>
       </div>
+
+      <div class="section-title"><h2>مؤشرات إضافية</h2><span>الأجهزة والإشعارات</span></div>
+      <div class="insights">
+        <section class="panel-card"><div class="section-head"><div><h3>الأجهزة</h3><p>حسب مشاهدة الصفحات</p></div></div><div class="rows" id="devices"></div></section>
+        <section class="panel-card"><div class="section-head"><div><h3>إشعارات تطبيق الأذكار</h3><p>من مركز الإشعارات المشترك</p></div></div><div class="notif-grid" id="notifications"></div></section>
+      </div>
+
+      <div class="section-title"><h2>أعلى الصفحات</h2><span>خلال الفترة المختارة</span></div>
+      <section class="pages-card"><div class="pages-list" id="topPages"></div></section>
       <p class="stamp" id="stamp"></p>
     </section>
   </main>
@@ -106,169 +84,94 @@
   <script>
     (() => {
       "use strict";
-      const URL = "https://yqkkjjfeupfmywadqlwd.supabase.co";
-      const KEY = "sb_publishable_EtaamtevjICX2rqCN_JoPw__fgGG3w4";
-      const gate = document.getElementById("gate");
-      const dashboard = document.getElementById("dashboard");
-      const form = document.getElementById("loginForm");
-      const pin = document.getElementById("pin");
-      const button = document.getElementById("enterBtn");
-      const message = document.getElementById("message");
-      const range = document.getElementById("range");
-      let activePin = "";
+      const URL="https://yqkkjjfeupfmywadqlwd.supabase.co";
+      const KEY="sb_publishable_EtaamtevjICX2rqCN_JoPw__fgGG3w4";
+      const $=id=>document.getElementById(id);
+      const gate=$("gate"),dashboard=$("dashboard"),form=$("loginForm"),pin=$("pin"),button=$("enterBtn"),message=$("message"),range=$("range");
+      const num=new Intl.NumberFormat("ar-SA");
+      const dateFmt=new Intl.DateTimeFormat("ar-SA",{month:"short",day:"numeric"});
+      const deviceNames={mobile:"جوال",tablet:"جهاز لوحي",desktop:"كمبيوتر",other:"أخرى"};
+      let activePin="";
 
-      const num = new Intl.NumberFormat("ar-SA");
-      const deviceNames = { mobile:"جوال", tablet:"جهاز لوحي", desktop:"كمبيوتر", other:"أخرى" };
-
-      async function loadStats(value, days) {
-        const response = await fetch(URL + "/rest/v1/rpc/codef_analytics_dashboard", {
-          method:"POST",
-          headers:{ apikey:KEY, Authorization:"Bearer " + KEY, "Content-Type":"application/json" },
-          body:JSON.stringify({ p_pin:value, p_days:Number(days) }),
-          credentials:"omit",
-          cache:"no-store"
-        });
-        if (!response.ok) throw new Error("تعذر الاتصال");
+      async function loadStats(value,days){
+        const response=await fetch(URL+"/rest/v1/rpc/codef_analytics_dashboard",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_pin:value,p_days:Number(days)}),credentials:"omit",cache:"no-store"});
+        if(!response.ok)throw new Error("تعذر الاتصال");
         return response.json();
       }
 
-      function projectCard(project) {
-        const card = document.createElement("article");
-        card.className = "card";
-        const title = document.createElement("h2");
-        title.textContent = project.name;
-        const badge = document.createElement("span");
-        badge.className = "badge";
-        badge.textContent = project.key === "adkar" ? "مشروع الأذكار" : "الصفحة الشخصية";
-        const head = document.createElement("div");
-        head.className = "card-head";
-        head.append(title, badge);
-
-        const main = document.createElement("div");
-        main.className = "main-number";
-        main.textContent = num.format(project.total_page_views || 0);
-        const label = document.createElement("div");
-        label.className = "main-label";
-        label.textContent = "إجمالي مشاهدات الصفحات";
-
-        const metrics = document.createElement("div");
-        metrics.className = "metrics";
-        [
-          [project.today_page_views, "اليوم"],
-          [project.period_page_views, "خلال الفترة"],
-          [project.period_unique_daily_visitors, "زوار يوميون"]
-        ].forEach(([value, text]) => {
-          const box = document.createElement("div");
-          box.className = "metric";
-          const b = document.createElement("b");
-          b.textContent = num.format(value || 0);
-          const span = document.createElement("span");
-          span.textContent = text;
-          box.append(b, span);
-          metrics.append(box);
-        });
-        card.append(head, main, label, metrics);
-        return card;
+      function summaryCard(label,value,note,tone=""){
+        const card=document.createElement("article");card.className="summary-card "+tone;
+        const l=document.createElement("span");l.className="summary-label";l.textContent=label;
+        const n=document.createElement("b");n.className="summary-number";n.textContent=num.format(value||0);
+        const small=document.createElement("span");small.className="summary-note";small.textContent=note;
+        card.append(l,n,small);return card;
       }
 
-      function render(data) {
-        const cards = document.getElementById("cards");
-        cards.replaceChildren(...(data.properties || []).map(projectCard));
+      function projectCard(project){
+        const card=document.createElement("article");card.className="project-card";
+        const head=document.createElement("div");head.className="card-head";
+        const title=document.createElement("h3");title.textContent=project.name;
+        const badge=document.createElement("span");badge.className="badge";badge.textContent=project.key==="adkar"?"مشروع الأذكار":"الصفحة الشخصية";head.append(title,badge);
+        const main=document.createElement("div");main.className="project-main";main.textContent=num.format(project.total_page_views||0);
+        const label=document.createElement("div");label.className="project-label";label.textContent="إجمالي مشاهدات الصفحات";
+        const metrics=document.createElement("div");metrics.className="metrics";
+        [[project.today_page_views,"زيارات اليوم"],[project.today_unique_visitors,"فريدون اليوم"],[project.period_page_views,"زيارات الفترة"],[project.period_unique_daily_visitors,"فريدون يوميًا"]].forEach(([value,text])=>{
+          const box=document.createElement("div");box.className="metric";const b=document.createElement("b");b.textContent=num.format(value||0);const s=document.createElement("span");s.textContent=text;box.append(b,s);metrics.append(box);
+        });
+        card.append(head,main,label,metrics);return card;
+      }
 
-        const daily = data.daily || [];
-        const max = Math.max(1, ...daily.flatMap(day => [day.codef || 0, day.adkar || 0]));
-        const chart = document.getElementById("chart");
-        chart.replaceChildren(...daily.map(day => {
-          const group = document.createElement("div");
-          group.className = "day";
-          group.title = day.date + " — كوديف: " + (day.codef || 0) + "، الأذكار: " + (day.adkar || 0);
-          ["codef","adkar"].forEach(key => {
-            const bar = document.createElement("i");
-            bar.className = "bar " + (key === "adkar" ? "adkar" : "");
-            bar.style.height = Math.max(2, ((day[key] || 0) / max) * 100) + "%";
-            group.append(bar);
-          });
+      function renderBars(id,daily,keyA,keyB){
+        const chart=$(id);const max=Math.max(1,...daily.flatMap(day=>[day[keyA]||0,day[keyB]||0]));
+        chart.replaceChildren(...daily.map(day=>{
+          const group=document.createElement("div");group.className="day";group.title=dateFmt.format(new Date(day.date+"T12:00:00"))+" — كوديف: "+(day[keyA]||0)+"، الأذكار: "+(day[keyB]||0);
+          [keyA,keyB].forEach((key,index)=>{const bar=document.createElement("i");bar.className="bar "+(index===1?"adkar":"");bar.style.height=Math.max(2,((day[key]||0)/max)*100)+"%";group.append(bar);});
           return group;
         }));
-        document.getElementById("chartCaption").textContent = "آخر " + num.format(data.days || 30) + " يومًا";
-
-        const devices = document.getElementById("devices");
-        const rows = data.devices || [];
-        const deviceMax = Math.max(1, ...rows.map(item => item.page_views || 0));
-        if (!rows.length) {
-          const empty = document.createElement("p");
-          empty.className = "empty";
-          empty.textContent = "لا توجد بيانات بعد";
-          devices.replaceChildren(empty);
-        } else {
-          devices.replaceChildren(...rows.map(item => {
-            const row = document.createElement("div");
-            row.className = "device-row";
-            const name = document.createElement("span");
-            name.textContent = deviceNames[item.device] || item.device;
-            const track = document.createElement("div");
-            track.className = "track";
-            const fill = document.createElement("div");
-            fill.className = "fill";
-            fill.style.width = ((item.page_views || 0) / deviceMax * 100) + "%";
-            track.append(fill);
-            const value = document.createElement("b");
-            value.textContent = num.format(item.page_views || 0);
-            row.append(name, track, value);
-            return row;
-          }));
-        }
-
-        document.getElementById("stamp").textContent = "آخر تحديث: " +
-          new Intl.DateTimeFormat("ar-SA",{dateStyle:"medium",timeStyle:"short"}).format(new Date(data.generated_at));
       }
 
-      async function authenticate(value, days) {
-        button.disabled = true;
-        message.textContent = "";
-        try {
-          const data = await loadStats(value, days);
-          if (!data.ok) {
-            message.textContent = data.error === "too_many_attempts"
-              ? "محاولات كثيرة. حاول بعد 15 دقيقة."
-              : "الرمز غير صحيح.";
-            pin.select();
-            return;
-          }
-          activePin = value;
-          pin.value = "";
-          render(data);
-          gate.hidden = true;
-          dashboard.hidden = false;
-        } catch {
-          message.textContent = "تعذر تحميل الإحصاءات الآن.";
-        } finally {
-          button.disabled = false;
-        }
+      function render(data){
+        const properties=data.properties||[],daily=data.daily||[],notifications=data.notifications||{};
+        const totalAll=properties.reduce((sum,p)=>sum+(p.total_page_views||0),0);
+        const periodViews=properties.reduce((sum,p)=>sum+(p.period_page_views||0),0);
+        const todayViews=properties.reduce((sum,p)=>sum+(p.today_page_views||0),0);
+        const todayUnique=properties.reduce((sum,p)=>sum+(p.today_unique_visitors||0),0);
+        const average=Math.round(periodViews/Math.max(1,data.days||30));
+        const peak=daily.reduce((best,day)=>((day.codef||0)+(day.adkar||0)>best.value?{value:(day.codef||0)+(day.adkar||0),date:day.date}:best),{value:0,date:""});
+        $("summaryCards").replaceChildren(
+          summaryCard("كل الزيارات",totalAll,"منذ بدء القياس"),
+          summaryCard("زيارات الفترة",periodViews,"آخر "+num.format(data.days||30)+" يومًا"),
+          summaryCard("زيارات اليوم",todayViews,peak.date?"أعلى يوم: "+dateFmt.format(new Date(peak.date+"T12:00:00")):"لا توجد بيانات"),
+          summaryCard("فريدون اليوم",todayUnique,"زوار فريدون تقديريًا","blue"),
+          summaryCard("مفعّلو الإشعارات",notifications.active||0,"من أصل "+num.format(notifications.total||0)+" اشتراك","green"),
+          summaryCard("المتوسط اليومي",average,"زيارة في اليوم")
+        );
+        $("projects").replaceChildren(...properties.map(projectCard));
+        renderBars("viewsChart",daily,"codef","adkar");renderBars("uniqueChart",daily,"codef_unique","adkar_unique");
+        $("viewsCaption").textContent="آخر "+num.format(data.days||30)+" يومًا";
+
+        const devices=data.devices||[],deviceMax=Math.max(1,...devices.map(x=>x.page_views||0));
+        if(!devices.length){const e=document.createElement("p");e.className="empty";e.textContent="لا توجد بيانات بعد";$("devices").replaceChildren(e);}
+        else $("devices").replaceChildren(...devices.map(item=>{const row=document.createElement("div");row.className="data-row";const name=document.createElement("span");name.textContent=deviceNames[item.device]||item.device;const track=document.createElement("div");track.className="track";const fill=document.createElement("div");fill.className="fill";fill.style.width=((item.page_views||0)/deviceMax*100)+"%";track.append(fill);const value=document.createElement("b");value.textContent=num.format(item.page_views||0);row.append(name,track,value);return row;}));
+
+        const notifItems=[[notifications.active,"مفعّلة","active"],[notifications.inactive,"غير مفعّلة",""],[notifications.new_in_period,"جديدة بالفترة",""],[notifications.errors_last_7_days,"أخطاء آخر 7 أيام",""]];
+        $("notifications").replaceChildren(...notifItems.map(([value,label,tone])=>{const item=document.createElement("div");item.className="notif-item "+tone;const b=document.createElement("b");b.textContent=num.format(value||0);const s=document.createElement("span");s.textContent=label;item.append(b,s);return item;}));
+
+        const pages=data.top_pages||[];
+        if(!pages.length){const e=document.createElement("p");e.className="empty";e.textContent="لا توجد صفحات مسجلة بعد";$("topPages").replaceChildren(e);}
+        else $("topPages").replaceChildren(...pages.map((page,index)=>{const row=document.createElement("div");row.className="page-row";const rank=document.createElement("span");rank.className="rank";rank.textContent=num.format(index+1);const path=document.createElement("span");path.className="page-path";path.textContent=page.path;path.title=page.path;const views=document.createElement("span");views.className="page-stat";views.innerHTML="<b>"+num.format(page.page_views||0)+"</b><span>زيارة</span>";const unique=document.createElement("span");unique.className="page-stat unique-stat";unique.innerHTML="<b>"+num.format(page.unique_daily_visitors||0)+"</b><span>فريد يوميًا</span>";row.append(rank,path,views,unique);return row;}));
+        $("stamp").textContent="آخر تحديث: "+new Intl.DateTimeFormat("ar-SA",{dateStyle:"medium",timeStyle:"short"}).format(new Date(data.generated_at));
       }
 
-      form.addEventListener("submit", event => {
-        event.preventDefault();
-        const value = pin.value.replace(/\D/g, "").slice(0, 4);
-        if (value.length !== 4) {
-          message.textContent = "أدخل الرمز المكوّن من 4 أرقام.";
-          return;
-        }
-        authenticate(value, range.value);
-      });
+      async function authenticate(value,days){
+        button.disabled=true;message.textContent="";
+        try{const data=await loadStats(value,days);if(!data.ok){message.textContent=data.error==="too_many_attempts"?"محاولات كثيرة. حاول بعد 15 دقيقة.":"الرمز غير صحيح.";pin.select();return;}activePin=value;pin.value="";render(data);gate.hidden=true;dashboard.hidden=false;}
+        catch{message.textContent="تعذر تحميل الإحصاءات الآن.";}finally{button.disabled=false;}
+      }
 
-      pin.addEventListener("input", () => {
-        pin.value = pin.value.replace(/\D/g, "").slice(0, 4);
-        message.textContent = "";
-      });
-
-      range.addEventListener("change", async () => {
-        if (!activePin) return;
-        try {
-          const data = await loadStats(activePin, range.value);
-          if (data.ok) render(data);
-        } catch {}
-      });
+      form.addEventListener("submit",event=>{event.preventDefault();const value=pin.value.replace(/\D/g,"").slice(0,4);if(value.length!==4){message.textContent="أدخل الرمز المكوّن من 4 أرقام.";return;}authenticate(value,range.value);});
+      pin.addEventListener("input",()=>{pin.value=pin.value.replace(/\D/g,"").slice(0,4);message.textContent="";});
+      range.addEventListener("change",async()=>{if(!activePin)return;try{const data=await loadStats(activePin,range.value);if(data.ok)render(data);}catch{}});
     })();
   </script>
 </body>
