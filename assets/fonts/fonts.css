@@ -1,0 +1,17 @@
+/* خط فاطمة — Fatimah Arabic ITF
+   العائلة الأساسية: "Fatimah" بخمسة أوزان (300 → 900)
+   العائلة "Fatimah Swash": نفس الخط لكن الذيول (swsh) مفعّلة دائمًا — تعمل حتى داخل Canvas
+   الذي لا يدعم font-feature-settings. استخدمها للحظة الـ slam: بدّل العائلة في الإطار نفسه فتنمو الذيول. */
+
+@font-face { font-family: "Fatimah"; src: url("FatimahArabicITF-Light.woff2") format("woff2");   font-weight: 300; font-display: swap; }
+@font-face { font-family: "Fatimah"; src: url("FatimahArabicITF-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Fatimah"; src: url("FatimahArabicITF-Medium.woff2") format("woff2");  font-weight: 500; font-display: swap; }
+@font-face { font-family: "Fatimah"; src: url("FatimahArabicITF-Bold.woff2") format("woff2");    font-weight: 700; font-display: swap; }
+@font-face { font-family: "Fatimah"; src: url("FatimahArabicITF-Black.woff2") format("woff2");   font-weight: 900; font-display: swap; }
+
+@font-face { font-family: "Fatimah Swash"; src: url("FatimahSwash-Bold.woff2") format("woff2");  font-weight: 700; font-display: swap; }
+@font-face { font-family: "Fatimah Swash"; src: url("FatimahSwash-Black.woff2") format("woff2"); font-weight: 900; font-display: swap; }
+
+/* اللاتيني (فاطمة بلا حروف لاتينية) — خطوط مفتوحة الترخيص SIL OFL 1.1، محلية من @fontsource */
+@font-face { font-family: "Archivo Black"; src: url("ArchivoBlack-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Unbounded"; src: url("Unbounded-Black.woff2") format("woff2"); font-weight: 900; font-display: swap; }

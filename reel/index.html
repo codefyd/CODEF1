@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>نقطة — ريل كودف</title>
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <style>
+    html, body { margin: 0; height: 100%; background: #0A0A0D; }
+    body { display: grid; place-items: center; }
+    canvas { display: block; max-width: 100vw; max-height: 100vh; }
+  </style>
+</head>
+<body>
+  <!-- المعاينة: ?w=1920&h=720 للبنر، و&t=16.8 لتجميد زمن محدد، وبدونها يدور الريل حيًا -->
+  <canvas id="c" width="1080" height="1080"></canvas>
+  <script src="timeline.js"></script>
+  <script src="reel.js"></script>
+  <script>
+    (function () {
+      const q = new URLSearchParams(location.search);
+      const W = +q.get("w") || 1080, H = +q.get("h") || 1080;
+      const faces = [
+        '300 40px "Fatimah"', '400 40px "Fatimah"', '500 40px "Fatimah"', '700 40px "Fatimah"', '900 40px "Fatimah"',
+        '700 40px "Fatimah Swash"', '900 40px "Fatimah Swash"', '400 40px "Archivo Black"', '900 40px "Unbounded"',
+      ];
+      // لا يُرسم أول إطار قبل تحميل الخطوط كلها
+      window.reelReady = Promise.all(faces.map((f) => document.fonts.load(f, "كودف ABC 123")))
+        .then(() => document.fonts.ready)
+        .then(() => { renderAt(0, W, H); return true; });
+      if (q.has("still") || q.has("t") || navigator.webdriver) {
+        window.reelReady.then(() => renderAt(+q.get("t") || 0, W, H));
+        return;
+      }
+      window.reelReady.then(() => {
+        const t0 = performance.now();
+        const loop = (now) => { renderAt(((now - t0) / 1000) % TL.DURATION, W, H); requestAnimationFrame(loop); };
+        requestAnimationFrame(loop);
+      });
+    })();
+  </script>
+</body>
+</html>

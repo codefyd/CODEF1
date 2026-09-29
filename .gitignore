@@ -1,0 +1,13 @@
+# مصدر الريل — ملفات مؤقتة
+reel/node_modules/
+reel/frames/
+reel/frames-*/
+reel/preview/
+reel/.cache/
+reel/audio/*.wav
+*.log
+
+# النظام
+.DS_Store
+Thumbs.db
+desktop.ini
