@@ -926,7 +926,7 @@
         </div>
 
         <div class="kpi-row">
-          <div class="kpi reveal"><div class="kpi-num" data-count="10" data-suffix="+">٠</div><div class="kpi-label">مشروع منجز</div></div>
+          <div class="kpi reveal"><div class="kpi-num" data-count="10" data-suffix="+">٠</div><div class="kpi-label">مشاريع منجزة</div></div>
           <div class="kpi reveal d1"><div class="kpi-num" data-count="100" data-suffix="%">٠</div><div class="kpi-label">دعم RTL عربي</div></div>
           <div class="kpi reveal d2"><div class="kpi-num" data-count="100" data-suffix="%">٠</div><div class="kpi-label">تجاوب على الجوال</div></div>
           <div class="kpi reveal d3"><div class="kpi-num" data-static="∞">∞</div><div class="kpi-label">شغف بالتفاصيل</div></div>
@@ -1045,7 +1045,7 @@
 
     /*
       طريقة إضافة مشروع جديد:
-      - imageUrl: ضع رابط صورة كامل (https://...).
+      - imageUrl: رابط صورة كامل (https://...) أو مسار داخل المستودع مثل assets/projects/name.png.
       - websiteUrl: إذا أضفت رابطًا سيظهر زر "زيارة الموقع"، وإذا تركته فارغًا يظهر "قريبًا للعرض".
       - kind: تصنيف قصير يظهر فوق العنوان (اختياري).
       - order: يتحكم بترتيب الظهور.
@@ -1053,30 +1053,6 @@
     const PROJECTS = [
       {
         order: 1,
-        title: "سماراتس",
-        kind: "منصة عرض رقمية",
-        desc: "منصة لإدارة شاشات العرض للجهات والشركات والجمعيات.",
-        imageUrl: "https://a.top4top.io/p_3782x6jva2.png",
-        websiteUrl: "https://smarats.com/"
-      },
-      {
-        order: 2,
-        title: "Live English",
-        kind: "منصة إدارية",
-        desc: "منصة إدارية لمؤسسة لايف انقلش المتخصصة في تدريب الطلاب عبر الرحلات الدولية تضبط عمليات التسجيل ورفع التقارير.",
-        imageUrl: "https://l.top4top.io/p_3782n9s2c1.png",
-        websiteUrl: "https://codef80.github.io/liveen/"
-      },
-      {
-        order: 3,
-        title: "Sadan Studio",
-        kind: "موقع تعريفي",
-        desc: "موقع تعريفي بصري يعرض هوية استديو سدن وأعماله بأسلوب أنيق وسريع.",
-        imageUrl: "https://i.ibb.co/m58hfSTF/image.png",
-        websiteUrl: "https://sdnst.com/"
-      },
-      {
-        order: 4,
         title: "سلس",
         kind: "نظام إداري",
         desc: "نظام إداري موحّد لإدارة أعمال الوكالات والعقارات وغيرها من خلال واجهة تجمع الحجوزات، المشاريع، المالية، ولوحة التحكم في مسار واحد.",
@@ -1084,31 +1060,23 @@
         websiteUrl: "https://salsbooking.com/"
       },
       {
-        order: 5,
-        title: "بوابة مجمع النصار",
-        kind: "بوابة مؤسسية",
-        desc: "بوابة مؤسسية تخدم البيئة التعليمية والتحفيظية عبر مسارات تشمل التسجيل، القبول، بيانات الطلاب، بوابة العاملين، والإنجازات.",
-        imageUrl: "https://c.top4top.io/p_3782i5lzb4.png",
+        order: 2,
+        title: "سماراتس",
+        kind: "منصة عرض رقمية",
+        desc: "منصة لإدارة شاشات العرض للجهات والشركات والجمعيات.",
+        imageUrl: "https://a.top4top.io/p_3782x6jva2.png",
+        websiteUrl: "https://smarats.com/"
+      },
+      {
+        order: 3,
+        title: "واتسو",
+        kind: "منصة واتساب للأعمال",
+        desc: "منصة لإدارة محادثات واتساب للأعمال عبر API، تجمع صندوق وارد موحّدًا لفريق خدمة العملاء مع الإسناد والتحويل بين الموظفين، ومساعدًا ذكيًا للرد الآلي، والحملات والقوالب وشجرات المحادثة والنماذج.",
+        imageUrl: "assets/projects/watso.png",
         websiteUrl: ""
       },
       {
-        order: 6,
-        title: "بوابة الموارد البشرية",
-        kind: "لوحة تشغيل داخلية",
-        desc: "لوحة تشغيل داخلية لتنظيم أعمال الموارد البشرية، تبدأ من إدارة بيانات المتقدمين وتمتد إلى المتابعة والفرز والتقييم والتواصل.",
-        imageUrl: "https://c.top4top.io/p_3782qio1f4.png",
-        websiteUrl: ""
-      },
-      {
-        order: 7,
-        title: "برنامج السرد",
-        kind: "نظام تعليمي",
-        desc: "نظام رقمي مخصص لإدارة السرد القرآني ومتابعة الجلسات والتقارير داخل بيئة تعليمية منظمة بواجهة عربية واضحة.",
-        imageUrl: "https://i.ibb.co/VcTwkNrN/image.png",
-        websiteUrl: "https://sardorg.com/"
-      },
-      {
-        order: 8,
+        order: 4,
         title: "نظام ولاء",
         kind: "لوحة تحليلية",
         desc: "لوحة متابعة تحليلية لقياس الأداء التسويقي وتحويل المستهدفات إلى مؤشرات واضحة وسريعة القراءة مع ملخصات يومية وشهرية وسنوية.",
@@ -1116,7 +1084,47 @@
         websiteUrl: ""
       },
       {
+        order: 5,
+        title: "بوابة الموارد البشرية",
+        kind: "لوحة تشغيل داخلية",
+        desc: "لوحة تشغيل داخلية لتنظيم أعمال الموارد البشرية، تبدأ من إدارة بيانات المتقدمين وتمتد إلى المتابعة والفرز والتقييم والتواصل.",
+        imageUrl: "assets/projects/hr.png",
+        websiteUrl: ""
+      },
+      {
+        order: 6,
+        title: "برنامج السرد",
+        kind: "نظام تعليمي",
+        desc: "نظام رقمي مخصص لإدارة السرد القرآني ومتابعة الجلسات والتقارير داخل بيئة تعليمية منظمة بواجهة عربية واضحة.",
+        imageUrl: "https://i.ibb.co/VcTwkNrN/image.png",
+        websiteUrl: "https://sardorg.com/"
+      },
+      {
+        order: 7,
+        title: "بوابة مجمع النصار",
+        kind: "بوابة مؤسسية",
+        desc: "بوابة مؤسسية تخدم البيئة التعليمية والتحفيظية عبر مسارات تشمل التسجيل، القبول، بيانات الطلاب، بوابة العاملين، والإنجازات.",
+        imageUrl: "https://c.top4top.io/p_3782i5lzb4.png",
+        websiteUrl: ""
+      },
+      {
+        order: 8,
+        title: "Sdn Studio",
+        kind: "موقع تعريفي",
+        desc: "موقع تعريفي بصري يعرض هوية استديو سدن وأعماله بأسلوب أنيق وسريع.",
+        imageUrl: "https://i.ibb.co/m58hfSTF/image.png",
+        websiteUrl: "https://sdnst.com/"
+      },
+      {
         order: 9,
+        title: "Live English",
+        kind: "منصة إدارية",
+        desc: "منصة إدارية لمؤسسة لايف انقلش المتخصصة في تدريب الطلاب عبر الرحلات الدولية تضبط عمليات التسجيل ورفع التقارير.",
+        imageUrl: "https://l.top4top.io/p_3782n9s2c1.png",
+        websiteUrl: "https://codef80.github.io/liveen/"
+      },
+      {
+        order: 10,
         title: "مجلة أسرة عائلية",
         kind: "مجلة رقمية",
         desc: "مجلة رقمية عائلية تُعنى بتوثيق الأخبار والإنجازات والمناسبات والذكريات.",
@@ -1124,7 +1132,7 @@
         websiteUrl: ""
       },
       {
-        order: 10,
+        order: 11,
         title: "بطولة الأبطال",
         kind: "منصة رياضية",
         desc: "منصة رياضية لإدارة وعرض البطولات عبر واجهة تجمع الترتيب، المباريات، الهدافين، والإحصائيات مع لوحة إدارة مستقلة.",
@@ -1143,6 +1151,9 @@
     }
     function isValidUrl(value) {
       return typeof value === "string" && /^https?:\/\//i.test(value.trim());
+    }
+    function isImageSrc(value) {
+      return isValidUrl(value) || (typeof value === "string" && /^assets\//.test(value.trim()));
     }
     function openWhatsapp(msg) {
       let url = "https://wa.me/" + WHATSAPP;
@@ -1225,7 +1236,7 @@
         orderBadge.textContent = padArabic(p.order || idx + 1);
         media.appendChild(orderBadge);
 
-        if (isValidUrl(p.imageUrl)) {
+        if (isImageSrc(p.imageUrl)) {
           const img = document.createElement("img");
           img.src = p.imageUrl.trim();
           img.alt = p.title || "صورة المشروع";
