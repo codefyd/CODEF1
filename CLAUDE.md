@@ -12,6 +12,7 @@ stats/                لوحة الإحصائيات برمز دخول — لا �
 p/adkar/              موقع الأذكار بهويته الخاصة وملف service worker — لا تلمسه
 assets/fonts/         خط فاطمة woff2 + fonts.css
 assets/video/         مخرجات الريل النهائية فقط (mp4, webm, jpg)
+assets/projects/      صور المشاريع المحفوظة داخل المستودع (تُشار إليها من imageUrl)
 reel/                 مصدر الريل: BRIEF.md + كود التوليد والصوت والالتقاط
 ```
 
