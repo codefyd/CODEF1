@@ -119,13 +119,7 @@
     push(33, "riser", { dur: 3 });
     push(DROP, "impact", { gain: 1.4, low: true });
 
-    // الإيقاع الكامل ٣٦ ← ٥٦
-    for (let x = DROP; x < 56; x += 0.5) {
-      const whole = Math.abs(x - Math.round(x)) < 1e-6;
-      if (whole) push(x, "kick");
-      if (whole && ((x - DROP) % 2 === 1)) push(x, "clap");
-      push(x, "hat", { open: !whole });
-    }
+    // لا موسيقى إيقاعية: المؤثرات الصوتية فقط
     [40, 41, 42, 48, 50, 52].forEach(x => push(x, "whoosh", { dur: 0.45, gain: 0.35, dir: "up" }));
     for (let x = 44; x < 48; x++) push(x, "whoosh", { dur: 0.3, gain: 0.3, dir: "down" });
     for (let x = 54; x < 55.6; x += 0.125) push(x, "blip", { freq: 1400 + (x - 54) * 400, gain: 0.12, dur: 0.05 });

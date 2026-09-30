@@ -1148,24 +1148,7 @@
       if (ch === ":") { c.fillStyle = "rgba(242,237,227,0.5)"; c.fillRect(tx + colon / 2 - px * 0.04, y - px * 0.18, px * 0.08, px * 0.08); c.fillRect(tx + colon / 2 - px * 0.04, y + px * 0.08, px * 0.08, px * 0.08); c.fillStyle = COL.white; tx += colon; continue; }
       c.fillText(ad(ch), tx + slot / 2, baseFor(y, px)); tx += slot;
     }
-    // أسفل اليمين: رقم المشهد
-    const sc = TL.SCENES.find((s) => tb >= s.from && tb < s.to) || TL.SCENES[4];
-    const yb = H - m - px * 0.2;
-    setText(c, fA, "right"); c.fillStyle = COL.white;
-    c.fillText(`مشهد ${ad(sc.n)}/${ad(5)}`, W - m, baseFor(yb, px));
-    // أسفل اليسار: 128 BPM مع مؤشر ينبض
-    const live = tb < 56;
-    const pulse = live ? 1 - clamp(frac(tb) / 0.35) : 0;
-    c.save(); glow(c, "rgba(200,255,46,0.7)", px * pulse);
-    diamond(c, m + px * 0.3, yb, px * (0.22 + 0.16 * pulse), live ? COL.lime : "rgba(200,255,46,0.3)");
-    c.restore();
-    setText(c, fL, "left", "ltr"); c.fillStyle = COL.white;
-    c.fillText("128 BPM", m + px * 0.85, baseFor(yb, px * 0.78, LAT));
-    for (let i = 0; i < 4; i++) {
-      const on = live && ((Math.floor(tb) % 4) + 4) % 4 === i;
-      c.fillStyle = on ? COL.lime : "rgba(242,237,227,0.2)";
-      c.fillRect(m + px * 0.85 + measure("128 BPM", fL, "ltr").width + px * 0.5 + i * px * 0.4, yb - px * 0.08, px * 0.25, px * 0.16);
-    }
+    // (أُزيل رقم المشهد ومؤشر الإيقاع من الزاويتين السفليتين)
     c.restore();
   }
 

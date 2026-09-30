@@ -835,79 +835,6 @@
    "low": true
   },
   {
-   "beat": 36,
-   "type": "kick"
-  },
-  {
-   "beat": 36,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 36.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 37,
-   "type": "kick"
-  },
-  {
-   "beat": 37,
-   "type": "clap"
-  },
-  {
-   "beat": 37,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 37.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 38,
-   "type": "kick"
-  },
-  {
-   "beat": 38,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 38.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 39,
-   "type": "kick"
-  },
-  {
-   "beat": 39,
-   "type": "clap"
-  },
-  {
-   "beat": 39,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 39.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 40,
-   "type": "kick"
-  },
-  {
-   "beat": 40,
-   "type": "hat",
-   "open": false
-  },
-  {
    "beat": 40,
    "type": "whoosh",
    "dur": 0.45,
@@ -915,43 +842,11 @@
    "dir": "up"
   },
   {
-   "beat": 40.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 41,
-   "type": "kick"
-  },
-  {
-   "beat": 41,
-   "type": "clap"
-  },
-  {
-   "beat": 41,
-   "type": "hat",
-   "open": false
-  },
-  {
    "beat": 41,
    "type": "whoosh",
    "dur": 0.45,
    "gain": 0.35,
    "dir": "up"
-  },
-  {
-   "beat": 41.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 42,
-   "type": "kick"
-  },
-  {
-   "beat": 42,
-   "type": "hat",
-   "open": false
   },
   {
    "beat": 42,
@@ -961,38 +856,6 @@
    "dir": "up"
   },
   {
-   "beat": 42.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 43,
-   "type": "kick"
-  },
-  {
-   "beat": 43,
-   "type": "clap"
-  },
-  {
-   "beat": 43,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 43.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 44,
-   "type": "kick"
-  },
-  {
-   "beat": 44,
-   "type": "hat",
-   "open": false
-  },
-  {
    "beat": 44,
    "type": "whoosh",
    "dur": 0.3,
@@ -1000,43 +863,11 @@
    "dir": "down"
   },
   {
-   "beat": 44.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 45,
-   "type": "kick"
-  },
-  {
-   "beat": 45,
-   "type": "clap"
-  },
-  {
-   "beat": 45,
-   "type": "hat",
-   "open": false
-  },
-  {
    "beat": 45,
    "type": "whoosh",
    "dur": 0.3,
    "gain": 0.3,
    "dir": "down"
-  },
-  {
-   "beat": 45.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 46,
-   "type": "kick"
-  },
-  {
-   "beat": 46,
-   "type": "hat",
-   "open": false
   },
   {
    "beat": 46,
@@ -1046,43 +877,11 @@
    "dir": "down"
   },
   {
-   "beat": 46.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 47,
-   "type": "kick"
-  },
-  {
-   "beat": 47,
-   "type": "clap"
-  },
-  {
-   "beat": 47,
-   "type": "hat",
-   "open": false
-  },
-  {
    "beat": 47,
    "type": "whoosh",
    "dur": 0.3,
    "gain": 0.3,
    "dir": "down"
-  },
-  {
-   "beat": 47.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 48,
-   "type": "kick"
-  },
-  {
-   "beat": 48,
-   "type": "hat",
-   "open": false
   },
   {
    "beat": 48,
@@ -1090,38 +889,6 @@
    "dur": 0.45,
    "gain": 0.35,
    "dir": "up"
-  },
-  {
-   "beat": 48.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 49,
-   "type": "kick"
-  },
-  {
-   "beat": 49,
-   "type": "clap"
-  },
-  {
-   "beat": 49,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 49.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 50,
-   "type": "kick"
-  },
-  {
-   "beat": 50,
-   "type": "hat",
-   "open": false
   },
   {
    "beat": 50,
@@ -1138,75 +905,11 @@
    "f1": 880
   },
   {
-   "beat": 50.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 51,
-   "type": "kick"
-  },
-  {
-   "beat": 51,
-   "type": "clap"
-  },
-  {
-   "beat": 51,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 51.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 52,
-   "type": "kick"
-  },
-  {
-   "beat": 52,
-   "type": "hat",
-   "open": false
-  },
-  {
    "beat": 52,
    "type": "whoosh",
    "dur": 0.45,
    "gain": 0.35,
    "dir": "up"
-  },
-  {
-   "beat": 52.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 53,
-   "type": "kick"
-  },
-  {
-   "beat": 53,
-   "type": "clap"
-  },
-  {
-   "beat": 53,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 53.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 54,
-   "type": "kick"
-  },
-  {
-   "beat": 54,
-   "type": "hat",
-   "open": false
   },
   {
    "beat": 54,
@@ -1238,11 +941,6 @@
   },
   {
    "beat": 54.5,
-   "type": "hat",
-   "open": true
-  },
-  {
-   "beat": 54.5,
    "type": "blip",
    "freq": 1600,
    "gain": 0.12,
@@ -1271,19 +969,6 @@
   },
   {
    "beat": 55,
-   "type": "kick"
-  },
-  {
-   "beat": 55,
-   "type": "clap"
-  },
-  {
-   "beat": 55,
-   "type": "hat",
-   "open": false
-  },
-  {
-   "beat": 55,
    "type": "blip",
    "freq": 1800,
    "gain": 0.12,
@@ -1309,11 +994,6 @@
    "freq": 1950,
    "gain": 0.12,
    "dur": 0.05
-  },
-  {
-   "beat": 55.5,
-   "type": "hat",
-   "open": true
   },
   {
    "beat": 55.5,
