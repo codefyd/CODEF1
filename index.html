@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#060709" />
+  <meta name="theme-color" content="#0A0A0D" />
   <meta name="description" content="ملف أعمال CODEF — تصميم وتطوير منتجات رقمية عربية بمستوى فاخر." />
   <link rel="canonical" href="https://codef8.com/" />
   <title>ملف أعمال | CODEF</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <link rel="preload" href="assets/fonts/FatimahArabicITF-Black.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/FatimahArabicITF-Medium.woff2" as="font" type="font/woff2" crossorigin />
 
   <script>
     window.APP_CONFIG = {
@@ -40,24 +40,33 @@
 
   <style>
     :root {
-      --ink: #060709;
-      --ink-2: #0a0c11;
-      --ink-3: #0e1117;
-      --gold: #d8b36a;
-      --gold-2: #f2e0b0;
-      --gold-3: #b08d4a;
-      --gold-deep: #7d6233;
-      --emerald: #2f9d78;
-      --emerald-deep: #114c39;
-      --ivory: #f6f0e3;
-      --muted: rgba(246,240,227,.6);
-      --faint: rgba(246,240,227,.34);
-      --line: rgba(216,179,106,.14);
-      --line-strong: rgba(216,179,106,.38);
+      /* هوية «نقطة»: حبر شبه أسود + ليموني كهربائي وحيد + أبيض دافئ + شرارة للحظة الارتطام فقط */
+      --bg: #0A0A0D;
+      --lime: #C8FF2E;
+      --warm: #F2EDE3;
+      --spark: #FF6A1F;
+      --ink: var(--bg);
+      --ink-2: #0d0d11;
+      --ink-3: #111116;
+      --gold: var(--lime);
+      --gold-2: var(--lime);
+      --gold-3: #A6DB14;
+      --gold-deep: #4F6A08;
+      --emerald: var(--lime);
+      --emerald-deep: #2B3A06;
+      --ivory: var(--warm);
+      --muted: rgba(242,237,227,.6);
+      --faint: rgba(242,237,227,.34);
+      --line: rgba(200,255,46,.14);
+      --line-strong: rgba(200,255,46,.38);
       --glass: rgba(255,255,255,.028);
       --shadow: 0 40px 110px rgba(0,0,0,.55);
-      --ease: cubic-bezier(.22,.85,.28,1);
-      --t: .4s var(--ease);
+      /* قاموس الحركة نفسه الذي في الريل */
+      --expo: cubic-bezier(.16,1,.3,1);
+      --expo-in: cubic-bezier(.7,0,.84,0);
+      --back: cubic-bezier(.34,1.7,.64,1);
+      --ease: var(--expo);
+      --t: .35s var(--ease);
       --r-xl: 34px;
       --r-lg: 24px;
     }
@@ -65,34 +74,37 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Tajawal', sans-serif;
+      font-family: "Fatimah", "Archivo Black", sans-serif;
       background: var(--ink);
       color: var(--ivory);
       direction: rtl;
       overflow-x: hidden;
       line-height: 1.9;
+      font-weight: 400;
+      font-synthesis: none;
       -webkit-font-smoothing: antialiased;
     }
+    h1, h2, h3, .sec-title, .hero-title, .work-title, .gift-title, .finale-title { font-weight: 900 !important; }
     a { color: inherit; }
     img { max-width: 100%; display: block; }
-    .kufi { font-family: 'Reem Kufi', 'Tajawal', sans-serif; }
+    .kufi { font-family: "Fatimah", "Archivo Black", sans-serif; }
 
-    ::selection { background: rgba(216,179,106,.28); color: #fff; }
+    ::selection { background: rgba(200,255,46,.28); color: #fff; }
 
     /* ---------- خلفية المسرح ---------- */
     .stage-bg {
       position: fixed; inset: 0; z-index: -6; pointer-events: none;
       background:
-        radial-gradient(1200px 620px at 85% -8%, rgba(216,179,106,.1), transparent 60%),
-        radial-gradient(900px 560px at 8% 22%, rgba(23,64,98,.2), transparent 62%),
-        radial-gradient(1100px 700px at 50% 118%, rgba(216,179,106,.07), transparent 58%),
-        linear-gradient(160deg, #07080b 0%, #060709 46%, #0a0c12 100%);
+        radial-gradient(1200px 620px at 85% -8%, rgba(200,255,46,.1), transparent 60%),
+        radial-gradient(900px 560px at 8% 22%, rgba(242,237,227,.03), transparent 62%),
+        radial-gradient(1100px 700px at 50% 118%, rgba(200,255,46,.07), transparent 58%),
+        linear-gradient(160deg, #07080b 0%, #0A0A0D 46%, #0a0c12 100%);
     }
     .stage-veil {
       position: fixed; inset: 0; z-index: -5; pointer-events: none; opacity: .5;
       background-image:
-        linear-gradient(rgba(216,179,106,.028) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(216,179,106,.028) 1px, transparent 1px);
+        linear-gradient(rgba(200,255,46,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,255,46,.028) 1px, transparent 1px);
       background-size: 84px 84px;
       mask-image: radial-gradient(circle at 50% 30%, #000, rgba(0,0,0,.6) 42%, transparent 82%);
       -webkit-mask-image: radial-gradient(circle at 50% 30%, #000, rgba(0,0,0,.6) 42%, transparent 82%);
@@ -100,7 +112,7 @@
     .stage-glow {
       position: fixed; width: 640px; height: 640px; border-radius: 50%;
       z-index: -4; pointer-events: none;
-      background: radial-gradient(circle, rgba(216,179,106,.075), transparent 62%);
+      background: radial-gradient(circle, rgba(200,255,46,.075), transparent 62%);
       transform: translate(-50%, -50%);
       left: 50%; top: 30%;
       transition: left 1.4s var(--ease), top 1.4s var(--ease);
@@ -116,12 +128,12 @@
     /* شريط تقدم ذهبي */
     .scroll-thread {
       position: fixed; top: 0; right: 0; left: 0; height: 2px; z-index: 500;
-      background: rgba(216,179,106,.08);
+      background: rgba(200,255,46,.08);
     }
     .scroll-thread i {
       display: block; height: 100%; width: 0;
       background: linear-gradient(90deg, var(--gold-3), var(--gold-2), var(--gold));
-      box-shadow: 0 0 14px rgba(216,179,106,.5);
+      box-shadow: 0 0 14px rgba(200,255,46,.5);
     }
 
     .container { width: min(1200px, calc(100% - 44px)); margin: 0 auto; }
@@ -141,12 +153,12 @@
     @keyframes starSpin { to { transform: rotate(360deg); } }
     .curtain-logo {
       position: absolute; width: 76px; height: 76px; border-radius: 22px; object-fit: contain;
-      border: 1px solid rgba(216,179,106,.3);
+      border: 1px solid rgba(200,255,46,.3);
       background: rgba(255,255,255,.03);
-      box-shadow: 0 0 60px rgba(216,179,106,.22);
+      box-shadow: 0 0 60px rgba(200,255,46,.22);
       animation: logoBreath 2.6s ease-in-out infinite;
     }
-    @keyframes logoBreath { 50% { transform: scale(1.06); box-shadow: 0 0 90px rgba(216,179,106,.4); } }
+    @keyframes logoBreath { 50% { transform: scale(1.06); box-shadow: 0 0 90px rgba(200,255,46,.4); } }
     .curtain-word {
       position: absolute; bottom: -74px; right: 50%; transform: translateX(50%);
       color: var(--gold-2); letter-spacing: .55em; padding-right: .55em;
@@ -173,13 +185,13 @@
     .nav-logo-frame { position: relative; width: 44px; height: 44px; flex: 0 0 auto; }
     .nav-logo-frame::before {
       content: ""; position: absolute; inset: -4px; border-radius: 15px;
-      background: conic-gradient(from 0deg, transparent, rgba(216,179,106,.65), transparent 32%);
+      background: conic-gradient(from 0deg, transparent, rgba(200,255,46,.65), transparent 32%);
       animation: ringRun 4.5s linear infinite;
       -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.6px), #000 calc(100% - 1.4px));
       mask: radial-gradient(farthest-side, transparent calc(100% - 1.6px), #000 calc(100% - 1.4px));
     }
     @keyframes ringRun { to { transform: rotate(360deg); } }
-    .nav-logo { width: 100%; height: 100%; border-radius: 13px; object-fit: contain; border: 1px solid rgba(216,179,106,.24); background: rgba(255,255,255,.03); }
+    .nav-logo { width: 100%; height: 100%; border-radius: 13px; object-fit: contain; border: 1px solid rgba(200,255,46,.24); background: rgba(255,255,255,.03); }
     .nav-name { color: #fff; font-weight: 600; letter-spacing: .16em; font-size: 1.15rem; }
     .nav-links { display: flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.02); }
     .nav-link {
@@ -187,25 +199,53 @@
       padding: 7px 17px; border-radius: 999px;
       transition: color var(--t), background var(--t);
     }
-    .nav-link:hover { color: var(--gold-2); background: rgba(216,179,106,.09); }
+    .nav-link:hover { color: var(--gold-2); background: rgba(200,255,46,.09); }
     .nav-cta {
       display: inline-flex; align-items: center; gap: 8px;
-      color: #14100a; text-decoration: none; font-weight: 900; font-size: .88rem;
+      color: #0A0A0D; text-decoration: none; font-weight: 900; font-size: .88rem;
       padding: 11px 22px; border-radius: 999px; border: 0; white-space: nowrap;
       background: linear-gradient(120deg, var(--gold-3), var(--gold-2) 45%, var(--gold) 80%);
       background-size: 200% auto;
-      box-shadow: 0 12px 34px rgba(216,179,106,.24), inset 0 1px 0 rgba(255,255,255,.5);
+      box-shadow: 0 12px 34px rgba(200,255,46,.24), inset 0 1px 0 rgba(255,255,255,.5);
       transition: transform var(--t), box-shadow var(--t), background-position .7s;
       font-family: inherit;
     }
-    .nav-cta:hover { transform: translateY(-2px); background-position: left center; box-shadow: 0 18px 48px rgba(216,179,106,.42); }
+    .nav-cta:hover { transform: translateY(-2px); background-position: left center; box-shadow: 0 18px 48px rgba(200,255,46,.42); }
 
     /* ---------- البطل ---------- */
-    .hero { min-height: 100svh; position: relative; display: flex; align-items: center; padding: 150px 0 100px; overflow: hidden; }
+    .hero { min-height: 100svh; position: relative; display: flex; flex-direction: column; justify-content: center; gap: clamp(36px, 5vw, 64px); padding: 108px 0 100px; overflow: hidden; }
+
+    /* ريل «نقطة» — أول ما يراه الزائر */
+    .reel-banner { position: relative; z-index: 3; width: min(1400px, calc(100% - 44px)); margin: 0 auto; animation: popIn .9s .1s var(--back) both; }
+    .reel-frame {
+      position: relative; overflow: hidden; aspect-ratio: 1920 / 720;
+      border-radius: clamp(18px, 2.4vw, 30px);
+      background: var(--bg) url("assets/video/poster-banner.jpg") center / cover no-repeat;
+      border: 1px solid rgba(200,255,46,.22);
+      box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 0 1px rgba(242,237,227,.04) inset;
+    }
+    .reel-frame video, .reel-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .reel-still { display: none; }
+    .reel-sound {
+      position: absolute; left: 50%; bottom: clamp(10px, 2.2%, 18px); z-index: 2; translate: -50% 0;
+      display: inline-flex; align-items: center; gap: 8px;
+      font: 700 .82rem/1 "Fatimah", "Archivo Black", sans-serif; color: var(--warm);
+      padding: 9px 14px 9px 12px; border-radius: 999px; cursor: pointer;
+      background: rgba(10,10,13,.72); border: 1px solid rgba(242,237,227,.18);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: transform .3s var(--back), background .3s var(--expo), color .3s var(--expo), border-color .3s var(--expo);
+    }
+    .reel-sound:hover { transform: scale(1.06); border-color: var(--lime); }
+    .reel-sound[aria-pressed="true"] { background: var(--lime); color: var(--bg); border-color: var(--lime); }
+    .reel-sound svg { width: 16px; height: 16px; flex: 0 0 auto; }
+    .reel-sound .on { display: none; }
+    .reel-sound[aria-pressed="true"] .on { display: block; }
+    .reel-sound[aria-pressed="true"] .off { display: none; }
+    @keyframes popIn { from { opacity: 0; transform: scale(.92) translateY(18px); } to { opacity: 1; transform: none; } }
     .hero-frame {
       position: absolute; inset: clamp(14px, 2.4vw, 30px); pointer-events: none; z-index: 1;
     }
-    .hero-frame span { position: absolute; width: 54px; height: 54px; border: 1px solid rgba(216,179,106,.42); }
+    .hero-frame span { position: absolute; width: 54px; height: 54px; border: 1px solid rgba(200,255,46,.42); }
     .hero-frame .c1 { top: 0; right: 0; border-left: 0; border-bottom: 0; border-top-right-radius: 16px; }
     .hero-frame .c2 { top: 0; left: 0; border-right: 0; border-bottom: 0; border-top-left-radius: 16px; }
     .hero-frame .c3 { bottom: 0; right: 0; border-left: 0; border-top: 0; border-bottom-right-radius: 16px; }
@@ -219,8 +259,8 @@
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
       color: var(--gold-2); font-weight: 800; font-size: .85rem;
-      border: 1px solid rgba(216,179,106,.3);
-      background: linear-gradient(120deg, rgba(216,179,106,.12), rgba(216,179,106,.04));
+      border: 1px solid rgba(200,255,46,.3);
+      background: linear-gradient(120deg, rgba(200,255,46,.12), rgba(200,255,46,.04));
       padding: 8px 19px; border-radius: 999px; margin-bottom: 30px;
       box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
       animation: riseIn .8s .15s var(--ease) both;
@@ -228,7 +268,7 @@
     .eyebrow-star { width: 15px; height: 15px; animation: starSpin 9s linear infinite; }
     .eyebrow-star path { fill: var(--gold); }
     .hero-title {
-      font-family: 'Reem Kufi', 'Tajawal', sans-serif;
+      font-family: "Fatimah", "Archivo Black", sans-serif;
       color: #fff; font-weight: 700;
       font-size: clamp(2.6rem, 6.2vw, 5.4rem);
       line-height: 1.28; letter-spacing: 0;
@@ -236,12 +276,14 @@
       animation: riseIn .9s .28s var(--ease) both;
     }
     .hero-gold {
-      background: linear-gradient(100deg, var(--gold-3) 0%, var(--gold-2) 30%, #fff6dd 50%, var(--gold-2) 70%, var(--gold-3) 100%);
+      background: linear-gradient(100deg, var(--gold-3) 0%, var(--gold-2) 30%, #F2EDE3 50%, var(--gold-2) 70%, var(--gold-3) 100%);
       background-size: 220% auto;
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-      animation: goldSweep 5s linear infinite;
+      animation: goldSweep 2.8s var(--expo) infinite;
     }
     @keyframes goldSweep { to { background-position: -220% center; } }
+    /* ارتداد (back) لكل ما يُضغط، بدل الانزلاقات الذهبية الهادئة */
+    .btn-royal, .btn-quiet, .btn-gift, .nav-cta, .work-link, .wa-btn, .kpi, .work { transition-timing-function: var(--back), var(--expo), var(--expo), var(--expo), var(--expo); }
     .hero-rule {
       width: 132px; height: 10px; margin: 18px 0 24px;
       animation: riseIn .9s .4s var(--ease) both;
@@ -263,40 +305,40 @@
     }
     .btn-royal {
       position: relative; overflow: hidden;
-      color: #171207; padding: 14px 32px; border: 0;
+      color: #0A0A0D; padding: 14px 32px; border: 0;
       background: linear-gradient(120deg, var(--gold-3), var(--gold-2) 42%, var(--gold) 85%);
-      box-shadow: 0 16px 44px rgba(216,179,106,.3), inset 0 1px 0 rgba(255,255,255,.55);
+      box-shadow: 0 16px 44px rgba(200,255,46,.3), inset 0 1px 0 rgba(255,255,255,.55);
     }
     .btn-royal::after {
       content: ""; position: absolute; inset: 0;
       background: linear-gradient(115deg, transparent 34%, rgba(255,255,255,.55) 50%, transparent 64%);
       transform: translateX(160%); transition: transform .8s ease;
     }
-    .btn-royal:hover { transform: translateY(-3px); box-shadow: 0 24px 60px rgba(216,179,106,.5); }
+    .btn-royal:hover { transform: translateY(-3px); box-shadow: 0 24px 60px rgba(200,255,46,.5); }
     .btn-royal:hover::after { transform: translateX(-160%); }
     .btn-quiet {
-      color: rgba(246,240,227,.82); padding: 13px 28px;
-      border: 1px solid rgba(246,240,227,.16); background: rgba(255,255,255,.018);
+      color: rgba(242,237,227,.82); padding: 13px 28px;
+      border: 1px solid rgba(242,237,227,.16); background: rgba(255,255,255,.018);
     }
-    .btn-quiet:hover { color: var(--gold-2); border-color: rgba(216,179,106,.5); background: rgba(216,179,106,.07); transform: translateY(-2px); }
+    .btn-quiet:hover { color: var(--gold-2); border-color: rgba(200,255,46,.5); background: rgba(200,255,46,.07); transform: translateY(-2px); }
 
     .hero-meta {
       display: flex; gap: 30px; margin-top: 50px; flex-wrap: wrap;
       animation: riseIn .9s .74s var(--ease) both;
     }
     .meta-item { display: grid; gap: 2px; }
-    .meta-num { font-family: 'Reem Kufi', sans-serif; color: var(--gold-2); font-weight: 700; font-size: 1.55rem; line-height: 1.2; }
+    .meta-num { font-family: "Fatimah", "Archivo Black", sans-serif; color: var(--gold-2); font-weight: 700; font-size: 1.55rem; line-height: 1.2; }
     .meta-label { color: var(--faint); font-size: .82rem; font-weight: 700; }
-    .meta-sep { width: 1px; background: linear-gradient(180deg, transparent, rgba(216,179,106,.35), transparent); }
+    .meta-sep { width: 1px; background: linear-gradient(180deg, transparent, rgba(200,255,46,.35), transparent); }
 
-    @keyframes riseIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(34px) scale(.97); } to { opacity: 1; transform: none; } }
 
     /* منحوتة البطل */
     .hero-relic { position: relative; min-height: 540px; display: grid; place-items: center; }
     .relic-ring { position: absolute; border-radius: 50%; }
     .relic-ring.r1 {
       width: min(480px, 90%); aspect-ratio: 1;
-      border: 1px dashed rgba(216,179,106,.22);
+      border: 1px dashed rgba(200,255,46,.22);
       animation: starSpin 46s linear infinite;
     }
     .relic-ring.r1::before, .relic-ring.r1::after {
@@ -307,19 +349,19 @@
     .relic-ring.r1::after { left: -5px; }
     .relic-ring.r2 {
       width: min(360px, 70%); aspect-ratio: 1;
-      border: 1px solid rgba(246,240,227,.07);
+      border: 1px solid rgba(242,237,227,.07);
       animation: starSpin 30s linear infinite reverse;
     }
     .relic-star-big { position: absolute; width: min(560px, 100%); opacity: .5; animation: starSpin 90s linear infinite; }
-    .relic-star-big path { fill: none; stroke: rgba(216,179,106,.28); stroke-width: .7; }
+    .relic-star-big path { fill: none; stroke: rgba(200,255,46,.28); stroke-width: .7; }
     .relic-card {
       position: relative; z-index: 2;
       width: min(300px, 78%);
       border-radius: 30px; padding: 40px 28px 34px;
       text-align: center;
-      border: 1px solid rgba(216,179,106,.3);
+      border: 1px solid rgba(200,255,46,.3);
       background:
-        linear-gradient(160deg, rgba(216,179,106,.1), rgba(255,255,255,.02) 40%, rgba(216,179,106,.05)),
+        linear-gradient(160deg, rgba(200,255,46,.1), rgba(255,255,255,.02) 40%, rgba(200,255,46,.05)),
         rgba(8,10,14,.6);
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.08);
@@ -328,26 +370,26 @@
     @keyframes relicFloat { 50% { transform: translateY(-14px); } }
     .relic-card::before {
       content: ""; position: absolute; inset: 10px; border-radius: 22px;
-      border: 1px solid rgba(216,179,106,.16); pointer-events: none;
+      border: 1px solid rgba(200,255,46,.16); pointer-events: none;
     }
     .relic-logo {
       width: 88px; height: 88px; margin: 0 auto 18px; border-radius: 26px; object-fit: contain;
-      border: 1px solid rgba(216,179,106,.34); background: rgba(255,255,255,.035);
-      box-shadow: 0 18px 50px rgba(0,0,0,.4), 0 0 44px rgba(216,179,106,.16);
+      border: 1px solid rgba(200,255,46,.34); background: rgba(255,255,255,.035);
+      box-shadow: 0 18px 50px rgba(0,0,0,.4), 0 0 44px rgba(200,255,46,.16);
     }
-    .relic-name { font-family: 'Reem Kufi', sans-serif; color: #fff; font-weight: 700; letter-spacing: .3em; padding-right: .3em; font-size: 1.3rem; }
+    .relic-name { font-family: "Fatimah", "Archivo Black", sans-serif; color: #fff; font-weight: 700; letter-spacing: .3em; padding-right: .3em; font-size: 1.3rem; }
     .relic-tag { color: var(--muted); font-size: .86rem; font-weight: 700; margin-top: 6px; }
     .relic-chips { display: flex; justify-content: center; gap: 7px; margin-top: 18px; flex-wrap: wrap; }
     .relic-chip {
       color: var(--gold-2); font-size: .72rem; font-weight: 800;
-      border: 1px solid rgba(216,179,106,.26); border-radius: 999px; padding: 4px 12px;
-      background: rgba(216,179,106,.07);
+      border: 1px solid rgba(200,255,46,.26); border-radius: 999px; padding: 4px 12px;
+      background: rgba(200,255,46,.07);
     }
     .relic-sat {
       position: absolute; z-index: 3;
       display: inline-flex; align-items: center; gap: 8px;
       color: var(--gold-2); font-weight: 900; font-size: .82rem; white-space: nowrap;
-      border: 1px solid rgba(216,179,106,.26); border-radius: 14px; padding: 9px 15px;
+      border: 1px solid rgba(200,255,46,.26); border-radius: 14px; padding: 9px 15px;
       background: rgba(6,8,11,.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 18px 50px rgba(0,0,0,.4);
       animation: relicFloat 5.4s ease-in-out infinite;
@@ -361,7 +403,7 @@
       z-index: 3; display: grid; justify-items: center; gap: 4px;
       color: var(--faint); font-size: .78rem; font-weight: 800;
     }
-    .hint-line { width: 1px; height: 42px; overflow: hidden; background: rgba(216,179,106,.12); position: relative; }
+    .hint-line { width: 1px; height: 42px; overflow: hidden; background: rgba(200,255,46,.12); position: relative; }
     .hint-line::after {
       content: ""; position: absolute; top: -50%; right: 0; width: 100%; height: 50%;
       background: linear-gradient(180deg, transparent, var(--gold));
@@ -374,7 +416,7 @@
     .dust {
       position: absolute; bottom: -16px; border-radius: 50%;
       background: radial-gradient(circle, var(--gold-2), var(--gold) 60%);
-      box-shadow: 0 0 12px rgba(216,179,106,.5);
+      box-shadow: 0 0 12px rgba(200,255,46,.5);
       animation: dustRise linear infinite; opacity: 0;
     }
     @keyframes dustRise {
@@ -386,8 +428,8 @@
 
     /* ---------- الفواصل ---------- */
     .royal-divider { display: flex; align-items: center; gap: 18px; padding: 6px 0; }
-    .royal-divider .rd-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(216,179,106,.5)); }
-    .royal-divider .rd-line:last-child { background: linear-gradient(270deg, transparent, rgba(216,179,106,.5)); }
+    .royal-divider .rd-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,255,46,.5)); }
+    .royal-divider .rd-line:last-child { background: linear-gradient(270deg, transparent, rgba(200,255,46,.5)); }
     .rd-star { width: 22px; height: 22px; flex: 0 0 auto; animation: starSpin 18s linear infinite; }
     .rd-star path { fill: none; stroke: var(--gold); stroke-width: 1.3; }
 
@@ -398,13 +440,13 @@
     .sec-label {
       display: inline-flex; align-items: center; gap: 9px;
       color: var(--gold-2); font-weight: 900; font-size: .8rem; letter-spacing: .06em;
-      border: 1px solid rgba(216,179,106,.26); border-radius: 999px; padding: 7px 18px;
-      background: rgba(216,179,106,.07); margin-bottom: 18px;
+      border: 1px solid rgba(200,255,46,.26); border-radius: 999px; padding: 7px 18px;
+      background: rgba(200,255,46,.07); margin-bottom: 18px;
     }
     .sec-label svg { width: 13px; height: 13px; }
     .sec-label svg path { fill: var(--gold); }
     .sec-title {
-      font-family: 'Reem Kufi', 'Tajawal', sans-serif;
+      font-family: "Fatimah", "Archivo Black", sans-serif;
       color: #fff; font-weight: 700; letter-spacing: 0;
       font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.35;
     }
@@ -418,48 +460,48 @@
       border-radius: var(--r-xl);
       border: 1px solid var(--line);
       background:
-        radial-gradient(600px 300px at 88% 0%, rgba(216,179,106,.09), transparent 60%),
-        linear-gradient(150deg, rgba(255,255,255,.032), rgba(216,179,106,.03));
+        radial-gradient(600px 300px at 88% 0%, rgba(200,255,46,.09), transparent 60%),
+        linear-gradient(150deg, rgba(255,255,255,.032), rgba(200,255,46,.03));
       padding: clamp(30px, 5vw, 60px);
       overflow: hidden;
       box-shadow: var(--shadow);
     }
     .about-stage::before {
       content: ""; position: absolute; inset: 12px; border-radius: 26px;
-      border: 1px solid rgba(216,179,106,.1); pointer-events: none;
+      border: 1px solid rgba(200,255,46,.1); pointer-events: none;
     }
     .about-stage::after {
       content: "CODEF";
       position: absolute; left: 20px; bottom: -38px;
       font-weight: 900; font-size: clamp(4.6rem, 15vw, 11rem);
-      letter-spacing: -.04em; color: rgba(216,179,106,.04);
+      letter-spacing: -.04em; color: rgba(200,255,46,.04);
       line-height: 1; pointer-events: none;
     }
     .about-grid { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 30px; align-items: start; }
     .about-seal { position: relative; width: 96px; height: 96px; display: grid; place-items: center; flex: 0 0 auto; }
     .about-seal svg.seal-star { position: absolute; width: 100%; height: 100%; animation: starSpin 26s linear infinite; }
-    .about-seal svg.seal-star path { fill: none; stroke: rgba(216,179,106,.5); stroke-width: 1; }
+    .about-seal svg.seal-star path { fill: none; stroke: rgba(200,255,46,.5); stroke-width: 1; }
     .about-seal .seal-ic { color: var(--gold-2); }
-    .about-text { color: rgba(246,240,227,.85); font-size: 1.14rem; line-height: 2.35; font-weight: 500; }
+    .about-text { color: rgba(242,237,227,.85); font-size: 1.14rem; line-height: 2.35; font-weight: 500; }
     .about-text b { color: var(--gold-2); font-weight: 800; }
 
     .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 26px; }
     .kpi {
       position: relative; overflow: hidden; text-align: center;
-      border: 1px solid rgba(216,179,106,.12); border-radius: 24px;
-      background: linear-gradient(160deg, rgba(255,255,255,.028), rgba(216,179,106,.04));
+      border: 1px solid rgba(200,255,46,.12); border-radius: 24px;
+      background: linear-gradient(160deg, rgba(255,255,255,.028), rgba(200,255,46,.04));
       padding: 30px 16px 26px;
       transition: transform var(--t), border-color var(--t), box-shadow var(--t);
     }
     .kpi::after {
       content: ""; position: absolute; inset: 0;
-      background: linear-gradient(115deg, transparent 32%, rgba(216,179,106,.1) 50%, transparent 68%);
+      background: linear-gradient(115deg, transparent 32%, rgba(200,255,46,.1) 50%, transparent 68%);
       transform: translateX(140%); transition: transform .75s ease;
     }
-    .kpi:hover { transform: translateY(-8px); border-color: rgba(216,179,106,.34); box-shadow: 0 24px 70px rgba(0,0,0,.4); }
+    .kpi:hover { transform: translateY(-8px); border-color: rgba(200,255,46,.34); box-shadow: 0 24px 70px rgba(0,0,0,.4); }
     .kpi:hover::after { transform: translateX(-140%); }
     .kpi-num {
-      font-family: 'Reem Kufi', sans-serif;
+      font-family: "Fatimah", "Archivo Black", sans-serif;
       font-size: 2.6rem; font-weight: 700; line-height: 1.1;
       background: linear-gradient(120deg, #fff, var(--gold-2) 70%);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
@@ -471,27 +513,27 @@
     .gift-halo {
       position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(700px 360px at 18% 20%, rgba(47,157,120,.1), transparent 60%),
-        radial-gradient(700px 360px at 85% 85%, rgba(216,179,106,.08), transparent 60%);
+        radial-gradient(700px 360px at 18% 20%, rgba(200,255,46,.1), transparent 60%),
+        radial-gradient(700px 360px at 85% 85%, rgba(200,255,46,.08), transparent 60%);
     }
     .gift-stage {
       position: relative;
       display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, .92fr);
       border-radius: 38px; overflow: hidden;
-      border: 1px solid rgba(216,179,106,.22);
+      border: 1px solid rgba(200,255,46,.22);
       background:
-        radial-gradient(560px 320px at 90% -10%, rgba(47,157,120,.14), transparent 55%),
-        linear-gradient(150deg, rgba(17,76,57,.3), rgba(8,10,14,.7) 55%, rgba(216,179,106,.05));
+        radial-gradient(560px 320px at 90% -10%, rgba(200,255,46,.14), transparent 55%),
+        linear-gradient(150deg, rgba(200,255,46,.3), rgba(8,10,14,.7) 55%, rgba(200,255,46,.05));
       box-shadow: var(--shadow);
     }
     .gift-stage::before {
       content: ""; position: absolute; inset: 12px; border-radius: 30px;
-      border: 1px dashed rgba(216,179,106,.22); pointer-events: none; z-index: 2;
+      border: 1px dashed rgba(200,255,46,.22); pointer-events: none; z-index: 2;
     }
     .gift-ribbon {
       position: absolute; top: 26px; left: -46px; z-index: 5;
       transform: rotate(45deg) scale(-1, 1);
-      color: #0d1a14; font-weight: 900; font-size: .82rem; letter-spacing: .04em;
+      color: #0A0A0D; font-weight: 900; font-size: .82rem; letter-spacing: .04em;
       background: linear-gradient(120deg, var(--gold-3), var(--gold-2), var(--gold));
       padding: 8px 60px;
       box-shadow: 0 10px 28px rgba(0,0,0,.35);
@@ -499,29 +541,29 @@
     .gift-body { position: relative; z-index: 3; padding: clamp(34px, 5vw, 62px); display: flex; flex-direction: column; justify-content: center; }
     .gift-eyebrow {
       display: inline-flex; align-items: center; gap: 9px; width: fit-content;
-      color: #9fe8cd; font-weight: 900; font-size: .8rem;
-      border: 1px solid rgba(47,157,120,.4); border-radius: 999px; padding: 7px 17px;
-      background: rgba(47,157,120,.12); margin-bottom: 20px;
+      color: #C8FF2E; font-weight: 900; font-size: .8rem;
+      border: 1px solid rgba(200,255,46,.4); border-radius: 999px; padding: 7px 17px;
+      background: rgba(200,255,46,.12); margin-bottom: 20px;
     }
     .gift-title {
-      font-family: 'Reem Kufi', sans-serif; color: #fff; font-weight: 700;
+      font-family: "Fatimah", "Archivo Black", sans-serif; color: #fff; font-weight: 700;
       font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.35; margin-bottom: 8px;
     }
     .gift-title .g { color: var(--gold-2); }
-    .gift-desc { color: rgba(246,240,227,.72); font-size: 1.06rem; line-height: 2.2; margin: 14px 0 30px; width: min(520px, 100%); }
+    .gift-desc { color: rgba(242,237,227,.72); font-size: 1.06rem; line-height: 2.2; margin: 14px 0 30px; width: min(520px, 100%); }
     .gift-points { display: grid; gap: 10px; margin-bottom: 34px; }
-    .gift-point { display: flex; align-items: center; gap: 11px; color: rgba(246,240,227,.8); font-weight: 700; font-size: .96rem; }
+    .gift-point { display: flex; align-items: center; gap: 11px; color: rgba(242,237,227,.8); font-weight: 700; font-size: .96rem; }
     .gift-point svg { width: 17px; height: 17px; flex: 0 0 auto; }
     .gift-point svg path { fill: none; stroke: var(--emerald); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
     .btn-gift {
       width: fit-content;
       position: relative; overflow: hidden;
-      color: #071510; padding: 15px 34px; border: 0;
-      background: linear-gradient(120deg, #2f9d78, #7fd8b6 50%, #2f9d78);
+      color: #0A0A0D; padding: 15px 34px; border: 0;
+      background: linear-gradient(120deg, #C8FF2E, #E4FF9A 50%, #C8FF2E);
       background-size: 200% auto;
-      box-shadow: 0 18px 50px rgba(47,157,120,.3), inset 0 1px 0 rgba(255,255,255,.5);
+      box-shadow: 0 18px 50px rgba(200,255,46,.3), inset 0 1px 0 rgba(255,255,255,.5);
     }
-    .btn-gift:hover { transform: translateY(-3px); background-position: left center; box-shadow: 0 26px 66px rgba(47,157,120,.45); }
+    .btn-gift:hover { transform: translateY(-3px); background-position: left center; box-shadow: 0 26px 66px rgba(200,255,46,.45); }
     .gift-visual { position: relative; min-height: 380px; overflow: hidden; }
     .gift-visual img {
       width: 100%; height: 100%; object-fit: cover; object-position: top;
@@ -546,12 +588,12 @@
       display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(360px, .96fr);
       min-height: 380px;
       border-radius: 34px; overflow: hidden;
-      border: 1px solid rgba(216,179,106,.11);
-      background: linear-gradient(150deg, rgba(255,255,255,.03), rgba(216,179,106,.026));
+      border: 1px solid rgba(200,255,46,.11);
+      background: linear-gradient(150deg, rgba(255,255,255,.03), rgba(200,255,46,.026));
       box-shadow: 0 24px 80px rgba(0,0,0,.3);
       transition: transform .5s var(--ease), border-color .5s var(--ease), box-shadow .5s var(--ease);
     }
-    .work:hover { transform: translateY(-10px); border-color: rgba(216,179,106,.34); box-shadow: 0 46px 120px rgba(0,0,0,.5); }
+    .work:hover { transform: translateY(-10px); border-color: rgba(200,255,46,.34); box-shadow: 0 46px 120px rgba(0,0,0,.5); }
     .work.flip { grid-template-columns: minmax(360px, .96fr) minmax(0, 1.04fr); }
     .work.flip .work-media { order: 2; }
     .work.flip .work-body { order: 1; }
@@ -560,10 +602,10 @@
     .work:hover .work-media img { transform: scale(1.06); filter: saturate(1.12); }
     .work-media::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(135deg, rgba(216,179,106,.16), transparent 52%);
+      background: linear-gradient(135deg, rgba(200,255,46,.16), transparent 52%);
     }
     .work-frame { position: absolute; inset: 14px; pointer-events: none; z-index: 3; }
-    .work-frame span { position: absolute; width: 26px; height: 26px; border: 1px solid rgba(242,224,176,.65); transition: width var(--t), height var(--t); }
+    .work-frame span { position: absolute; width: 26px; height: 26px; border: 1px solid rgba(242,237,227,.65); transition: width var(--t), height var(--t); }
     .work-frame .f1 { top: 0; right: 0; border-left: 0; border-bottom: 0; }
     .work-frame .f2 { top: 0; left: 0; border-right: 0; border-bottom: 0; }
     .work-frame .f3 { bottom: 0; right: 0; border-left: 0; border-top: 0; }
@@ -573,47 +615,47 @@
       position: absolute; top: 20px; right: 20px; z-index: 4;
       min-width: 56px; height: 56px; padding: 0 10px;
       display: grid; place-items: center;
-      font-family: 'Reem Kufi', sans-serif; font-weight: 700; font-size: 1.2rem;
+      font-family: "Fatimah", "Archivo Black", sans-serif; font-weight: 700; font-size: 1.2rem;
       color: var(--gold-2);
       background: rgba(5,7,10,.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(216,179,106,.36); border-radius: 18px;
+      border: 1px solid rgba(200,255,46,.36); border-radius: 18px;
       box-shadow: 0 14px 40px rgba(0,0,0,.4);
     }
     .work-body { position: relative; padding: clamp(30px, 4.4vw, 52px); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
     .work-body::after {
       content: attr(data-order);
       position: absolute; left: 18px; bottom: -34px;
-      font-family: 'Reem Kufi', sans-serif; font-size: 9.5rem; font-weight: 700; line-height: 1;
-      color: rgba(216,179,106,.05); pointer-events: none;
+      font-family: "Fatimah", "Archivo Black", sans-serif; font-size: 9.5rem; font-weight: 700; line-height: 1;
+      color: rgba(200,255,46,.05); pointer-events: none;
     }
     .work-kind { color: var(--gold); font-weight: 900; font-size: .78rem; letter-spacing: .12em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
     .work-kind::before { content: ""; width: 26px; height: 1px; background: var(--gold); opacity: .7; }
-    .work-title { font-family: 'Reem Kufi', sans-serif; color: #fff; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
-    .work-desc { color: rgba(246,240,227,.62); font-size: 1.02rem; line-height: 2.1; margin-bottom: 28px; position: relative; z-index: 1; }
+    .work-title { font-family: "Fatimah", "Archivo Black", sans-serif; color: #fff; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
+    .work-desc { color: rgba(242,237,227,.62); font-size: 1.02rem; line-height: 2.1; margin-bottom: 28px; position: relative; z-index: 1; }
     .work-actions { min-height: 50px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
     .work-link {
       display: inline-flex; align-items: center; gap: 9px;
-      color: #171207; text-decoration: none; font-weight: 900; font-size: .94rem;
+      color: #0A0A0D; text-decoration: none; font-weight: 900; font-size: .94rem;
       padding: 13px 26px; border-radius: 999px;
       background: linear-gradient(120deg, var(--gold-3), var(--gold-2) 45%, var(--gold));
-      box-shadow: 0 14px 38px rgba(216,179,106,.24), inset 0 1px 0 rgba(255,255,255,.5);
+      box-shadow: 0 14px 38px rgba(200,255,46,.24), inset 0 1px 0 rgba(255,255,255,.5);
       transition: transform var(--t), box-shadow var(--t);
     }
-    .work-link:hover { transform: translateY(-3px); box-shadow: 0 20px 54px rgba(216,179,106,.44); }
+    .work-link:hover { transform: translateY(-3px); box-shadow: 0 20px 54px rgba(200,255,46,.44); }
     .work-soon {
       display: inline-flex; align-items: center; gap: 8px;
       color: var(--faint); font-weight: 800; font-size: .88rem;
-      border: 1px dashed rgba(216,179,106,.22); border-radius: 999px; padding: 10px 20px;
+      border: 1px dashed rgba(200,255,46,.22); border-radius: 999px; padding: 10px 20px;
     }
     .work-ph {
       width: 100%; height: 100%; min-height: 320px;
       display: grid; place-items: center; text-align: center;
-      color: rgba(216,179,106,.5);
-      background: radial-gradient(circle at 32% 30%, rgba(216,179,106,.1), transparent 46%), linear-gradient(135deg, rgba(216,179,106,.06), transparent);
+      color: rgba(200,255,46,.5);
+      background: radial-gradient(circle at 32% 30%, rgba(200,255,46,.1), transparent 46%), linear-gradient(135deg, rgba(200,255,46,.06), transparent);
       padding: 26px;
     }
     .work-ph .ph-star { width: 54px; height: 54px; margin: 0 auto 10px; animation: starSpin 20s linear infinite; }
-    .work-ph .ph-star path { fill: none; stroke: rgba(216,179,106,.55); stroke-width: 1.4; }
+    .work-ph .ph-star path { fill: none; stroke: rgba(200,255,46,.55); stroke-width: 1.4; }
     .work-ph .ph-text { color: var(--faint); font-weight: 800; font-size: .9rem; }
 
     /* ---------- الختام ---------- */
@@ -622,9 +664,9 @@
       position: relative; text-align: center;
       width: min(860px, calc(100% - 44px)); margin: 0 auto;
       border-radius: 44px;
-      border: 1px solid rgba(216,179,106,.24);
+      border: 1px solid rgba(200,255,46,.24);
       background:
-        radial-gradient(600px 300px at 50% -20%, rgba(216,179,106,.14), transparent 60%),
+        radial-gradient(600px 300px at 50% -20%, rgba(200,255,46,.14), transparent 60%),
         linear-gradient(170deg, rgba(255,255,255,.03), rgba(6,8,11,.6));
       padding: clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px);
       box-shadow: var(--shadow);
@@ -632,26 +674,26 @@
     }
     .finale-stage::before {
       content: ""; position: absolute; inset: 13px; border-radius: 34px;
-      border: 1px solid rgba(216,179,106,.12); pointer-events: none;
+      border: 1px solid rgba(200,255,46,.12); pointer-events: none;
     }
     .finale-star { position: absolute; width: 480px; top: -240px; right: 50%; transform: translateX(50%); opacity: .4; animation: starSpin 70s linear infinite; }
-    .finale-star path { fill: none; stroke: rgba(216,179,106,.3); stroke-width: .8; }
+    .finale-star path { fill: none; stroke: rgba(200,255,46,.3); stroke-width: .8; }
     .finale-title {
       position: relative;
-      font-family: 'Reem Kufi', sans-serif; color: #fff; font-weight: 700;
+      font-family: "Fatimah", "Archivo Black", sans-serif; color: #fff; font-weight: 700;
       font-size: clamp(2.1rem, 5.4vw, 3.9rem); line-height: 1.35; margin-bottom: 16px;
     }
     .finale-desc { position: relative; color: var(--muted); font-size: 1.1rem; line-height: 2.15; margin-bottom: 36px; width: min(560px, 100%); margin-inline: auto; }
     .finale-actions { position: relative; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
-    .site-footer { padding: 46px 0 40px; background: #040507; border-top: 1px solid rgba(216,179,106,.12); }
+    .site-footer { padding: 46px 0 40px; background: #040507; border-top: 1px solid rgba(200,255,46,.12); }
     .footer-inner { display: grid; justify-items: center; gap: 12px; text-align: center; }
     .footer-brand { display: flex; align-items: center; gap: 11px; }
-    .footer-logo { width: 36px; height: 36px; border-radius: 11px; object-fit: contain; border: 1px solid rgba(216,179,106,.2); opacity: .85; }
-    .footer-name { color: rgba(255,255,255,.75); font-weight: 600; letter-spacing: .22em; padding-right: .22em; font-family: 'Reem Kufi', sans-serif; }
+    .footer-logo { width: 36px; height: 36px; border-radius: 11px; object-fit: contain; border: 1px solid rgba(200,255,46,.2); opacity: .85; }
+    .footer-name { color: rgba(255,255,255,.75); font-weight: 600; letter-spacing: .22em; padding-right: .22em; font-family: "Fatimah", "Archivo Black", sans-serif; }
     .footer-orn { width: 120px; height: 10px; opacity: .7; }
     .footer-orn svg { width: 100%; height: 100%; display: block; }
-    .footer-copy { color: rgba(246,240,227,.32); font-size: .85rem; }
+    .footer-copy { color: rgba(242,237,227,.32); font-size: .85rem; }
     .footer-copy .g { color: var(--gold); }
 
     /* واتساب */
@@ -664,7 +706,7 @@
     .wa-float.show { opacity: 1; transform: none; }
     .wa-label {
       background: rgba(5,7,10,.9); color: #fff;
-      border: 1px solid rgba(216,179,106,.2); border-radius: 11px;
+      border: 1px solid rgba(200,255,46,.2); border-radius: 11px;
       padding: 6px 14px; font-size: .82rem; font-weight: 800; white-space: nowrap;
       opacity: 0; transform: translateX(-8px);
       transition: opacity var(--t), transform var(--t);
@@ -686,7 +728,7 @@
     @keyframes waPulse { 50% { transform: scale(1.24); opacity: 0; } }
 
     /* الظهور عند التمرير */
-    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+    .reveal { opacity: 0; transform: translateY(40px) scale(.97); transition: opacity .7s var(--expo), transform .8s var(--expo); }
     .reveal.visible { opacity: 1; transform: none; }
     .reveal.d1 { transition-delay: .08s; }
     .reveal.d2 { transition-delay: .16s; }
@@ -695,6 +737,8 @@
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
 
     @media (prefers-reduced-motion: reduce) {
+      .reel-frame video, .reel-sound { display: none !important; }
+      .reel-still { display: block; }
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; }
@@ -711,6 +755,8 @@
       .kpi-row { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 640px) {
+      .reel-banner { width: calc(100% - 30px); }
+      .reel-frame { aspect-ratio: 1 / 1; background-image: url("assets/video/poster.jpg"); }
       .container { width: calc(100% - 30px); }
       .hero { padding: 122px 0 90px; }
       .hero-frame { display: none; }
@@ -779,6 +825,27 @@
       <div class="hero-frame" aria-hidden="true"><span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span></div>
       <div class="dust-field" id="heroDust" aria-hidden="true"></div>
 
+      <div class="reel-banner">
+        <div class="reel-frame">
+          <video id="reelVideo" autoplay muted loop playsinline preload="metadata"
+                 poster="assets/video/poster-banner.jpg" aria-label="ريل كودف التعريفي: مشروعك القادم يبدأ بنقطة">
+            <source src="assets/video/reel-1080.webm" type="video/webm" media="(max-width: 640px)">
+            <source src="assets/video/reel-1080.mp4" type="video/mp4" media="(max-width: 640px)">
+            <source src="assets/video/banner-1920x720.webm" type="video/webm">
+            <source src="assets/video/banner-1920x720.mp4" type="video/mp4">
+          </video>
+          <picture class="reel-still">
+            <source srcset="assets/video/poster.jpg" media="(max-width: 640px)">
+            <img src="assets/video/poster-banner.jpg" alt="كودف — مشروعك القادم يبدأ بنقطة" loading="lazy">
+          </picture>
+          <button class="reel-sound" id="reelSound" type="button" aria-pressed="false" aria-label="تشغيل الصوت">
+            <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg>
+            <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+            <span class="lbl">الصوت</span>
+          </button>
+        </div>
+      </div>
+
       <div class="container hero-layout">
         <div class="hero-content">
           <div class="hero-eyebrow">
@@ -787,7 +854,7 @@
           </div>
           <h1 class="hero-title">أصنع تجارب رقميّة<br><span class="hero-gold">تليق بطموحك</span></h1>
           <div class="hero-rule" aria-hidden="true">
-            <svg viewBox="0 0 132 10" fill="none"><path d="M0 5 H52" stroke="#d8b36a" stroke-width="1"/><path d="M66 0 L71 5 L66 10 L61 5 Z" fill="#d8b36a"/><path d="M80 5 H132" stroke="#d8b36a" stroke-width="1"/></svg>
+            <svg viewBox="0 0 132 10" fill="none"><path d="M0 5 H52" stroke="#C8FF2E" stroke-width="1"/><path d="M66 0 L71 5 L66 10 L61 5 Z" fill="#C8FF2E"/><path d="M80 5 H132" stroke="#C8FF2E" stroke-width="1"/></svg>
           </div>
           <p class="hero-desc">من الفكرة إلى منتج رقمي مكتمل: هوية بصرية حاضرة، واجهات عربية أنيقة، وتجربة استخدام تخدم أهدافك بوضوح.</p>
           <div class="hero-actions">
@@ -810,7 +877,7 @@
         </div>
 
         <div class="hero-relic" aria-hidden="true">
-          <svg class="relic-star-big" viewBox="0 0 100 100"><path d="M50 2 L62 26 L88 12 L74 38 L98 50 L74 62 L88 88 L62 74 L50 98 L38 74 L12 88 L26 62 L2 50 L26 38 L12 12 L38 26 Z"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(216,179,106,.2)" stroke-width=".5"/></svg>
+          <svg class="relic-star-big" viewBox="0 0 100 100"><path d="M50 2 L62 26 L88 12 L74 38 L98 50 L74 62 L88 88 L62 74 L50 98 L38 74 L12 88 L26 62 L2 50 L26 38 L12 12 L38 26 Z"/><circle cx="50" cy="50" r="30" fill="none" stroke="rgba(200,255,46,.2)" stroke-width=".5"/></svg>
           <div class="relic-ring r1"></div>
           <div class="relic-ring r2"></div>
           <div class="relic-card">
@@ -844,7 +911,7 @@
         <div class="sec-head reveal">
           <div class="sec-label"><svg viewBox="0 0 100 100"><path d="M50 4 L61 27 L84 16 L73 39 L96 50 L73 61 L84 84 L61 73 L50 96 L39 73 L16 84 L27 61 L4 50 L27 39 L16 16 L39 27 Z"/></svg> نبذة</div>
           <h2 class="sec-title">من أنا؟</h2>
-          <div class="sec-orn" aria-hidden="true"><svg viewBox="0 0 150 12" fill="none"><path d="M0 6 H60" stroke="#d8b36a"/><path d="M75 0 L81 6 L75 12 L69 6 Z" fill="#d8b36a"/><path d="M90 6 H150" stroke="#d8b36a"/></svg></div>
+          <div class="sec-orn" aria-hidden="true"><svg viewBox="0 0 150 12" fill="none"><path d="M0 6 H60" stroke="#C8FF2E"/><path d="M75 0 L81 6 L75 12 L69 6 Z" fill="#C8FF2E"/><path d="M90 6 H150" stroke="#C8FF2E"/></svg></div>
         </div>
 
         <div class="about-stage reveal">
@@ -882,7 +949,7 @@
           <div class="sec-label"><svg viewBox="0 0 100 100"><path d="M50 4 L61 27 L84 16 L73 39 L96 50 L73 61 L84 84 L61 73 L50 96 L39 73 L16 84 L27 61 L4 50 L27 39 L16 16 L39 27 Z"/></svg> عطاء دائم</div>
           <h2 class="sec-title">هديتي لك</h2>
           <p class="sec-sub">عمل أهديه لكل زائر: موقع للأذكار اليومية، صدقة رقمية مفتوحة للجميع.</p>
-          <div class="sec-orn" aria-hidden="true"><svg viewBox="0 0 150 12" fill="none"><path d="M0 6 H60" stroke="#d8b36a"/><path d="M75 0 L81 6 L75 12 L69 6 Z" fill="#d8b36a"/><path d="M90 6 H150" stroke="#d8b36a"/></svg></div>
+          <div class="sec-orn" aria-hidden="true"><svg viewBox="0 0 150 12" fill="none"><path d="M0 6 H60" stroke="#C8FF2E"/><path d="M75 0 L81 6 L75 12 L69 6 Z" fill="#C8FF2E"/><path d="M90 6 H150" stroke="#C8FF2E"/></svg></div>
         </div>
 
         <div class="gift-stage reveal">
@@ -924,7 +991,7 @@
           <div class="sec-label"><svg viewBox="0 0 100 100"><path d="M50 4 L61 27 L84 16 L73 39 L96 50 L73 61 L84 84 L61 73 L50 96 L39 73 L16 84 L27 61 L4 50 L27 39 L16 16 L39 27 Z"/></svg> الأعمال</div>
           <h2 class="sec-title">نماذج من أعمالي</h2>
           <p class="sec-sub">كل مشروع صُنع بعناية ليخدم جهته: من البوابات المؤسسية إلى لوحات المتابعة والمنصات التفاعلية.</p>
-          <div class="sec-orn" aria-hidden="true"><svg viewBox="0 0 150 12" fill="none"><path d="M0 6 H60" stroke="#d8b36a"/><path d="M75 0 L81 6 L75 12 L69 6 Z" fill="#d8b36a"/><path d="M90 6 H150" stroke="#d8b36a"/></svg></div>
+          <div class="sec-orn" aria-hidden="true"><svg viewBox="0 0 150 12" fill="none"><path d="M0 6 H60" stroke="#C8FF2E"/><path d="M75 0 L81 6 L75 12 L69 6 Z" fill="#C8FF2E"/><path d="M90 6 H150" stroke="#C8FF2E"/></svg></div>
         </div>
         <div class="works-list" id="projectsList"></div>
       </div>
@@ -960,7 +1027,7 @@
         <img src="" alt="CODEF" class="footer-logo" id="footerLogo" />
         <span class="footer-name" id="footerName">CODEF</span>
       </div>
-      <div class="footer-orn" aria-hidden="true"><svg viewBox="0 0 120 10" fill="none"><path d="M0 5 H46" stroke="#d8b36a"/><path d="M60 0 L65 5 L60 10 L55 5 Z" fill="#d8b36a"/><path d="M74 5 H120" stroke="#d8b36a"/></svg></div>
+      <div class="footer-orn" aria-hidden="true"><svg viewBox="0 0 120 10" fill="none"><path d="M0 5 H46" stroke="#C8FF2E"/><path d="M60 0 L65 5 L60 10 L55 5 Z" fill="#C8FF2E"/><path d="M74 5 H120" stroke="#C8FF2E"/></svg></div>
       <p class="footer-copy">جميع الحقوق محفوظة &copy; <span id="year"></span> — <span class="g" id="footerAppName">CODEF</span> — <span id="footerDomain">codef8.com</span></p>
     </div>
   </footer>
@@ -1104,8 +1171,9 @@
     function initCurtain() {
       const curtain = document.getElementById("curtain");
       const lift = () => curtain.classList.add("lift");
-      window.setTimeout(lift, 2100);
-      window.addEventListener("load", () => window.setTimeout(lift, 1500));
+      // الستار قصير حتى يكون الريل أول ما يراه الزائر
+      window.setTimeout(lift, 900);
+      window.addEventListener("load", () => window.setTimeout(lift, 300));
     }
 
     function buildDust(containerId, count) {
@@ -1287,6 +1355,36 @@
       }, { passive: true });
     }
 
+    function initReel() {
+      const video = document.getElementById("reelVideo");
+      const btn = document.getElementById("reelSound");
+      if (!video) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const small = window.matchMedia("(max-width: 640px)");
+      const setPoster = () => { video.poster = small.matches ? "assets/video/poster.jpg" : "assets/video/poster-banner.jpg"; };
+      const play = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+      const apply = () => {
+        // من يفضّل تقليل الحركة يرى الصورة الثابتة فقط، ولا يُحمَّل الفيديو
+        if (reduce.matches) { video.pause(); video.removeAttribute("autoplay"); video.preload = "none"; return; }
+        video.muted = btn.getAttribute("aria-pressed") !== "true";
+        play();
+      };
+      setPoster();
+      apply();
+      // الجوال يأخذ النسخة المربعة؛ عند تغيّر العرض يُعاد اختيار المصدر
+      const reload = () => { setPoster(); if (!reduce.matches) { video.load(); apply(); } };
+      const on = (mq, fn) => (mq.addEventListener ? mq.addEventListener("change", fn) : mq.addListener(fn));
+      on(small, reload);
+      on(reduce, apply);
+      btn.addEventListener("click", () => {
+        const sound = btn.getAttribute("aria-pressed") !== "true";
+        btn.setAttribute("aria-pressed", String(sound));
+        btn.setAttribute("aria-label", sound ? "كتم الصوت" : "تشغيل الصوت");
+        video.muted = !sound;
+        if (sound) play();
+      });
+    }
+
     function initWaFloat() {
       window.setTimeout(() => document.getElementById("waFloat").classList.add("show"), 1600);
     }
@@ -1294,6 +1392,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       initBranding();
       initCurtain();
+      initReel();
       buildDust("heroDust", 30);
       buildDust("ctaDust", 16);
       buildProjects();
