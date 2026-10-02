@@ -9,6 +9,7 @@ index.html            الصفحة الرئيسية (كل الأنماط وال�
 analytics.js          عدّاد الزيارات عبر Supabase — لا تغيّره
 CNAME                 النطاق — لا تحذفه ولا تنقله
 stats/                لوحة الإحصائيات برمز دخول — لا تلمسها
+cv/                   السيرة الذاتية (codef8.com/cv) — تستخدم خط فاطمة من assets/fonts
 p/adkar/              موقع الأذكار بهويته الخاصة وملف service worker — لا تلمسه
 assets/fonts/         خط فاطمة woff2 + fonts.css
 assets/video/         مخرجات الريل النهائية فقط (mp4, webm, jpg)
