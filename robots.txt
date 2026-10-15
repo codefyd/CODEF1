@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /reel/
+
+Sitemap: https://codef8.com/sitemap.xml
