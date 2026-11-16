@@ -1079,6 +1079,7 @@
       - websiteUrl: إذا أضفت رابطًا سيظهر زر "زيارة الموقع"، وإذا تركته فارغًا يظهر "قريبًا للعرض".
       - kind: تصنيف قصير يظهر فوق العنوان (اختياري).
       - order: يتحكم بترتيب الظهور.
+      - hidden: true يخفي المشروع مؤقتًا بدون حذفه.
     */
     const PROJECTS = [
       {
@@ -1094,7 +1095,7 @@
         title: "سماراتس",
         kind: "منصة عرض رقمية",
         desc: "منصة لإدارة شاشات العرض للجهات والشركات والجمعيات.",
-        imageUrl: "https://a.top4top.io/p_3782x6jva2.png",
+        imageUrl: "assets/projects/smarats.png",
         websiteUrl: "https://smarats.com/"
       },
       {
@@ -1118,7 +1119,7 @@
         title: "بوابة الموارد البشرية",
         kind: "لوحة تشغيل داخلية",
         desc: "لوحة تشغيل داخلية لتنظيم أعمال الموارد البشرية، تبدأ من إدارة بيانات المتقدمين وتمتد إلى المتابعة والفرز والتقييم والتواصل.",
-        imageUrl: "assets/projects/hr.png",
+        imageUrl: "assets/projects/hr.webp",
         websiteUrl: ""
       },
       {
@@ -1134,7 +1135,7 @@
         title: "بوابة مجمع النصار",
         kind: "بوابة مؤسسية",
         desc: "بوابة مؤسسية تخدم البيئة التعليمية والتحفيظية عبر مسارات تشمل التسجيل، القبول، بيانات الطلاب، بوابة العاملين، والإنجازات.",
-        imageUrl: "https://c.top4top.io/p_3782i5lzb4.png",
+        imageUrl: "assets/projects/alnsar.png",
         websiteUrl: ""
       },
       {
@@ -1163,6 +1164,7 @@
       },
       {
         order: 11,
+        hidden: true, // معلّق بطلب فارس 2026-11-16
         title: "بطولة الأبطال",
         kind: "منصة رياضية",
         desc: "منصة رياضية لإدارة وعرض البطولات عبر واجهة تجمع الترتيب، المباريات، الهدافين، والإحصائيات مع لوحة إدارة مستقلة.",
@@ -1246,7 +1248,7 @@
 
     function buildProjects() {
       const list = document.getElementById("projectsList");
-      const projects = PROJECTS.slice().sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+      const projects = PROJECTS.filter(p => !p.hidden).sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
 
       projects.forEach((p, idx) => {
         const card = document.createElement("article");
