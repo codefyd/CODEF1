@@ -80,6 +80,18 @@ h1 { font-weight: 900; font-size: clamp(30px, 6vw, 48px); line-height: 1.45; mar
 .card a.more { margin-top: auto; padding-top: 8px; font-size: 15px; }
 .card .tag { color: var(--gold); font-size: 14px; }
 a.card { text-decoration: none; color: inherit; transition: border-color .25s; }
+.card[hidden] { display: none; }
+.badge { display: inline-block; padding: 0 10px; margin-inline-end: 4px; border-radius: 999px; background: rgba(var(--gold-rgb),.16); color: var(--gold-2); font-size: 13px; line-height: 1.9; }
+
+/* تبويبات المدونة */
+.tabs { display: flex; gap: 8px; margin: 0 0 22px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.tabs[hidden] { display: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: none; font: inherit; font-size: 15px; line-height: 1.6; cursor: pointer; color: var(--muted); background: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; transition: border-color .2s, color .2s, background .2s; }
+.tab:hover { color: var(--gold-2); border-color: var(--line-strong); }
+.tab[aria-pressed="true"] { color: var(--bg); background: linear-gradient(135deg, var(--gold-2), var(--gold) 55%, var(--gold-3)); border-color: transparent; font-weight: 700; }
+.tab .n { opacity: .7; font-size: 13px; margin-inline-start: 2px; }
+.tab[hidden] { display: none; }
 a.card:hover { border-color: var(--line-strong); }
 
 .section { padding: 10px 0 40px; }
