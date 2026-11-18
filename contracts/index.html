@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#0A0A0D">
+  <title>عقد — وكالة كودف</title>
+  <meta property="og:title" content="عقد من وكالة كودف">
+  <meta property="og:description" content="اقرأ العقد ووقّعه من جوالك">
+  <link rel="icon" href="/contracts/logo.svg">
+  <link rel="stylesheet" href="/assets/fonts/fonts.css">
+  <link rel="stylesheet" href="/contracts/contract.css">
+  <style>
+    /* صفحة العميل: نفس الملف على codef8.com/contracts/ وعلى سيرفر العقود. ما فيه أي شي سري هنا */
+    :root { --gold-rgb: 201,169,110; --gold: #C9A96E; --gold-2: #E8D5AA; --gold-3: #A88A52; --gold-deep: #5E4A28; --bg: #0A0A0D; --warm: #F2EDE3; --paper-bg: #f4efe4; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--paper-bg); color: #1b1a17; font-family: "Fatimah", "Segoe UI", Tahoma, sans-serif; line-height: 1.7; -webkit-text-size-adjust: 100%; }
+    .top { background: var(--bg); color: var(--warm); padding: 22px 16px 70px; text-align: center; position: relative; overflow: hidden; }
+    .top::after { content: ""; position: absolute; inset: auto -10% -60px; height: 120px; background: radial-gradient(closest-side, rgba(var(--gold-rgb), .25), transparent); }
+    .top img { height: 44px; display: block; margin: 0 auto 10px; }
+    .top .k { color: var(--gold); font-size: 13px; letter-spacing: 1px; }
+    .top h1 { margin: 2px 0 0; font-size: 22px; font-weight: 700; }
+    .top .m { color: #b9b2a3; font-size: 14px; margin-top: 4px; }
+    .wrap { max-width: 860px; margin: -48px auto 0; padding: 0 12px 120px; position: relative; z-index: 1; }
+    .paper { background: #fff; border-radius: 16px; padding: 30px 28px; box-shadow: 0 18px 50px rgba(60,45,15,.16); }
+    @media (max-width: 600px) { .paper { padding: 18px 14px; border-radius: 12px; } .paper .contract { font-size: 14.5px; } .contract .doc-title { font-size: 20px; } .contract .doc-product { font-size: 24px; } .contract table.grid th { width: 30%; } }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font-size: 13px; margin-top: 10px; border: 1px solid; }
+    .badge.ok { color: #9fe0bb; border-color: rgba(159,224,187,.4); }
+    .badge.wait { color: var(--gold-2); border-color: rgba(var(--gold-rgb), .45); }
+
+    .panel { background: #fff; border-radius: 16px; padding: 22px 20px; margin-top: 16px; box-shadow: 0 10px 30px rgba(60,45,15,.1); border-top: 4px solid var(--gold); }
+    .panel h2 { margin: 0 0 4px; font-size: 20px; color: #0A0A0D; }
+    .panel p.s { margin: 0 0 14px; color: #6b6352; font-size: 14.5px; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 14px; color: var(--gold-deep); margin-bottom: 6px; font-weight: 700; }
+    .field input[type=text] { width: 100%; font: inherit; font-size: 17px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid #e4d8be; background: #fffdf8; min-height: 50px; }
+    .field input:focus { outline: none; border-color: var(--gold); }
+    .pad { position: relative; background: #fffdf8; border: 2px dashed var(--gold); border-radius: 14px; touch-action: none; }
+    .pad canvas { display: block; width: 100%; height: 190px; cursor: crosshair; }
+    .pad .hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #c2b597; pointer-events: none; font-size: 17px; }
+    .pad .line { position: absolute; inset-inline: 22px; bottom: 44px; border-bottom: 1px solid #eadfc6; pointer-events: none; }
+    .clear { background: none; border: 0; color: var(--gold-3); font: inherit; font-size: 14px; cursor: pointer; padding: 6px 2px; }
+    .agree { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; margin: 6px 0 16px; cursor: pointer; }
+    .agree input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--gold-3); flex: none; }
+    .btn { display: flex; width: 100%; align-items: center; justify-content: center; gap: 8px; font: inherit; font-size: 17px; font-weight: 700; padding: 14px; min-height: 54px; border-radius: 14px; border: 0; cursor: pointer;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold) 55%, var(--gold-3)); color: #17130b; text-decoration: none; }
+    .btn[disabled] { opacity: .45; cursor: not-allowed; }
+    .btn.dark { background: var(--bg); color: var(--gold-2); }
+    .btn svg { width: 20px; height: 20px; }
+    .err { color: #b4432f; background: #fcefeb; border-radius: 10px; padding: 10px 12px; font-size: 14.5px; margin-bottom: 12px; display: none; }
+    .done { text-align: center; }
+    .done .ic { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; background: #eaf6ef; color: #2f8a57; }
+    .done .ic svg { width: 34px; height: 34px; }
+    .fine { color: #8a7f68; font-size: 12.5px; margin-top: 12px; text-align: center; }
+    .fine code { direction: ltr; display: inline-block; word-break: break-all; font-size: 11px; }
+
+    .dock { position: fixed; inset-inline: 0; bottom: 0; z-index: 5; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(10,10,13,.94); backdrop-filter: blur(8px); display: none; }
+    .dock .btn { max-width: 520px; margin: 0 auto; }
+    .state { max-width: 460px; margin: 18vh auto; text-align: center; padding: 0 16px; color: #6b6352; }
+    .state h2 { color: #0A0A0D; }
+    .foot { text-align: center; color: #8a7f68; font-size: 14px; padding: 26px 0 0; }
+    .foot a { font-family: "Fatimah"; font-weight: 700; color: var(--gold-3); text-decoration: none; }
+    .spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #e8dcc2; border-top-color: var(--gold-3); animation: r 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes r { to { transform: rotate(360deg); } }
+    @media print { .top, .panel, .dock, .foot { display: none !important; } body { background: #fff; } .wrap { margin: 0; padding: 0; } .paper { box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <div id="loading" class="state"><div class="spin"></div>نجهّز العقد…</div>
+
+  <div id="app" hidden>
+    <header class="top">
+      <img src="/contracts/logo-white.svg" alt="كودف">
+      <div class="k">وكالة كودف</div>
+      <h1 id="title"></h1>
+      <div class="m" id="meta"></div>
+      <div id="badge"></div>
+    </header>
+
+    <main class="wrap">
+      <article class="paper"><div class="contract" id="doc"></div></article>
+
+      <section class="panel" id="sign">
+        <h2>توقيع العقد</h2>
+        <p class="s">بعد ما تقرأ العقد كامل، اكتب اسمك ووقّع بإصبعك في المربع.</p>
+        <div class="err" id="err"></div>
+        <div class="field">
+          <label for="name">اسمك الكامل</label>
+          <input type="text" id="name" autocomplete="name" maxlength="120">
+        </div>
+        <div class="field">
+          <label>توقيعك</label>
+          <div class="pad"><canvas></canvas><div class="line"></div><div class="hint">وقّع هنا</div></div>
+          <button class="clear" type="button" id="clear">مسح التوقيع</button>
+        </div>
+        <label class="agree"><input type="checkbox" id="agree"><span>قرأت العقد كاملًا، وأوافق على جميع أحكامه، وأقر بأن توقيعي الإلكتروني هذا ملزم لي مثل توقيعي الخطي.</span></label>
+        <button class="btn" id="go" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          توقيع العقد
+        </button>
+      </section>
+
+      <section class="panel done" id="signed" hidden>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h2>العقد موقّع</h2>
+        <p class="s" id="signedText"></p>
+        <a class="btn dark" id="pdf" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          تحميل نسخة العقد (PDF)
+        </a>
+        <p class="s" style="margin-top:12px">احفظ هذا الرابط، العقد يبقى لك هنا ترجع له متى ما بغيت.</p>
+      </section>
+
+      <p class="fine" id="fine"></p>
+      <footer class="foot">تطوير <a href="https://codef8.com">كودف</a></footer>
+    </main>
+
+    <div class="dock" id="dock"><a class="btn" href="#sign">انتقل للتوقيع</a></div>
+  </div>
+
+  <div id="fail" class="state" hidden>
+    <h2>ما قدرنا نفتح العقد</h2>
+    <p id="failText">الرابط غير صحيح أو انتهت صلاحيته. تواصل مع وكالة كودف.</p>
+  </div>
+
+  <script src="/contracts/sigpad.js"></script>
+  <script>
+  (function () {
+    // على codef8.com (GitHub Pages) الحفظ في سيرفر العقود. على سيرفر العقود نفسه = نفس الموقع
+    var API = /(^|\.)codef8\.com$/.test(location.hostname) ? 'https://contracts.faris0.vip' : '';
+    var token = new URLSearchParams(location.search).get('k') || '';
+    var $ = function (id) { return document.getElementById(id); };
+    var AR = function (s) { return String(s).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }); };
+    var doc = null, pad = null;
+
+    function fail(msg) { $('loading').hidden = true; $('app').hidden = true; $('fail').hidden = false; if (msg) $('failText').textContent = msg; }
+    function when(iso) {
+      var d = new Date(iso);
+      return AR(d.toLocaleDateString('ar-SA-u-ca-gregory-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }) + '، الساعة ' +
+        d.toLocaleTimeString('ar-SA-u-nu-latn', { hour: 'numeric', minute: '2-digit' }));
+    }
+
+    function render(d) {
+      doc = d;
+      document.title = d.title + ' — ' + d.client;
+      $('title').textContent = d.title;
+      $('meta').textContent = d.client + ' · عقد رقم ' + AR(d.number);
+      $('doc').innerHTML = d.html;
+      var signed = d.status === 'signed', cancelled = d.status === 'cancelled';
+      $('badge').innerHTML = signed ? '<span class="badge ok">موقّع من الطرفين</span>' : cancelled ? '<span class="badge wait">هذا العقد ملغي</span>' : '<span class="badge wait">بانتظار توقيعك</span>';
+      $('sign').hidden = signed || cancelled;
+      $('signed').hidden = !signed;
+      $('dock').style.display = (signed || cancelled) ? 'none' : '';
+      if (signed) {
+        $('signedText').textContent = 'وقّعه ' + d.signer_name + ' بتاريخ ' + when(d.signed_at) + '.';
+        $('pdf').href = API + '/api/c/' + token + '/pdf';
+      }
+      $('fine').innerHTML = 'بصمة نص العقد: <code>' + d.hash + '</code>';
+      if (!signed && !cancelled && !$('name').value) $('name').value = d.signer_hint || '';
+      $('loading').hidden = true; $('app').hidden = false;
+      if (!signed && !cancelled && !pad) setupPad();
+    }
+
+    function setupPad() {
+      var hint = document.querySelector('.pad .hint');
+      pad = SigPad(document.querySelector('.pad canvas'), { onChange: function (empty) { hint.style.display = empty ? '' : 'none'; check(); } });
+      document.querySelector('.pad canvas').addEventListener('pointerup', check);
+      $('clear').onclick = function () { pad.clear(); };
+      $('agree').onchange = check; $('name').oninput = check;
+      $('go').onclick = submit;
+      // زر «انتقل للتوقيع» يختفي لما يوصل لقسم التوقيع
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { $('dock').style.display = es[0].isIntersecting ? 'none' : ''; }).observe($('sign'));
+    }
+    function check() { $('go').disabled = !(pad && !pad.isEmpty() && $('agree').checked && $('name').value.trim().length >= 3); }
+    function showErr(m) { var e = $('err'); e.textContent = m; e.style.display = 'block'; e.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+    function submit() {
+      check(); if ($('go').disabled) return;
+      $('go').disabled = true; $('go').lastChild.textContent = ' نحفظ توقيعك…'; $('err').style.display = 'none';
+      fetch(API + '/api/c/' + token + '/sign', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name: $('name').value.trim(), signature: pad.toDataURL(), agree: true, hash: doc.hash })
+      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
+        .then(function (res) {
+          if (res.ok) { render(res.j); window.scrollTo({ top: document.getElementById('signed').offsetTop - 20, behavior: 'smooth' }); return; }
+          var m = res.j && (res.j.errors ? Object.values(res.j.errors)[0][0] : res.j.message);
+          if (res.status === 409) { load(); }
+          showErr(m || 'صار خطأ، حاول مرة ثانية');
+          $('go').lastChild.textContent = ' توقيع العقد'; check();
+        })
+        .catch(function () { showErr('تأكد من اتصالك بالإنترنت وحاول مرة ثانية'); $('go').lastChild.textContent = ' توقيع العقد'; check(); });
+    }
+
+    function load() {
+      if (!/^[A-Za-z0-9]{48}$/.test(token)) return fail();
+      fetch(API + '/api/c/' + token + (new URLSearchParams(location.search).get('preview') ? '?preview=1' : ''), { headers: { 'Accept': 'application/json' } })
+        .then(function (r) { if (!r.ok) throw r; return r.json(); })
+        .then(render)
+        .catch(function () { fail(); });
+    }
+    load();
+  })();
+  </script>
+</body>
+</html>
