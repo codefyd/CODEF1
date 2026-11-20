@@ -38,11 +38,9 @@
     .field label { display: block; font-size: 14px; color: var(--gold-deep); margin-bottom: 6px; font-weight: 700; }
     .field input[type=text] { width: 100%; font: inherit; font-size: 17px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid #e4d8be; background: #fffdf8; min-height: 50px; }
     .field input:focus { outline: none; border-color: var(--gold); }
-    .pad { position: relative; background: #fffdf8; border: 2px dashed var(--gold); border-radius: 14px; touch-action: none; }
-    .pad canvas { display: block; width: 100%; height: 190px; cursor: crosshair; }
-    .pad .hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #c2b597; pointer-events: none; font-size: 17px; }
-    .pad .line { position: absolute; inset-inline: 22px; bottom: 44px; border-bottom: 1px solid #eadfc6; pointer-events: none; }
-    .clear { background: none; border: 0; color: var(--gold-3); font: inherit; font-size: 14px; cursor: pointer; padding: 6px 2px; }
+    .sigbox { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 100%; min-height: 130px; background: #fffdf8; border: 2px dashed var(--gold); border-radius: 14px; cursor: pointer; font: inherit; color: var(--gold-3); font-size: 17px; font-weight: 700; padding: 10px; }
+    .sigbox img { max-height: 100px; max-width: 100%; }
+    .sigbox small { font-size: 13px; font-weight: 400; }
     .agree { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; margin: 6px 0 16px; cursor: pointer; }
     .agree input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--gold-3); flex: none; }
     .btn { display: flex; width: 100%; align-items: center; justify-content: center; gap: 8px; font: inherit; font-size: 17px; font-weight: 700; padding: 14px; min-height: 54px; border-radius: 14px; border: 0; cursor: pointer;
@@ -85,7 +83,7 @@
 
       <section class="panel" id="sign">
         <h2>توقيع العقد</h2>
-        <p class="s">بعد ما تقرأ العقد كامل، اكتب اسمك ووقّع بإصبعك في المربع.</p>
+        <p class="s">بعد ما تقرأ العقد كامل، اكتب اسمك واضغط على مربع التوقيع ووقّع بإصبعك.</p>
         <div class="err" id="err"></div>
         <div class="field">
           <label for="name">اسمك الكامل</label>
@@ -93,8 +91,7 @@
         </div>
         <div class="field">
           <label>توقيعك</label>
-          <div class="pad"><canvas></canvas><div class="line"></div><div class="hint">وقّع هنا</div></div>
-          <button class="clear" type="button" id="clear">مسح التوقيع</button>
+          <button type="button" class="sigbox" id="sigbox"><span>اضغط هنا للتوقيع</span></button>
         </div>
         <label class="agree"><input type="checkbox" id="agree"><span>قرأت العقد كاملًا، وأوافق على جميع أحكامه، وأقر بأن توقيعي الإلكتروني هذا ملزم لي مثل توقيعي الخطي.</span></label>
         <button class="btn" id="go" disabled>
@@ -107,7 +104,7 @@
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
         <h2>العقد موقّع</h2>
         <p class="s" id="signedText"></p>
-        <a class="btn dark" id="pdf" href="#">
+        <a class="btn dark" id="pdf" href="#" role="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
           تحميل نسخة العقد (PDF)
         </a>
@@ -134,7 +131,7 @@
     var token = new URLSearchParams(location.search).get('k') || '';
     var $ = function (id) { return document.getElementById(id); };
     var AR = function (s) { return String(s).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }); };
-    var doc = null, pad = null;
+    var doc = null, sig = null, wired = false;
 
     function fail(msg) { $('loading').hidden = true; $('app').hidden = true; $('fail').hidden = false; if (msg) $('failText').textContent = msg; }
     function when(iso) {
@@ -156,25 +153,51 @@
       $('dock').style.display = (signed || cancelled) ? 'none' : '';
       if (signed) {
         $('signedText').textContent = 'وقّعه ' + d.signer_name + ' بتاريخ ' + when(d.signed_at) + '.';
-        $('pdf').href = API + '/api/c/' + token + '/pdf';
+        $('pdf').onclick = downloadPdf;
       }
       $('fine').innerHTML = 'بصمة نص العقد: <code>' + d.hash + '</code>';
       if (!signed && !cancelled && !$('name').value) $('name').value = d.signer_hint || '';
       $('loading').hidden = true; $('app').hidden = false;
-      if (!signed && !cancelled && !pad) setupPad();
+      if (!signed && !cancelled) setupSign();
     }
 
-    function setupPad() {
-      var hint = document.querySelector('.pad .hint');
-      pad = SigPad(document.querySelector('.pad canvas'), { onChange: function (empty) { hint.style.display = empty ? '' : 'none'; check(); } });
-      document.querySelector('.pad canvas').addEventListener('pointerup', check);
-      $('clear').onclick = function () { pad.clear(); };
+    // التوقيع: يضغط على مكان توقيعه في العقد أو مربع التوقيع تحت، فتطلع نافذة فيها مسح واعتماد
+    function openSign() {
+      SigPad.open({ title: 'توقيعك على العقد', note: 'وقّع داخل المربع بإصبعك. أخطأت؟ اضغط «مسح» ووقّع من جديد.' }).then(function (r) {
+        if (!r) return;
+        sig = r.image;
+        var img = '<img src="' + sig + '" alt="توقيعك">';
+        $('sigbox').innerHTML = img + '<small>اضغط لإعادة التوقيع</small>';
+        var slot = document.querySelector('#doc .sig-slot[data-slot=client]');
+        if (slot) { slot.classList.add('has'); slot.innerHTML = '<img class="sig-img" src="' + sig + '" alt="توقيعك">'; }
+        check();
+      });
+    }
+    function setupSign() {
+      var slot = document.querySelector('#doc .sig-slot[data-slot=client]');
+      if (slot) {
+        slot.classList.add('editable');
+        slot.addEventListener('click', openSign);
+        if (sig) { slot.classList.add('has'); slot.innerHTML = '<img class="sig-img" src="' + sig + '" alt="توقيعك">'; }
+      }
+      if (wired) return; wired = true;
+      $('sigbox').onclick = openSign;
       $('agree').onchange = check; $('name').oninput = check;
       $('go').onclick = submit;
       // زر «انتقل للتوقيع» يختفي لما يوصل لقسم التوقيع
       if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { $('dock').style.display = es[0].isIntersecting ? 'none' : ''; }).observe($('sign'));
     }
-    function check() { $('go').disabled = !(pad && !pad.isEmpty() && $('agree').checked && $('name').value.trim().length >= 3); }
+    function check() { $('go').disabled = !(sig && $('agree').checked && $('name').value.trim().length >= 3); }
+
+    // الملف ينزل من نفس الصفحة (codef8.com)، فما يطلع للعميل رابط سيرفر ثاني
+    function downloadPdf(e) {
+      e.preventDefault();
+      var b = $('pdf'), t = b.lastChild.textContent; b.lastChild.textContent = ' نجهّز الملف…';
+      fetch(API + '/api/c/' + token + '/pdf').then(function (r) { if (!r.ok) throw r; return r.blob(); }).then(function (blob) {
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'عقد-' + doc.number + '.pdf';
+        document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+      }).catch(function () { alert('ما قدرنا نجهّز الملف، حاول مرة ثانية'); }).then(function () { b.lastChild.textContent = t; });
+    }
     function showErr(m) { var e = $('err'); e.textContent = m; e.style.display = 'block'; e.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 
     function submit() {
@@ -182,7 +205,7 @@
       $('go').disabled = true; $('go').lastChild.textContent = ' نحفظ توقيعك…'; $('err').style.display = 'none';
       fetch(API + '/api/c/' + token + '/sign', {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ name: $('name').value.trim(), signature: pad.toDataURL(), agree: true, hash: doc.hash })
+        body: JSON.stringify({ name: $('name').value.trim(), signature: sig, agree: true, hash: doc.hash })
       }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
         .then(function (res) {
           if (res.ok) { render(res.j); window.scrollTo({ top: document.getElementById('signed').offsetTop - 20, behavior: 'smooth' }); return; }

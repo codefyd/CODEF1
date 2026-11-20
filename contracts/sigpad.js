@@ -72,4 +72,46 @@
       }
     };
   };
+
+  /* نافذة توقيع تطلع لما ينضغط مكان التوقيع في العقد. فيها مسح وإلغاء واعتماد.
+     SigPad.open({ title, note, extra }) → Promise: { image, extra } أو null لو ألغى.
+     extra (اختياري) = نص مربع اختيار تحت اللوحة، مثل «احفظه لعقودي الجاية» */
+  var css = '.sgm{position:fixed;inset:0;z-index:100;background:rgba(10,10,13,.72);display:flex;align-items:flex-end;justify-content:center;font-family:"Fatimah","Segoe UI",Tahoma,sans-serif;direction:rtl}' +
+    '@media(min-width:640px){.sgm{align-items:center}}' +
+    '.sgm-box{background:#fff;color:#1b1a17;width:100%;max-width:560px;border-radius:20px 20px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.3)}' +
+    '@media(min-width:640px){.sgm-box{border-radius:20px}}' +
+    '.sgm h3{margin:0 0 2px;font-size:19px;color:#0A0A0D}.sgm p{margin:0 0 12px;color:#6b6352;font-size:14px}' +
+    '.sgm-pad{position:relative;background:#fffdf8;border:2px dashed #C9A96E;border-radius:14px;touch-action:none}' +
+    '.sgm-pad canvas{display:block;width:100%;height:220px;touch-action:none;cursor:crosshair}' +
+    '.sgm-pad .ln{position:absolute;inset-inline:22px;bottom:48px;border-bottom:1px solid #eadfc6;pointer-events:none}' +
+    '.sgm-pad .ht{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#c2b597;pointer-events:none;font-size:17px}' +
+    '.sgm-x{display:flex;gap:8px;align-items:center;margin:10px 0 0;font-size:14.5px;cursor:pointer}.sgm-x input{width:20px;height:20px;accent-color:#A88A52}' +
+    '.sgm-b{display:flex;gap:8px;margin-top:14px}.sgm-b button{flex:1;font:inherit;font-size:16px;min-height:50px;border-radius:12px;cursor:pointer;border:1.5px solid #e4d8be;background:#fff;color:#1b1a17}' +
+    '.sgm-b .ok{flex:2;border:0;font-weight:700;background:linear-gradient(135deg,#E8D5AA,#C9A96E 55%,#A88A52);color:#17130b}.sgm-b .ok[disabled]{opacity:.45;cursor:not-allowed}';
+
+  window.SigPad.open = function (o) {
+    o = o || {};
+    if (!document.getElementById('sgm-css')) { var st = document.createElement('style'); st.id = 'sgm-css'; st.textContent = css; document.head.appendChild(st); }
+    return new Promise(function (resolve) {
+      var m = document.createElement('div');
+      m.className = 'sgm';
+      m.innerHTML = '<div class="sgm-box" role="dialog" aria-modal="true"><h3></h3><p></p>' +
+        '<div class="sgm-pad"><canvas></canvas><div class="ln"></div><div class="ht">وقّع هنا بإصبعك</div></div>' +
+        (o.extra ? '<label class="sgm-x"><input type="checkbox" checked><span></span></label>' : '') +
+        '<div class="sgm-b"><button type="button" class="ok" disabled>اعتماد التوقيع</button><button type="button" class="cl">مسح</button><button type="button" class="no">إلغاء</button></div></div>';
+      m.querySelector('h3').textContent = o.title || 'توقيعك';
+      m.querySelector('p').textContent = o.note || 'وقّع داخل المربع. أخطأت؟ اضغط «مسح» ووقّع من جديد.';
+      if (o.extra) m.querySelector('.sgm-x span').textContent = o.extra;
+      document.body.appendChild(m);
+      var prevOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
+      var ok = m.querySelector('.ok'), ht = m.querySelector('.ht'), cv = m.querySelector('canvas');
+      var pad = window.SigPad(cv, { onChange: function (empty) { ht.style.display = empty ? '' : 'none'; ok.disabled = pad.isEmpty(); } });
+      cv.addEventListener('pointerup', function () { ok.disabled = pad.isEmpty(); });
+      function close(v) { document.body.style.overflow = prevOverflow; m.remove(); resolve(v); }
+      m.querySelector('.cl').onclick = function () { pad.clear(); ok.disabled = true; };
+      m.querySelector('.no').onclick = function () { close(null); };
+      m.addEventListener('click', function (e) { if (e.target === m) close(null); });
+      ok.onclick = function () { if (pad.isEmpty()) return; var x = m.querySelector('.sgm-x input'); close({ image: pad.toDataURL(), extra: x ? x.checked : false }); };
+    });
+  };
 })();
